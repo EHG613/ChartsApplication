@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d("MainActivity",DisplayUtil.getScreenWidth(this)+":"+DisplayUtil.getScreenHeight(this));
+        setContentView(R.layout.activity_dash_board);
+//        Log.d("MainActivity",DisplayUtil.getScreenWidth(this)+":"+DisplayUtil.getScreenHeight(this));
     }
 }
