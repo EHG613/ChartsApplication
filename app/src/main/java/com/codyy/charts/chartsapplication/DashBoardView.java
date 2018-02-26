@@ -118,19 +118,21 @@ public class DashBoardView extends View {
         canvas.drawArc(mRectFFill, mStartAngle, mSweepAngle, false, mDashFillPaint);//小弧形
         canvas.drawArc(mRectF, mStartAngle, mSweepAngle, false, mPaint);//小弧形
 //        SweepGradient sweepGradient=new SweepGradient(mViewWidth/2,mViewHeight+mTopOffset,Color.parseColor("#57C0FA"),Color.parseColor("#1209FC"));
-        LinearGradient mShader = new LinearGradient(mViewWidth / 2 - mRadius, mViewHeight, mViewWidth, mViewHeight, Color.parseColor("#57C0FA"), Color.parseColor("#1209FC"), Shader.TileMode.CLAMP);
+//        Shader mShader = new LinearGradient(mViewWidth / 2 - mRadius, mViewHeight, mViewWidth, mViewHeight, Color.parseColor("#57C0FA"), Color.parseColor("#1209FC"), Shader.TileMode.CLAMP);
+        Shader mShader =new SweepGradient(mViewWidth / 2, mViewHeight+mTopOffset, new int[]{Color.parseColor("#57C0FA"), Color.parseColor("#1209FC")},null);
         mPaint.setShader(mShader);
-        canvas.drawArc(mRectF, mStartAngle, 120, false, mPaint);//小弧形
+        canvas.rotate(180,mViewWidth / 2, mViewHeight+mTopOffset);
+        canvas.drawArc(mRectF, 0, 160, false, mPaint);//小弧形
+        canvas.rotate(180,mViewWidth / 2, mViewHeight+mTopOffset);
         //（r*cosm+a，r*sinm+b）
-        float x1 = (float) (mViewWidth / 2 + mRadius * Math.cos(-60*Math.PI/180));
-        float y1 = (float) (mViewHeight+mTopOffset + mRadius * Math.sin(-60*Math.PI/180));
+        float x1 = (float) (mViewWidth / 2 + mRadius * Math.cos(-20*Math.PI/180));
+        float y1 = (float) (mViewHeight+mTopOffset + mRadius * Math.sin(-20*Math.PI/180));
         mPaintPoint.setStyle(Paint.Style.FILL);
         mPaintPoint.setColor(Color.WHITE);
         canvas.drawCircle(x1, y1, 15, mPaintPoint);
         mPaintPoint.setStyle(Paint.Style.STROKE);
         mPaintPoint.setColor(Color.parseColor("#57C0FA"));
         canvas.drawCircle(x1, y1, 15, mPaintPoint);
-
 
     }
 

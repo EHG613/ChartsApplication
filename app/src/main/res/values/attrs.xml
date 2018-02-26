@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="DashboardView">
         <attr name="radius" format="dimension"/>     <!--扇形半径-->
+        <attr name="padding" format="dimension"/>     <!--上下间距-->
         <attr name="dashWidth" format="dimension"/>     <!--刻度宽度-->
         <attr name="dashHeight" format="dimension"/>     <!--刻度高度-->
         <attr name="topOffset" format="dimension"/>     <!--顶部偏移量-->
@@ -27,5 +28,10 @@
             <enum name="outer" value="2"/>
         </attr>
         <attr name="bgColor" format="color"/> <!--背景颜色-->
+    </declare-styleable>
+    <declare-styleable name="HalfDashBoardChart">
+        <attr name="halfRadius" format="dimension"/>     <!--扇形半径-->
+        <attr name="halfPadding" format="dimension"/>     <!--上下间距-->
+        <attr name="halfDashLength" format="dimension"/>     <!--刻度长度-->
     </declare-styleable>
 </resources>
