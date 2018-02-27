@@ -33,5 +33,7 @@
         <attr name="halfRadius" format="dimension"/>     <!--扇形半径-->
         <attr name="halfPadding" format="dimension"/>     <!--上下间距-->
         <attr name="halfDashLength" format="dimension"/>     <!--刻度长度-->
+        <attr name="halfMaxValue" format="float"/>     <!--最大值-->
+        <attr name="halfMinValue" format="float"/>     <!--最小值-->
     </declare-styleable>
 </resources>

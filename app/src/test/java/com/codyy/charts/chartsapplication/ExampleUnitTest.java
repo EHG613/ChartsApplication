@@ -14,4 +14,9 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+    @Test
+    public void testColor()throws Exception{
+//        ColorUtil.colorString2RGB("#FFE8E8E8");
+        System.out.println(ColorUtil.getCurrentColor("#57C0FA","#1209FC",100));
+    }
 }
