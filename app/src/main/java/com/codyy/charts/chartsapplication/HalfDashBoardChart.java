@@ -12,9 +12,17 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.text.Layout;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -74,15 +82,18 @@ public class HalfDashBoardChart extends View {
     private TextPaint mPaintPercentText;
     private RectF mRectF;
     private StaticLayout mStaticLayout;
+    private StaticLayout mStaticLayoutPercent;
     private Path mPathTip;
     private float mFloatSweepAngle;
+    private SpannableStringBuilder mSpannableStringBuilder;
 
     private void init() {
+        mSpannableStringBuilder = new SpannableStringBuilder("");
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mRectF = new RectF();
         mPaintText = new TextPaint();
-        mPaintText.setTextAlign(Paint.Align.CENTER);
+        mPaintText.setTextAlign(Paint.Align.LEFT);
         mPaintText.setAntiAlias(true);
         mPaintText.setStyle(Paint.Style.FILL);
         mPaintText.setColor(Color.parseColor("#989EBD"));
@@ -140,7 +151,20 @@ public class HalfDashBoardChart extends View {
 
     public void setTopText(String topText) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
+        initSpannableString(topText);
         invalidate();
+    }
+
+    private void initSpannableString(String topText) {
+        mSpannableStringBuilder=new SpannableStringBuilder();
+        mSpannableStringBuilder.append(topText);
+        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(10f)), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        mSpannableStringBuilder.setSpan(new RelativeSizeSpan(0.5f), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        mSpannableStringBuilder.setSpan(new SubscriptSpan(), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(20f)), 0, mSpannableStringBuilder.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mStaticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
     }
 
     public void setBottomText(String bottomText) {
@@ -191,10 +215,16 @@ public class HalfDashBoardChart extends View {
             canvas.rotate(3f, mCenterX, mCenterY);
         }
         canvas.rotate(177, mCenterX, mCenterY);
-        canvas.drawText(mBottomText, mCenterX, mCenterY, mPaintText);
+        canvas.drawText(mBottomText, mCenterX-mPaintText.measureText(mBottomText)/2, mCenterY, mPaintText);
         mPaintText.setTextSize(sp2px(22f));
         mPaintText.setColor(Color.parseColor("#666666"));
-        canvas.drawText(mTopText, mCenterX, mCenterY - sp2px(18f), mPaintText);
+        if(mShowText) {
+            canvas.drawText(mTopText, mCenterX-mPaintText.measureText(mTopText)/2, mCenterY - sp2px(18f), mPaintText);
+        }else{
+            canvas.translate(mCenterX-mPaintText.measureText(mTopText)/(mTopText.length()==4?2.5f:3f),mCenterY-sp2px(25f));
+            mStaticLayoutPercent.draw(canvas);
+            canvas.translate(-(mCenterX-mPaintText.measureText(mTopText)/(mTopText.length()==4?2.5f:3f)),-(mCenterY-sp2px(25f)));
+        }
         mPaintText.setTextSize(sp2px(10f));
         mPaintText.setColor(Color.parseColor("#666666"));
         canvas.save();
