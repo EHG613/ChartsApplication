@@ -51,7 +51,7 @@ public class HalfDashBoardChart extends View {
             this.mDashLength = a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfDashLength, dip2px(10f));
             this.mMaxVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMaxValue, 100f);
             this.mMinVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMinValue, 0f);
-            this.mScale=a.getInteger(R.styleable.HalfDashBoardChart_halfScale,0);
+            this.mScale=a.getInteger(R.styleable.HalfDashBoardChart_halfScale,1);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -200,7 +200,7 @@ public class HalfDashBoardChart extends View {
         y2 += len / 4;
         canvas.drawPath(mPathTip, mPaintTip);
 
-        canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_HALF_UP).intValue() + "%", x2, y2, mPaintPercentText);
+        canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_DOWN).toString() + "%", x2, y2, mPaintPercentText);
 
     }
 
