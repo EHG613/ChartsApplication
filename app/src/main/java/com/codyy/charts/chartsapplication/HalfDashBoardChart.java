@@ -92,7 +92,7 @@ public class HalfDashBoardChart extends View {
         mPaintPercentText = new TextPaint();
         mPaintPercentText.setAntiAlias(true);
         mPaintPercentText.setStyle(Paint.Style.FILL);
-        mPaintPercentText.setTextSize(sp2px(10f));
+        mPaintPercentText.setTextSize(sp2px(8f));
         mPaintPercentText.setTextAlign(Paint.Align.CENTER);
         mPaintPercentText.setColor(Color.WHITE);
         mPathTip = new Path();
@@ -100,7 +100,7 @@ public class HalfDashBoardChart extends View {
         mPaintTip.setStyle(Paint.Style.FILL);
         mPaintTip.setAntiAlias(true);
         mPaintTip.setColor(Color.parseColor("#929FBE"));
-        mFloatSweepAngle = 90;
+        mFloatSweepAngle = 0;
         mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
     }
 
@@ -116,7 +116,7 @@ public class HalfDashBoardChart extends View {
         float last = mFloatSweepAngle;
         mFloatSweepAngle = floatSweepAngle / 100 * 180f;
         progressAnimator = ValueAnimator.ofFloat(last, floatSweepAngle / 100 * 180f);
-        progressAnimator.setDuration(600L);
+        progressAnimator.setDuration((long) (Math.abs(last-(floatSweepAngle / 100 * 180f))/180*1000));
 //        progressAnimator.setTarget(currentAngle);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -125,7 +125,7 @@ public class HalfDashBoardChart extends View {
                 BigDecimal bg = new BigDecimal((Float) animation.getAnimatedValue());
                 mFloatSweepAngle = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
                 mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
-                Log.d("value", mFloatSweepAngle + "");
+//                Log.d("value", mFloatSweepAngle + "");
                 mPathTip.reset();
                 invalidate();
             }
@@ -210,44 +210,43 @@ public class HalfDashBoardChart extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.d("mRadius", mRadius + "");
+//        Log.d("mRadius", mRadius + "");
         setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
 //        mShader = new SweepGradient(mCenterX, mCenterY, new int[]{Color.parseColor("#57C0FA"), Color.parseColor("#1209FC")}, null);
         mShader = new LinearGradient(mCenterX - mRadius, mCenterY, mCenterX + mRadius, mCenterY, Color.parseColor("#1209FC"), Color.parseColor("#57C0FA"), Shader.TileMode.CLAMP);
     }
 
-    private int mViewWidth; // 控件宽度
-    private int mViewHeight; // 控件高度
-
     private int measureWidth(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
+        int viewWidth;
         if (specMode == MeasureSpec.EXACTLY) {
-            mViewWidth = specSize;
+            viewWidth = specSize;
         } else {
-            mViewWidth = dip2px(250f);
+            viewWidth = dip2px(250f);
             if (specMode == MeasureSpec.AT_MOST) {
-                mViewWidth = Math.max(mViewWidth, specSize);
+                viewWidth = Math.max(viewWidth, specSize);
             }
         }
-        mCenterX = mViewWidth / 2;
-        return mViewWidth;
+        mCenterX = viewWidth / 2;
+        return viewWidth;
     }
 
     private int measureHeight(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
+        int viewHeight;
         if (specMode == MeasureSpec.EXACTLY) {
-            mViewHeight = specSize;
+            viewHeight = specSize;
         } else {
-            mViewHeight = mRadius + mPadding + dip2px(10f);
+            viewHeight = mRadius + mPadding + dip2px(15f);
             if (specMode == MeasureSpec.AT_MOST) {
-                mViewHeight = Math.min(mViewHeight, specSize);
+                viewHeight = Math.min(viewHeight, specSize);
             }
         }
-        Log.d("View Height", mViewHeight + "");
+//        Log.d("View Height", viewHeight + "");
         mCenterY = mRadius + mPadding;
-        return mViewHeight;
+        return viewHeight;
     }
 
     private int px2dip(float px) {
