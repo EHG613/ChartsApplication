@@ -14,17 +14,28 @@
         app:halfDashLength="15dp"
         app:halfPadding="30dp"
         app:halfRadius="100dp"
+        app:halfShowText="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
+    <com.codyy.charts.chartsapplication.HalfDashBoardChart
+        android:id="@+id/half_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/half_view"
+        android:layout_marginTop="10dp"
+        app:halfDashLength="15dp"
+        app:halfPadding="30dp"
+        app:halfRadius="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
     <EditText
         android:id="@+id/et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/half_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/half_view2"/>
 
     <Button
         android:layout_width="wrap_content"

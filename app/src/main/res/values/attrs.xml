@@ -36,5 +36,6 @@
         <attr name="halfMaxValue" format="float"/>     <!--最大值-->
         <attr name="halfMinValue" format="float"/>     <!--最小值-->
         <attr name="halfScale" format="integer"/>     <!--小数保留位数-->
+        <attr name="halfShowText" format="boolean"/> <!--是否显示百分比和左下角文字-->
     </declare-styleable>
 </resources>

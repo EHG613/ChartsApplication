@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -32,6 +33,10 @@ public class HalfDashBoardChart extends View {
     private float mMinVal;//最小值
     private float mMaxVal;//最大值
     private int mScale;
+    private boolean mShowText;//是否显示仪表盘周围文字
+    private String mTopText;
+    private String mBottomText;
+
 
     public HalfDashBoardChart(Context context) {
         this(context, null);
@@ -51,7 +56,8 @@ public class HalfDashBoardChart extends View {
             this.mDashLength = a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfDashLength, dip2px(10f));
             this.mMaxVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMaxValue, 100f);
             this.mMinVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMinValue, 0f);
-            this.mScale=a.getInteger(R.styleable.HalfDashBoardChart_halfScale,1);
+            this.mScale = a.getInteger(R.styleable.HalfDashBoardChart_halfScale, 1);
+            this.mShowText = a.getBoolean(R.styleable.HalfDashBoardChart_halfShowText, false);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -132,6 +138,16 @@ public class HalfDashBoardChart extends View {
         progressAnimator.start();
     }
 
+    public void setTopText(String topText) {
+        mTopText = TextUtils.isEmpty(topText) ? "" : topText;
+        invalidate();
+    }
+
+    public void setBottomText(String bottomText) {
+        mBottomText = TextUtils.isEmpty(bottomText) ? "" : bottomText;
+        invalidate();
+    }
+
     Shader mShader;
 
     @Override
@@ -175,32 +191,33 @@ public class HalfDashBoardChart extends View {
             canvas.rotate(3f, mCenterX, mCenterY);
         }
         canvas.rotate(177, mCenterX, mCenterY);
-        canvas.drawText("设备总量", mCenterX, mCenterY, mPaintText);
+        canvas.drawText(mBottomText, mCenterX, mCenterY, mPaintText);
         mPaintText.setTextSize(sp2px(22f));
         mPaintText.setColor(Color.parseColor("#666666"));
-        canvas.drawText("23435", mCenterX, mCenterY - sp2px(18f), mPaintText);
+        canvas.drawText(mTopText, mCenterX, mCenterY - sp2px(18f), mPaintText);
         mPaintText.setTextSize(sp2px(10f));
         mPaintText.setColor(Color.parseColor("#666666"));
         canvas.save();
-        canvas.translate(mCenterX - mRadius - sp2px(5f), mCenterY - sp2px(20f));
-        mStaticLayout.draw(canvas);
-        canvas.translate(-(mCenterX - mRadius - sp2px(5f)), -(mCenterY - sp2px(20f)));
-        canvas.restore();
-        float x2 = (float) (mCenterX + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.cos((mFloatSweepAngle - 180) * Math.PI / 180));
-        float y2 = (float) (mCenterY + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.sin((mFloatSweepAngle - 180) * Math.PI / 180));
-        int len = dip2px(15f);
-        mPathTip.moveTo(x2 - len, y2 - len / 2);
-        mPathTip.lineTo(x2 + len, y2 - len / 2);
-        mPathTip.lineTo(x2 + len, y2 + len / 2);
-        mPathTip.lineTo(x2 + len / 3, y2 + len / 2);
-        mPathTip.lineTo(x2, (float) (y2 + len / 2 * 1.5));
-        mPathTip.lineTo(x2 - len / 3, y2 + len / 2);
-        mPathTip.lineTo(x2 - len, y2 + len / 2);
-        mPathTip.lineTo(x2 - len, y2 - len / 2);
-        y2 += len / 4;
-        canvas.drawPath(mPathTip, mPaintTip);
-
-        canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_DOWN).toString() + "%", x2, y2, mPaintPercentText);
+        if (mShowText) {
+            canvas.translate(mCenterX - mRadius - sp2px(5f), mCenterY - sp2px(20f));
+            mStaticLayout.draw(canvas);
+            canvas.translate(-(mCenterX - mRadius - sp2px(5f)), -(mCenterY - sp2px(20f)));
+            canvas.restore();
+            float x2 = (float) (mCenterX + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.cos((mFloatSweepAngle - 180) * Math.PI / 180));
+            float y2 = (float) (mCenterY + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.sin((mFloatSweepAngle - 180) * Math.PI / 180));
+            int len = dip2px(15f);
+            mPathTip.moveTo(x2 - len, y2 - len / 2);
+            mPathTip.lineTo(x2 + len, y2 - len / 2);
+            mPathTip.lineTo(x2 + len, y2 + len / 2);
+            mPathTip.lineTo(x2 + len / 3, y2 + len / 2);
+            mPathTip.lineTo(x2, (float) (y2 + len / 2 * 1.5));
+            mPathTip.lineTo(x2 - len / 3, y2 + len / 2);
+            mPathTip.lineTo(x2 - len, y2 + len / 2);
+            mPathTip.lineTo(x2 - len, y2 - len / 2);
+            y2 += len / 4;
+            canvas.drawPath(mPathTip, mPaintTip);
+            canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_DOWN).toString() + "%", x2, y2, mPaintPercentText);
+        }
 
     }
 
