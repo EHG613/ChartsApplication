@@ -35,5 +35,6 @@
         <attr name="halfDashLength" format="dimension"/>     <!--刻度长度-->
         <attr name="halfMaxValue" format="float"/>     <!--最大值-->
         <attr name="halfMinValue" format="float"/>     <!--最小值-->
+        <attr name="halfScale" format="integer"/>     <!--小数保留位数-->
     </declare-styleable>
 </resources>

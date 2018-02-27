@@ -15,11 +15,9 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 
 /**
  * Created by lijian on 2018/2/26.
@@ -33,6 +31,7 @@ public class HalfDashBoardChart extends View {
     private int mCenterY;
     private float mMinVal;//最小值
     private float mMaxVal;//最大值
+    private int mScale;
 
     public HalfDashBoardChart(Context context) {
         this(context, null);
@@ -44,7 +43,6 @@ public class HalfDashBoardChart extends View {
 
     public HalfDashBoardChart(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Log.d("chart", "start init");
         TypedArray a = null;
         try {
             a = context.obtainStyledAttributes(attrs, R.styleable.HalfDashBoardChart, defStyleAttr, 0);
@@ -53,6 +51,7 @@ public class HalfDashBoardChart extends View {
             this.mDashLength = a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfDashLength, dip2px(10f));
             this.mMaxVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMaxValue, 100f);
             this.mMinVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMinValue, 0f);
+            this.mScale=a.getInteger(R.styleable.HalfDashBoardChart_halfScale,0);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -116,7 +115,7 @@ public class HalfDashBoardChart extends View {
         float last = mFloatSweepAngle;
         mFloatSweepAngle = floatSweepAngle / 100 * 180f;
         progressAnimator = ValueAnimator.ofFloat(last, floatSweepAngle / 100 * 180f);
-        progressAnimator.setDuration((long) (Math.abs(last-(floatSweepAngle / 100 * 180f))/180*1000));
+        progressAnimator.setDuration((long) (Math.abs(last - (floatSweepAngle / 100 * 180f)) / 180 * 1000));
 //        progressAnimator.setTarget(currentAngle);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -201,7 +200,7 @@ public class HalfDashBoardChart extends View {
         y2 += len / 4;
         canvas.drawPath(mPathTip, mPaintTip);
 
-        canvas.drawText(mBigDecimal.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue() + "%", x2, y2, mPaintPercentText);
+        canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_HALF_UP).intValue() + "%", x2, y2, mPaintPercentText);
 
     }
 
