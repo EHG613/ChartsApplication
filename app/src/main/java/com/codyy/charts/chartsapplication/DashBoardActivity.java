@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class DashBoardActivity extends AppCompatActivity {
     private EditText mEditText;
     private HalfDashBoardChart mHalfDashBoardChart;
     private HalfDashBoardChart mHalfDashBoardChart2;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         mHalfDashBoardChart.setTopText("344555");
         mHalfDashBoardChart2.setBottomText("周使用率");
         mHalfDashBoardChart2.setTopText("98%");
-//        Log.d("MainActivity",DisplayUtil.getScreenWidth(this)+":"+DisplayUtil.getScreenHeight(this));
+//        Log.d("DashBoardActivity",DisplayUtil.getScreenWidth(this)+":"+DisplayUtil.getScreenHeight(this));
     }
 
     public void refresh(View view) {

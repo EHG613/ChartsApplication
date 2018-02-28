@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codyy.charts.chartsapplication.MainActivity">
+    tools:context="com.codyy.charts.chartsapplication.DashBoardActivity">
 
     <com.codyy.charts.chartsapplication.ClockView
         android:layout_width="match_parent"
