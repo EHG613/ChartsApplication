@@ -148,7 +148,7 @@ public class HalfDashBoardChart extends View {
 
     public void setTopText(String topText) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
-        initSpannableString(topText);
+        initSpannableString(mTopText);
         invalidate();
     }
 

@@ -43,4 +43,9 @@
         <attr name="gradientRoundedRectangleEndColor" format="color"/>
         <attr name="gradientRoundedRectangleBottomText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="CirclePercentChart">
+        <attr name="circlePercentStartColor" format="color"/>
+        <attr name="circlePercentEndColor" format="color"/>
+        <attr name="circlePercentBottomText" format="string"/>
+    </declare-styleable>
 </resources>
