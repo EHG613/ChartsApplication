@@ -48,4 +48,11 @@
         <attr name="circlePercentEndColor" format="color"/>
         <attr name="circlePercentBottomText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="DoubleCirclePercentChart">
+        <attr name="doubleCirclePercentStartColor" format="color"/>
+        <attr name="doubleCirclePercentEndColor" format="color"/>
+        <attr name="doubleCirclePercentStartColor2" format="color"/>
+        <attr name="doubleCirclePercentEndColor2" format="color"/>
+        <attr name="doubleCirclePercentBottomText" format="string"/>
+    </declare-styleable>
 </resources>
