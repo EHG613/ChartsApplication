@@ -48,7 +48,7 @@ public class ColorUtil {
         int grainR = (int) (startRgb[0] + (endRgb[0] - startRgb[0]) / 100.0f * percent);
         int grainG = (int) (startRgb[1] + (endRgb[1] - startRgb[1]) / 100.0f * percent);
         int grainB = (int) (startRgb[2] + (endRgb[2] - startRgb[2]) / 100.0f * percent);
-        System.out.println("" + grainR + "," + grainG + "," + grainB);
+//        System.out.println("" + grainR + "," + grainG + "," + grainB);
 //        System.out.println(("#" + (grainR > 15 ? Integer.toHexString(grainR) : "0" + Integer.toHexString(grainR)) + (grainG > 15 ? Integer.toHexString(grainG) : "0" + Integer.toHexString(grainG)) + (grainB > 15 ? Integer.toHexString(grainB) : "0" + Integer.toHexString(grainB))).toUpperCase());
         return ("#" + (grainR > 15 ? Integer.toHexString(grainR) : "0" + Integer.toHexString(grainR)) + (grainG > 15 ? Integer.toHexString(grainG) : "0" + Integer.toHexString(grainG)) + (grainB > 15 ? Integer.toHexString(grainB) : "0" + Integer.toHexString(grainB))).toUpperCase();
 

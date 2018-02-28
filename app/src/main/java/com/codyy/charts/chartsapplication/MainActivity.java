@@ -2,6 +2,7 @@ package com.codyy.charts.chartsapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refresh(View view) {
-        mHalfDashBoardChart.setFloatSweepAngle(Float.parseFloat(mEditText.getText().toString()));
-        mHalfDashBoardChart2.setFloatSweepAngle(Float.parseFloat(mEditText.getText().toString()));
+        mHalfDashBoardChart.setFloatSweepAngle(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
+        mHalfDashBoardChart2.setFloatSweepAngle(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
         mHalfDashBoardChart2.setTopText(mEditText.getText().toString()+"%");
     }
 }
