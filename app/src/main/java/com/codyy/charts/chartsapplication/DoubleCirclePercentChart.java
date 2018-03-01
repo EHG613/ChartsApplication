@@ -73,7 +73,7 @@ public class DoubleCirclePercentChart extends View {
     private BlurMaskFilter mBlurMaskFilter;
 
     private void init() {
-        mBlurMaskFilter = new BlurMaskFilter(2, BlurMaskFilter.Blur.SOLID);
+        mBlurMaskFilter = new BlurMaskFilter(dip2px(1f), BlurMaskFilter.Blur.SOLID);
         mRectF = new RectF();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -81,8 +81,9 @@ public class DoubleCirclePercentChart extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(circleBackgroundColor);
         mSmallCirclePaint = new Paint();
-        mSmallCirclePaint.setStrokeWidth(dip2px(5f));
+        mSmallCirclePaint.setStrokeWidth(2f);
         mSmallCirclePaint.setAntiAlias(true);
+        mSmallCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaintC = new Paint();
         mPaintC.setStrokeWidth(dip2px(5f));
         mPaintC.setAntiAlias(true);
