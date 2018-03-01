@@ -95,7 +95,12 @@ public class GradientRoundedRectangleChart extends View {
         setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
 //        1/Math.tan(theta)
 //        mShader = new LinearGradient(0 + getMeasuredWidth() / 4, mCenterY - getMeasuredWidth() / 2, getMeasuredWidth() - getMeasuredWidth() / 4, getMeasuredHeight() + getMeasuredWidth() / 2, startColor, endColor, Shader.TileMode.CLAMP);
-        mShader = new LinearGradient(0, 0, getMeasuredWidth(), getMeasuredHeight(), startColor, endColor, Shader.TileMode.CLAMP);
+//        mShader = new LinearGradient(0, 0, getMeasuredWidth(), getMeasuredHeight(), startColor, endColor, Shader.TileMode.CLAMP);
+        CalcUtil.Circle circle = new CalcUtil.Circle(mCenterX, mCenterY, (float) CalcUtil.lineSpace(mCenterX, mCenterY, mCenterX * 2, 0));
+        CalcUtil.Point point = circle.computeCoordinates((CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1] + 90) * -1);
+        CalcUtil.Point point2 = circle.computeCoordinates(90-CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1]);
+        System.out.println(point.x+","+point.y);
+        mShader = new LinearGradient(point.x, point.y, point2.x,point2.y, startColor, endColor, Shader.TileMode.CLAMP);
 //        float x1=0,y1=0,x2=mCenterX,y2=mCenterY;
 //        int A1=15,A2=75;
 //        float ctg= (float) (1f/Math.tan(15f));
