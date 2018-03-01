@@ -53,6 +53,10 @@
         <attr name="doubleCirclePercentEndColor" format="color"/>
         <attr name="doubleCirclePercentStartColor2" format="color"/>
         <attr name="doubleCirclePercentEndColor2" format="color"/>
+        <attr name="doubleCircleBackgroundColor" format="color"/>
+        <attr name="doubleCircleTopTextColor" format="color"/>
+        <attr name="doubleCircleBottomTextColor" format="color"/>
+        <attr name="doubleCircleIsGradient" format="boolean"/>
         <attr name="doubleCirclePercentBottomText" format="string"/>
     </declare-styleable>
 </resources>
