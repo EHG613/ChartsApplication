@@ -48,6 +48,12 @@
         <attr name="circlePercentEndColor" format="color"/>
         <attr name="circlePercentBottomText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="DashBoardRateChart">
+        <attr name="dashboardRateStartColor" format="color"/>
+        <attr name="dashboardRateEndColor" format="color"/>
+        <attr name="dashboardRateBaseColor" format="color"/>
+        <attr name="dashboardBottomText" format="string"/>
+    </declare-styleable>
     <declare-styleable name="DoubleCirclePercentChart">
         <attr name="doubleCirclePercentStartColor" format="color"/>
         <attr name="doubleCirclePercentEndColor" format="color"/>
