@@ -157,6 +157,8 @@ public class DoubleCirclePercentChart extends View {
 
     public void setText(String topText, float percent1, float percent2) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
+        percent1=percent1>100?100:(percent1<0?0:percent1);
+        percent2=percent2>100?100:(percent2<0?0:percent2);
         sweepAngle = percent1 / 100 * 360;
         sweepAngle2 = percent2 / 100 * 360;
         invalidate();
