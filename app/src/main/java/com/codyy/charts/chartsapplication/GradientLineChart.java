@@ -18,6 +18,7 @@ import android.view.View;
 public class GradientLineChart extends View {
     private int startColor;
     private int endColor;
+    private int lineHeight;
 
     public GradientLineChart(Context context) {
         this(context, null);
@@ -32,6 +33,8 @@ public class GradientLineChart extends View {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GradientLineChart, defStyleAttr, 0);
         startColor = array.getColor(R.styleable.GradientLineChart_gradientLineStartColor, Color.parseColor("#53C5FD"));
         endColor = array.getColor(R.styleable.GradientLineChart_gradientLineEndColor, Color.parseColor("#5390FC"));
+        lineHeight=array.getDimensionPixelSize(R.styleable.GradientLineChart_gradientLineHeight,dip2px(5f));
+        array.recycle();
         init();
     }
 
@@ -44,7 +47,7 @@ public class GradientLineChart extends View {
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(dip2px(10f));
+        mPaint.setStrokeWidth(lineHeight);
     }
 
     private float mPercent;
