@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.SweepGradient;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -153,6 +154,7 @@ public class DashBoardRateChart extends View {
         sweepAngle = percent * 270 / 100;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, sweepAngle);
         progressAnimator.setDuration(500L);
+        progressAnimator.setInterpolator(new FastOutSlowInInterpolator());
 //        progressAnimator.setTarget(currentAngle);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 

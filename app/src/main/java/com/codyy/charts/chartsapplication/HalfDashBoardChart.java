@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -124,6 +125,7 @@ public class HalfDashBoardChart extends View {
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, percent / 100 * 180f);
         progressAnimator.setDuration((long) (Math.abs(last - (percent / 100 * 180f)) / 180 * 1000));
 //        progressAnimator.setTarget(currentAngle);
+        progressAnimator.setInterpolator(new FastOutSlowInInterpolator());
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
             @Override

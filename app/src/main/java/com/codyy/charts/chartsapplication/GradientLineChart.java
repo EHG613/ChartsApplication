@@ -1,5 +1,6 @@
 package com.codyy.charts.chartsapplication;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -9,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,7 +36,7 @@ public class GradientLineChart extends View {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GradientLineChart, defStyleAttr, 0);
         startColor = array.getColor(R.styleable.GradientLineChart_gradientLineStartColor, Color.parseColor("#53C5FD"));
         endColor = array.getColor(R.styleable.GradientLineChart_gradientLineEndColor, Color.parseColor("#5390FC"));
-        lineHeight=array.getDimensionPixelSize(R.styleable.GradientLineChart_gradientLineHeight,dip2px(5f));
+        lineHeight = array.getDimensionPixelSize(R.styleable.GradientLineChart_gradientLineHeight, dip2px(5f));
         array.recycle();
         init();
     }
@@ -53,13 +55,26 @@ public class GradientLineChart extends View {
 
     private float mPercent;
 
-    public void setPercent(@FloatRange(from = 0f,to = 1f) float percent) {
-        this.mPercent = percent;
+    public void setPercent(@FloatRange(from = 0f, to = 1f) final float percent) {
+        final float last = mPercent;
         post(new Runnable() {
             @Override
             public void run() {
-                mLinearGradient = new LinearGradient(dip2px(8f), height / 2, (width - dip2px(8f)) * mPercent, height / 2, startColor, endColor, Shader.TileMode.CLAMP);
-                invalidate();
+                ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, percent);
+                progressAnimator.setDuration(600L);
+                progressAnimator.setInterpolator(new FastOutSlowInInterpolator());
+//        progressAnimator.setTarget(currentAngle);
+                progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        mPercent = (Float) animation.getAnimatedValue();
+                        mLinearGradient = new LinearGradient(dip2px(8f), height / 2, (width - dip2px(8f)) * mPercent, height / 2, startColor, endColor, Shader.TileMode.CLAMP);
+                        invalidate();
+                    }
+                });
+                progressAnimator.start();
+
             }
         });
     }
