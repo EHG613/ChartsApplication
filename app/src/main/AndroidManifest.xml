@@ -20,6 +20,7 @@
         <activity android:name=".CirclePercentChartActivity"/>
         <activity android:name=".DashBoardActivity"/>
         <activity android:name=".GradientRoundedRectangleActivity"/>
+        <activity android:name=".GradientLineAcitity"/>
     </application>
 
 </manifest>

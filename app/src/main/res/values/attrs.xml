@@ -54,6 +54,10 @@
         <attr name="dashboardRateBaseColor" format="color"/>
         <attr name="dashboardBottomText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="GradientLineChart">
+        <attr name="gradientLineStartColor" format="color"/>
+        <attr name="gradientLineEndColor" format="color"/>
+    </declare-styleable>
     <declare-styleable name="DoubleCirclePercentChart">
         <attr name="doubleCirclePercentStartColor" format="color"/>
         <attr name="doubleCirclePercentEndColor" format="color"/>
