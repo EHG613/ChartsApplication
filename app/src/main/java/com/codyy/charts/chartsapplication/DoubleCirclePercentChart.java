@@ -10,20 +10,12 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
-import android.text.Layout;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.View;
-
-import java.math.BigDecimal;
 
 /**
  * Created by lijian on 2018/2/28.
@@ -155,10 +147,8 @@ public class DoubleCirclePercentChart extends View {
     private float sweepAngle;
     private float sweepAngle2;
 
-    public void setText(String topText, float percent1, float percent2) {
+    public void setText(String topText, @FloatRange(from = 0f,to = 100f) float percent1,@FloatRange(from = 0f,to = 100f) float percent2) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
-        percent1=percent1>100?100:(percent1<0?0:percent1);
-        percent2=percent2>100?100:(percent2<0?0:percent2);
         sweepAngle = percent1 / 100 * 360;
         sweepAngle2 = percent2 / 100 * 360;
         invalidate();
@@ -178,6 +168,11 @@ public class DoubleCirclePercentChart extends View {
         mRadius = Math.min(measureWidth, measureHeight) / 2 - dip2px(10f);
         mRadius2 = Math.min(measureWidth, measureHeight) / 2 - dip2px(20f);
         setMeasuredDimension(measureWidth, measureHeight);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
         mShader = new LinearGradient(mCenterX, mCenterY - mRadius, mCenterX, mCenterY + mRadius, startColor, endColor, Shader.TileMode.CLAMP);
         mShader2 = new LinearGradient(mCenterX, mCenterY - mRadius2, mCenterX, mCenterY + mRadius2, startColor2, endColor2, Shader.TileMode.CLAMP);
         mEmbossMaskFilter = new EmbossMaskFilter(new float[]{0, -1, -1}, 0.99f, 0f, mRadius);

@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.SweepGradient;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -140,19 +141,13 @@ public class DashBoardRateChart extends View {
 
     private float sweepAngle;
 
-    public void setPercentText(float percentText) {
-        percentText=valid(percentText);
+    public void setPercentText(@FloatRange(from = 0f,to = 100f)float percentText) {
         this.percentText = percentText + "";
         sweepAngle = percentText * 270 / 100;
         invalidate();
     }
 
-    private float valid(float percent) {
-        return percent > 100 ? 100 : (percent < 0 ? 0 : percent);
-    }
-
-    public void setPercentText(float percent, int scale) {
-        percent=valid(percent);
+    public void setPercentText(@FloatRange(from = 0f,to = 100f) float percent, int scale) {
         this.percentText = getPercentText(percent,scale);
         float last=sweepAngle;
         sweepAngle = percent * 270 / 100;

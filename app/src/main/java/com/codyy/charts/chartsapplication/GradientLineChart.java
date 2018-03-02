@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -52,7 +53,7 @@ public class GradientLineChart extends View {
 
     private float mPercent;
 
-    public void setPercent(float percent) {
+    public void setPercent(@FloatRange(from = 0f,to = 1f) float percent) {
         this.mPercent = percent;
         post(new Runnable() {
             @Override

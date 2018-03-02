@@ -26,8 +26,8 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void refresh(View view) {
-        mHalfDashBoardChart.setFloatSweepAngle(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
-        mHalfDashBoardChart2.setFloatSweepAngle(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
+        mHalfDashBoardChart.setPercent(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
+        mHalfDashBoardChart2.setPercent(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
         mHalfDashBoardChart2.setTopText(mEditText.getText().toString()+"%");
     }
 }

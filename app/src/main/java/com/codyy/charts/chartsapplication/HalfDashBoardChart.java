@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
@@ -117,19 +118,11 @@ public class HalfDashBoardChart extends View {
         mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
     }
 
-    private ValueAnimator progressAnimator;
-
-    public void setFloatSweepAngle(float floatSweepAngle) {
-        if (floatSweepAngle < mMinVal) {
-            floatSweepAngle = mMinVal;
-        }
-        if (floatSweepAngle > mMaxVal) {
-            floatSweepAngle = mMaxVal;
-        }
+    public void setPercent(@FloatRange(from = 0f,to = 100f) float percent) {
         float last = mFloatSweepAngle;
-        mFloatSweepAngle = floatSweepAngle / 100 * 180f;
-        progressAnimator = ValueAnimator.ofFloat(last, floatSweepAngle / 100 * 180f);
-        progressAnimator.setDuration((long) (Math.abs(last - (floatSweepAngle / 100 * 180f)) / 180 * 1000));
+        mFloatSweepAngle = percent / 100 * 180f;
+        ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, percent / 100 * 180f);
+        progressAnimator.setDuration((long) (Math.abs(last - (percent / 100 * 180f)) / 180 * 1000));
 //        progressAnimator.setTarget(currentAngle);
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 

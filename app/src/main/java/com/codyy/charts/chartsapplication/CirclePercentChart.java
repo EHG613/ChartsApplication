@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
@@ -103,7 +104,7 @@ public class CirclePercentChart extends View {
     }
     private float sweepAngle;
     private BigDecimal mBigDecimal;
-    public void setPercent(float percent){
+    public void setPercent(@FloatRange(from = 0f,to = 100f) float percent){
         mBigDecimal = new BigDecimal(percent);
         sweepAngle=percent/100*360;
         setTopText(mBigDecimal.setScale(1,BigDecimal.ROUND_DOWN).floatValue()+"%");
