@@ -21,6 +21,7 @@
         <activity android:name=".DashBoardActivity"/>
         <activity android:name=".GradientRoundedRectangleActivity"/>
         <activity android:name=".GradientLineAcitity"/>
+        <activity android:name=".DonutsActivity"/>
     </application>
 
 </manifest>

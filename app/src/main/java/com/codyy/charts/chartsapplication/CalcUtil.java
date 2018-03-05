@@ -7,6 +7,19 @@ import java.math.BigDecimal;
  */
 
 public class CalcUtil {
+    //    圆点坐标：(x0,y0)
+//    半径：r
+//    角度：a
+//
+//    则圆上任一点为：（x1,y1）
+//    x1   =   x0   +   r   *   cos(a   *   3.14   /180   )
+//    y1   =   y0   +   r   *   sin(a   *   3.14   /180   )
+    public static float[] circleTheCoordinatesOfThePoint(float x0, float y0, float r, float angle) {
+        float x1 = (float) (x0 + r * Math.cos(angle * Math.PI / 180));
+        float y1 = (float) (y0 + r * Math.sin(angle * Math.PI / 180));
+        return new float[]{x1, y1};
+    }
+
     //// 点到直线的最短距离的判断 点（x0,y0） 到由两点组成的线段（x1,y1） ,( x2,y2 )
     public static double pointToLine(float x1, float y1, float x2, float y2, float x0,
                                      float y0) {
@@ -50,20 +63,22 @@ public class CalcUtil {
 
     /**
      * 已知三点坐标,求三角形各个夹角角度
+     *
      * @return 夹角数组
      */
-    public static float[] calcAngle(float x1, float y1, float x2, float y2,float x3,float y3){
-        double a=lineSpace(x1,y1,x2,y2);
-        double b=lineSpace(x2,y2,x3,y3);
-        double c=lineSpace(x1,y1,x3,y3);
-        double cosa=(Math.pow(b,2)+Math.pow(c,2)-Math.pow(a,2))/(c*b*2);
-        double cosb=(Math.pow(a,2)+Math.pow(c,2)-Math.pow(b,2))/(c*a*2);
-        double cosc=(Math.pow(b,2)+Math.pow(a,2)-Math.pow(c,2))/(a*b*2);
-        float A= convertCoordinates(0,Math.acos(cosa)*180/Math.PI);
-        float B= convertCoordinates(0,Math.acos(cosb)*180/Math.PI);
-        float C= convertCoordinates(0,Math.acos(cosc)*180/Math.PI);
-        return new float[]{A,B,C};
+    public static float[] calcAngle(float x1, float y1, float x2, float y2, float x3, float y3) {
+        double a = lineSpace(x1, y1, x2, y2);
+        double b = lineSpace(x2, y2, x3, y3);
+        double c = lineSpace(x1, y1, x3, y3);
+        double cosa = (Math.pow(b, 2) + Math.pow(c, 2) - Math.pow(a, 2)) / (c * b * 2);
+        double cosb = (Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (c * a * 2);
+        double cosc = (Math.pow(b, 2) + Math.pow(a, 2) - Math.pow(c, 2)) / (a * b * 2);
+        float A = convertCoordinates(0, Math.acos(cosa) * 180 / Math.PI);
+        float B = convertCoordinates(0, Math.acos(cosb) * 180 / Math.PI);
+        float C = convertCoordinates(0, Math.acos(cosc) * 180 / Math.PI);
+        return new float[]{A, B, C};
     }
+
     public static class Point {
         public float x, y;
 
@@ -87,18 +102,19 @@ public class CalcUtil {
         }
 
         public Point computeCoordinates(float angle) {
-            return new Point(mPointX + mRadius * convertCoordinates(1,Math.cos(angle * Math.PI / 180)),
-                    mPointY + mRadius * convertCoordinates(1,Math.sin(angle * Math.PI / 180)));
+            return new Point(mPointX + mRadius * convertCoordinates(1, Math.cos(angle * Math.PI / 180)),
+                    mPointY + mRadius * convertCoordinates(1, Math.sin(angle * Math.PI / 180)));
         }
     }
 
     /**
      * double 转float,四舍五入
+     *
      * @param scale 保留小数位数
-     * @param d double value
+     * @param d     double value
      * @return float
      */
-    private static float convertCoordinates(int scale,double d) {
+    private static float convertCoordinates(int scale, double d) {
         BigDecimal bigDecimal = new BigDecimal(d);
         return bigDecimal.setScale(scale, BigDecimal.ROUND_HALF_UP).floatValue();
     }

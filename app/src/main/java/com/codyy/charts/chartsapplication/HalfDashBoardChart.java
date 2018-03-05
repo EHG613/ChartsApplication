@@ -119,7 +119,7 @@ public class HalfDashBoardChart extends View {
         mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
     }
 
-    public void setPercent(@FloatRange(from = 0f,to = 100f) float percent) {
+    public void setPercent(@FloatRange(from = 0f, to = 100f) float percent) {
         float last = mFloatSweepAngle;
         mFloatSweepAngle = percent / 100 * 180f;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, percent / 100 * 180f);
@@ -148,14 +148,14 @@ public class HalfDashBoardChart extends View {
     }
 
     private void initSpannableString(String topText) {
-        mSpannableStringBuilder=new SpannableStringBuilder();
+        mSpannableStringBuilder = new SpannableStringBuilder();
         mSpannableStringBuilder.append(topText);
-        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(10f)), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(10f)), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new RelativeSizeSpan(0.5f), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new SubscriptSpan(), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(20f)), 0, mSpannableStringBuilder.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mStaticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
     }
 
@@ -181,8 +181,9 @@ public class HalfDashBoardChart extends View {
         canvas.drawArc(mRectF, 0, mFloatSweepAngle, false, mPaint);//绘制进度
         canvas.rotate(181, mCenterX, mCenterY);
         mPaint.setShader(null);
-        float x1 = (float) (mCenterX + mRadius * Math.cos((mFloatSweepAngle - 180) * Math.PI / 180));
-        float y1 = (float) (mCenterY + mRadius * Math.sin((mFloatSweepAngle - 180) * Math.PI / 180));
+        float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius, mFloatSweepAngle - 180);
+        float x1 = coordinates[0];
+        float y1 = coordinates[1];
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(6f);
@@ -207,15 +208,15 @@ public class HalfDashBoardChart extends View {
             canvas.rotate(3f, mCenterX, mCenterY);
         }
         canvas.rotate(177, mCenterX, mCenterY);
-        canvas.drawText(mBottomText, mCenterX-mPaintText.measureText(mBottomText)/2, mCenterY, mPaintText);
+        canvas.drawText(mBottomText, mCenterX - mPaintText.measureText(mBottomText) / 2, mCenterY, mPaintText);
         mPaintText.setTextSize(sp2px(22f));
         mPaintText.setColor(Color.parseColor("#666666"));
-        if(mShowText) {
-            canvas.drawText(mTopText, mCenterX-mPaintText.measureText(mTopText)/2, mCenterY - sp2px(18f), mPaintText);
-        }else{
-            canvas.translate(mCenterX-mPaintText.measureText(mTopText)/(mTopText.length()==4?2.5f:3f),mCenterY-sp2px(25f));
+        if (mShowText) {
+            canvas.drawText(mTopText, mCenterX - mPaintText.measureText(mTopText) / 2, mCenterY - sp2px(18f), mPaintText);
+        } else {
+            canvas.translate(mCenterX - mPaintText.measureText(mTopText) / (mTopText.length() == 4 ? 2.5f : 3f), mCenterY - sp2px(25f));
             mStaticLayoutPercent.draw(canvas);
-            canvas.translate(-(mCenterX-mPaintText.measureText(mTopText)/(mTopText.length()==4?2.5f:3f)),-(mCenterY-sp2px(25f)));
+            canvas.translate(-(mCenterX - mPaintText.measureText(mTopText) / (mTopText.length() == 4 ? 2.5f : 3f)), -(mCenterY - sp2px(25f)));
         }
         mPaintText.setTextSize(sp2px(10f));
         mPaintText.setColor(Color.parseColor("#666666"));

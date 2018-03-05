@@ -12,7 +12,7 @@
         <attr name="sliceCountInOneBigSlice" format="integer"/> <!-- 长刻度条数-->
         <attr name="arcColor" format="color"/> <!--弧度颜色-->
         <attr name="measureTextSize" format="dimension"/> <!--刻度字体大小-->
-        <attr name="textColor" format="color"/> <!--字体颜色-->
+        <attr name="innerTextColor" format="color"/> <!--字体颜色-->
         <attr name="headerTitle" format="string"/> <!--表头-->
         <attr name="headerTextSize" format="string"/> <!--表头字体大小-->
         <attr name="headerRadius" format="dimension"/> <!--表头半径-->
@@ -69,5 +69,29 @@
         <attr name="doubleCircleBottomTextColor" format="color"/>
         <attr name="doubleCircleIsGradient" format="boolean"/>
         <attr name="doubleCirclePercentBottomText" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="DonutsChart">
+        <attr name="donutsRadius" format="dimension"/><!--甜甜圈半径-->
+        <attr name="donutsRadiusStrokeWidth" format="dimension"/><!--甜甜圈画笔宽度-->
+        <attr name="donutsRadiusInnerCircle" format="dimension"/><!--甜甜圈内圆半径-->
+        <attr name="donutsRadiusInnerCircleColor" format="color"/><!--甜甜圈内圆画笔颜色-->
+        <attr name="donutsRadiusInnerCircleStrokeWidth" format="dimension"/><!--甜甜圈内圆画笔宽度-->
+        <attr name="donutsRadiusInnerCircleStyle"><!--甜甜圈内圆样式-->
+            <enum name="fill" value="0"/><!--填充-->
+            <enum name="stroke" value="1"/><!--描边-->
+        </attr>
+        <attr name="donutsRadiusOuterCircle" format="dimension"/><!--甜甜圈外圆半径-->
+        <attr name="donutsRadiusOuterCirclePoint" format="dimension"/><!--甜甜圈外圆点半径,donutsRadiusOuterCirclePoint=(donutsRadiusOuterCircle+donutsRadius)/2或者自定义-->
+        <attr name="donutsRadiusOuterCirclePointColor" format="color"/><!--甜甜圈外圆小圆点颜色-->
+        <attr name="donutsRadiusOuterCircleColor" format="color"/><!--甜甜圈外圆画笔颜色-->
+        <attr name="donutsRadiusOuterCircleStrokeWidth" format="dimension"/><!--甜甜圈外圆画笔宽度-->
+        <attr name="donutsRadiusOuterCircleStyle"><!--甜甜圈外圆样式-->
+            <enum name="fill" value="0"/><!--填充-->
+            <enum name="stroke" value="1"/><!--描边-->
+        </attr>
+        <attr name="donutsRadiusInnerCircleShowDivider" format="boolean"/>
+        <attr name="donutsRadiusOuterCircleShowStroke" format="boolean"/>
+        <attr name="donutsRadiusOuterCircleShowPoint" format="boolean"/>
+        <attr name="donutsRadiusOuterCircleShowText" format="boolean"/>
     </declare-styleable>
 </resources>

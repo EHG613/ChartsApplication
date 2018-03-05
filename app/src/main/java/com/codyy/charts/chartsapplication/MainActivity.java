@@ -36,4 +36,8 @@ public class MainActivity extends AppCompatActivity {
     public void gradientLine(View view) {
         startActivity(new Intent(this,GradientLineAcitity.class));
     }
+
+    public void donuts(View view) {
+        startActivity(new Intent(this,DonutsActivity.class));
+    }
 }
