@@ -72,13 +72,8 @@ public class DonutsChart extends View {
 
     private void init() {
         mPaint = new Paint();
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(mRadiusStrokeWidth);
-        mPaint.setAntiAlias(true);
         mRectF = new RectF();
         mTextPaint = new TextPaint();
-        mTextPaint.setTextAlign(Paint.Align.CENTER);
-        mTextPaint.setAntiAlias(true);
     }
 
     @Override
@@ -139,50 +134,23 @@ public class DonutsChart extends View {
     public void setCenterTextSize(float centerTextSize) {
         this.centerTextSize = centerTextSize;
     }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStrokeWidth(mRadiusStrokeWidth);
+        mPaint.setAntiAlias(true);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
+        mTextPaint.setAntiAlias(true);
         mRectF.left = mCenterX - mRadius;
         mRectF.top = mCenterY - mRadius;
         mRectF.right = mCenterX + mRadius;
         mRectF.bottom = mCenterY + mRadius;
-        float startAngle = -90f;
-        for (Donuts donut : mDonuts) {
-            mPaint.setColor(donut.getColor());
-            float sweepAngle = donut.getPercent() * 360;
-            canvas.drawArc(mRectF, startAngle, sweepAngle, true, mPaint);
-            startAngle += sweepAngle;
-        }
-        canvas.save();
-        mPaint.setColor(Color.WHITE);
-        canvas.drawCircle(mCenterX, mCenterY, mRadius - mRadiusStrokeWidth, mPaint);
-        if (mRadiusOuterCircleShowStroke) {
-            mPaint.setColor(mRadiusOuterColor);
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(mRadiusOuterStrokeWidth);
-            canvas.drawCircle(mCenterX, mCenterY, mRadiusOuter, mPaint);
-        }
-        if(mRadiusOuterCircleShowPoint){
-            for (Donuts donut : mDonuts) {
-                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, (mRadius+mRadiusOuter) / 2, startAngle + donut.getPercent() * 180);
-                mPaint.setColor(mRadiusOuterPointColor);
-                mPaint.setStyle(Paint.Style.FILL);
-                canvas.drawCircle(coordinates[0],coordinates[1],mRadiusOuterPoint,mPaint);
-                startAngle += donut.getPercent()*360;
-            }
-        }
-        if(mRadiusOuterCircleShowText){
-            for (Donuts donut : mDonuts) {
-                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusOuter+dip2px(25f), startAngle + donut.getPercent() * 180);
-                mTextPaint.setColor(outerTextColor);
-//                mTextPaint.setStyle(Paint.Style.FILL);
-                mTextPaint.setTextSize(dip2px(outerTextSize));
-                canvas.drawText(donut.getPercent(1)+"%",coordinates[0],coordinates[1],mTextPaint);
-                startAngle += donut.getPercent()*360;
-            }
-        }
-        canvas.restore();
+        float startAngle = drawDonutsArc(canvas);
+        drawInnerWhiteCircle(canvas);//画白色内圆
+        drawDonutsOuterStroke(canvas);//画甜甜圈外部的边框
+        startAngle = drawDonutsOuterCirclePoint(canvas, startAngle);//绘制甜甜圈和外边框之间的点
+        drawOuterText(canvas, startAngle);//绘制外部百分比文本
         if (mRadiusInner > 0) {
             float startInnerAngle = -90f;
             mRectF.left = mCenterX - mRadiusInner;
@@ -212,7 +180,7 @@ public class DonutsChart extends View {
                     mTextPaint.setColor(donut.getInnerTextColor());
                     mTextPaint.setTextSize(dip2px(donut.getInnerTextSize()));
                     float[] coordinatesText = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner / 2, startInnerAngle + donut.getPercent() * 180);
-                    canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1], mTextPaint);
+                    canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1]+dip2px(donut.getInnerTextSize())/4, mTextPaint);
                 }
                 startInnerAngle += donut.getPercent() * 360;
             }
@@ -220,8 +188,61 @@ public class DonutsChart extends View {
         if (!TextUtils.isEmpty(centerText)) {
             mTextPaint.setColor(centerTextColor);
             mTextPaint.setTextSize(dip2px(centerTextSize));
-            canvas.drawText(centerText, mCenterX, mCenterY, mTextPaint);
+            canvas.drawText(centerText, mCenterX, mCenterY+dip2px(centerTextSize)/4, mTextPaint);
         }
+    }
+
+    private void drawOuterText(Canvas canvas, float startAngle) {
+        if(mRadiusOuterCircleShowText){
+            for (Donuts donut : mDonuts) {
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusOuter+dip2px(25f), startAngle + donut.getPercent() * 180);
+                mTextPaint.setColor(outerTextColor);
+//                mTextPaint.setStyle(Paint.Style.FILL);
+                mTextPaint.setTextSize(dip2px(outerTextSize));
+                canvas.drawText(donut.getPercent(1)+"%",coordinates[0],coordinates[1],mTextPaint);
+                startAngle += donut.getPercent()*360;
+            }
+        }
+        canvas.restore();
+    }
+
+    private float drawDonutsOuterCirclePoint(Canvas canvas, float startAngle) {
+        if(mRadiusOuterCircleShowPoint){
+            for (Donuts donut : mDonuts) {
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, (mRadius+mRadiusOuter) / 2, startAngle + donut.getPercent() * 180);
+                mPaint.setColor(mRadiusOuterPointColor);
+                mPaint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(coordinates[0],coordinates[1],mRadiusOuterPoint,mPaint);
+                startAngle += donut.getPercent()*360;
+            }
+        }
+        return startAngle;
+    }
+
+    private void drawDonutsOuterStroke(Canvas canvas) {
+        if (mRadiusOuterCircleShowStroke) {
+            mPaint.setColor(mRadiusOuterColor);
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setStrokeWidth(mRadiusOuterStrokeWidth);
+            canvas.drawCircle(mCenterX, mCenterY, mRadiusOuter, mPaint);
+        }
+    }
+
+    private float drawDonutsArc(Canvas canvas) {
+        float startAngle = -90f;
+        for (Donuts donut : mDonuts) {
+            mPaint.setColor(donut.getColor());
+            float sweepAngle = donut.getPercent() * 360;
+            canvas.drawArc(mRectF, startAngle, sweepAngle, true, mPaint);
+            startAngle += sweepAngle;
+        }
+        canvas.save();
+        return startAngle;
+    }
+
+    private void drawInnerWhiteCircle(Canvas canvas) {
+        mPaint.setColor(Color.WHITE);
+        canvas.drawCircle(mCenterX, mCenterY, mRadius - mRadiusStrokeWidth, mPaint);
     }
 
     @Override

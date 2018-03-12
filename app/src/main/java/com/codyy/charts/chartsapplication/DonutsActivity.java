@@ -36,12 +36,12 @@ public class DonutsActivity extends AppCompatActivity {
         List<Donuts> listInner=new ArrayList<>();
         donuts=new Donuts();
         donuts.setColor(Color.RED);
-        donuts.setPercent(0.5f);
+        donuts.setPercent(0.6f);
         donuts.setInnerText("严重");
         listInner.add(donuts);
         donuts=new Donuts();
         donuts.setColor(Color.DKGRAY);
-        donuts.setPercent(0.5f);
+        donuts.setPercent(0.4f);
         donuts.setInnerText("预警");
         listInner.add(donuts);
         chart.setInnerData(listInner);
