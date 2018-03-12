@@ -47,10 +47,12 @@ public class DonutsChart extends View {
         mRadiusOuterCircleShowStroke = array.getBoolean(R.styleable.DonutsChart_donutsRadiusOuterCircleShowStroke, false);
         mRadiusOuterCircleShowPoint = array.getBoolean(R.styleable.DonutsChart_donutsRadiusOuterCircleShowPoint, false);
         mRadiusOuterCircleShowText = array.getBoolean(R.styleable.DonutsChart_donutsRadiusOuterCircleShowText, false);
+        mRadiusShowOuterLineText = array.getBoolean(R.styleable.DonutsChart_donutsRadiusShowOuterLineText, false);
         array.recycle();
         init();
     }
 
+    private boolean mRadiusShowOuterLineText;
     private boolean mRadiusInnerCircleShowDivider;
     private boolean mRadiusOuterCircleShowStroke;
     private boolean mRadiusOuterCircleShowPoint;
@@ -68,10 +70,14 @@ public class DonutsChart extends View {
     private int mRadiusOuterStyle;
     private RectF mRectF;
     private Paint mPaint;
+    private Paint mPaintLine;
     private TextPaint mTextPaint;
 
     private void init() {
         mPaint = new Paint();
+        mPaintLine=new Paint();
+        mPaintLine.setStrokeWidth(dip2px(1f));
+        mPaintLine.setAntiAlias(true);
         mRectF = new RectF();
         mTextPaint = new TextPaint();
     }
@@ -134,6 +140,7 @@ public class DonutsChart extends View {
     public void setCenterTextSize(float centerTextSize) {
         this.centerTextSize = centerTextSize;
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -180,7 +187,7 @@ public class DonutsChart extends View {
                     mTextPaint.setColor(donut.getInnerTextColor());
                     mTextPaint.setTextSize(dip2px(donut.getInnerTextSize()));
                     float[] coordinatesText = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner / 2, startInnerAngle + donut.getPercent() * 180);
-                    canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1]+dip2px(donut.getInnerTextSize())/4, mTextPaint);
+                    canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1] + dip2px(donut.getInnerTextSize()) / 4, mTextPaint);
                 }
                 startInnerAngle += donut.getPercent() * 360;
             }
@@ -188,32 +195,32 @@ public class DonutsChart extends View {
         if (!TextUtils.isEmpty(centerText)) {
             mTextPaint.setColor(centerTextColor);
             mTextPaint.setTextSize(dip2px(centerTextSize));
-            canvas.drawText(centerText, mCenterX, mCenterY+dip2px(centerTextSize)/4, mTextPaint);
+            canvas.drawText(centerText, mCenterX, mCenterY + dip2px(centerTextSize) / 4, mTextPaint);
         }
     }
 
     private void drawOuterText(Canvas canvas, float startAngle) {
-        if(mRadiusOuterCircleShowText){
+        if (mRadiusOuterCircleShowText) {
             for (Donuts donut : mDonuts) {
-                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusOuter+dip2px(25f), startAngle + donut.getPercent() * 180);
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusOuter + dip2px(25f), startAngle + donut.getPercent() * 180);
                 mTextPaint.setColor(outerTextColor);
 //                mTextPaint.setStyle(Paint.Style.FILL);
                 mTextPaint.setTextSize(dip2px(outerTextSize));
-                canvas.drawText(donut.getPercent(1)+"%",coordinates[0],coordinates[1],mTextPaint);
-                startAngle += donut.getPercent()*360;
+                canvas.drawText(donut.getPercent(1) + "%", coordinates[0], coordinates[1], mTextPaint);
+                startAngle += donut.getPercent() * 360;
             }
         }
         canvas.restore();
     }
 
     private float drawDonutsOuterCirclePoint(Canvas canvas, float startAngle) {
-        if(mRadiusOuterCircleShowPoint){
+        if (mRadiusOuterCircleShowPoint) {
             for (Donuts donut : mDonuts) {
-                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, (mRadius+mRadiusOuter) / 2, startAngle + donut.getPercent() * 180);
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, (mRadius + mRadiusOuter) / 2, startAngle + donut.getPercent() * 180);
                 mPaint.setColor(mRadiusOuterPointColor);
                 mPaint.setStyle(Paint.Style.FILL);
-                canvas.drawCircle(coordinates[0],coordinates[1],mRadiusOuterPoint,mPaint);
-                startAngle += donut.getPercent()*360;
+                canvas.drawCircle(coordinates[0], coordinates[1], mRadiusOuterPoint, mPaint);
+                startAngle += donut.getPercent() * 360;
             }
         }
         return startAngle;
@@ -234,6 +241,21 @@ public class DonutsChart extends View {
             mPaint.setColor(donut.getColor());
             float sweepAngle = donut.getPercent() * 360;
             canvas.drawArc(mRectF, startAngle, sweepAngle, true, mPaint);
+            if (mRadiusShowOuterLineText) {
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius + dip2px(20f), startAngle + donut.getPercent() * 180);
+                float[] coordinates1 = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius, startAngle + donut.getPercent() * 180);
+                mPaintLine.setColor(donut.getColor());
+                canvas.drawLine(coordinates1[0],coordinates1[1],coordinates[0],coordinates[1],mPaintLine);
+                mTextPaint.setColor(donut.getColor());
+                mTextPaint.setTextSize(dip2px(outerTextSize));
+                if((startAngle+donut.getPercent() * 180)/90>1&&(startAngle+donut.getPercent() * 180)/90<3) {//象限为负
+                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0]-dip2px(10f), coordinates[1], mPaintLine);
+                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0]-mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                }else{//象限为正
+                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0]+dip2px(10f), coordinates[1], mPaintLine);
+                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0]+mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                }
+            }
             startAngle += sweepAngle;
         }
         canvas.save();
@@ -263,7 +285,11 @@ public class DonutsChart extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             viewWidth = specSize;
         } else {
-            viewWidth = (int) ((mRadiusOuter == 0f ? mRadius : mRadiusOuter) * 2 + dip2px(mRadiusOuterCircleShowText?25f:10f));
+            if (mRadiusShowOuterLineText) {
+                viewWidth = (int) (mRadius * 3);
+            } else {
+                viewWidth = (int) ((mRadiusOuter == 0f ? mRadius : mRadiusOuter) * 2 + dip2px(mRadiusOuterCircleShowText ? 25f : 10f));
+            }
             if (specMode == MeasureSpec.AT_MOST) {
                 viewWidth = Math.min(viewWidth, specSize);
             }
@@ -279,7 +305,11 @@ public class DonutsChart extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             viewHeight = specSize;
         } else {
-            viewHeight = (int) ((mRadiusOuter == 0f ? mRadius : mRadiusOuter) * 2 + dip2px(mRadiusOuterCircleShowText?25f:10f));
+            if (mRadiusShowOuterLineText) {
+                viewHeight = (int) (mRadius * 3);
+            } else {
+                viewHeight = (int) ((mRadiusOuter == 0f ? mRadius : mRadiusOuter) * 2 + dip2px(mRadiusOuterCircleShowText ? 25f : 10f));
+            }
             if (specMode == MeasureSpec.AT_MOST) {
                 viewHeight = Math.min(viewHeight, specSize);
             }

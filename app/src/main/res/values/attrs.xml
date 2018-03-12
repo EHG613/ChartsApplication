@@ -93,5 +93,6 @@
         <attr name="donutsRadiusOuterCircleShowStroke" format="boolean"/>
         <attr name="donutsRadiusOuterCircleShowPoint" format="boolean"/>
         <attr name="donutsRadiusOuterCircleShowText" format="boolean"/>
+        <attr name="donutsRadiusShowOuterLineText" format="boolean"/>
     </declare-styleable>
 </resources>

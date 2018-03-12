@@ -19,18 +19,19 @@ public class DonutsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_donuts);
         DonutsChart chart=findViewById(R.id.chart);
         DonutsChart chart2=findViewById(R.id.chart2);
+        DonutsChart chart3=findViewById(R.id.chart3);
         List<Donuts> list=new ArrayList<>();
         Donuts donuts=new Donuts();
         donuts.setColor(Color.RED);
-        donuts.setPercent(0.5f);
-        list.add(donuts);
-        donuts=new Donuts();
-        donuts.setColor(Color.MAGENTA);
         donuts.setPercent(0.3f);
         list.add(donuts);
         donuts=new Donuts();
+        donuts.setColor(Color.MAGENTA);
+        donuts.setPercent(0.4f);
+        list.add(donuts);
+        donuts=new Donuts();
         donuts.setColor(Color.BLUE);
-        donuts.setPercent(0.2f);
+        donuts.setPercent(0.3f);
         list.add(donuts);
         chart.setData(list);
         List<Donuts> listInner=new ArrayList<>();
@@ -45,6 +46,8 @@ public class DonutsActivity extends AppCompatActivity {
         donuts.setInnerText("预警");
         listInner.add(donuts);
         chart.setInnerData(listInner);
+
+
         chart2.setData(list);
         listInner=new ArrayList<>();
         donuts=new Donuts();
@@ -54,6 +57,8 @@ public class DonutsActivity extends AppCompatActivity {
         chart2.setInnerData(listInner);
         chart2.setCenterTextSize(20f);
         chart2.setCenterText("设备");
+
+        chart3.setData(list);
 
     }
 }
