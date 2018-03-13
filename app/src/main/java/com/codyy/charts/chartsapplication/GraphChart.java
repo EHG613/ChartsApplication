@@ -56,11 +56,15 @@ public class GraphChart extends View {
         dimensionPixel48dp = dip2px(48f);
         dimensionPixel150dp = dip2px(150f);
         dimensionPixel312dp = dip2px(312f);
+        dimensionPixel8dp = dip2px(8f);
+        dimensionPixel2dp = dip2px(2f);
         xyCoordinateTextCenter = dip2px(xyTextSize) / 2;
         init();
     }
 
     private int xyCoordinateTextCenter;
+    private int dimensionPixel2dp;
+    private int dimensionPixel8dp;
     private int dimensionPixel6dp;
     private int dimensionPixel10dp;
     private int dimensionPixel30dp;
@@ -78,6 +82,7 @@ public class GraphChart extends View {
     }
 
     private Paint mPaint;
+    private Paint mPaintPressedPoint;
     private Paint mPaintLine;
     private Paint mPaintLine1;
     private Paint mPaintLine2;
@@ -92,6 +97,8 @@ public class GraphChart extends View {
     private void init() {
         CornerPathEffect cornerPathEffect = new CornerPathEffect(30);
         mPaint = new Paint();
+        mPaintPressedPoint = new Paint();
+        mPaintPressedPoint.setAntiAlias(true);
         mPaintLine = new Paint();
         mPaintLine.setStyle(Paint.Style.STROKE);
         mPaintLine.setStrokeWidth(dip2px(1f));
@@ -212,31 +219,42 @@ public class GraphChart extends View {
             drawTopTipText(canvas, startX, startY, "使用数: ", colorTopPressedText);
             startX += mTextPaintCoordinate.measureText("使用数: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getyVal() + "", colorBlue);
-            startX += mTextPaintCoordinate.measureText(mPointPressed.getyVal()+"");
-            drawTopTipText(canvas,startX,startY,", 严重警告: ",colorTopPressedText);
+            startX += mTextPaintCoordinate.measureText(mPointPressed.getyVal() + "");
+            drawTopTipText(canvas, startX, startY, ", 严重警告: ", colorTopPressedText);
             startX += mTextPaintCoordinate.measureText(", 严重警告: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getY1Val() + "", colorRed);
             startX += mTextPaintCoordinate.measureText(mPointPressed.getY1Val() + "");
             drawTopTipText(canvas, startX, startY, ", 一般告警: ", colorTopPressedText);
             startX += mTextPaintCoordinate.measureText(", 一般告警: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getY2Val() + "", colorYellow);
-            startX=coordinateSpaceX*6;
-            int startTime=8;
-            int total=mPointPressed.getxVal()*5;
-            int h=total/60;
-            startTime+=h;
-            String timeText="";
-            if(total%60==0){
-                timeText+=startTime+":00";
-            }else{
-                timeText+=startTime+":"+((total-h*60)<10?"0"+(total-h*60):(total-h*60));
+            startX = coordinateSpaceX * 6;
+            int startTime = 8;
+            int total = mPointPressed.getxVal() * 5;
+            int h = total / 60;
+            startTime += h;
+            String timeText = "";
+            if (total % 60 == 0) {
+                timeText += startTime + ":00";
+            } else {
+                timeText += startTime + ":" + ((total - h * 60) < 10 ? "0" + (total - h * 60) : (total - h * 60));
             }
-            drawTopTipText(canvas,startX,startY,timeText,colorTopTipText);
+            drawTopTipText(canvas, startX, startY, timeText, colorTopTipText);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), colorBlue, dimensionPixel8dp / 2);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), Color.WHITE, dimensionPixel8dp / 4);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY1(), colorRed, dimensionPixel8dp / 2);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY1(), Color.WHITE, dimensionPixel8dp / 4);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY2(), colorYellow, dimensionPixel8dp / 2);
+            drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY2(), Color.WHITE, dimensionPixel8dp / 4);
         } else {
             float startX = 0f;
             float startY = -dimensionPixel150dp - xyCoordinateTextCenter;
             drawTopTipText(canvas, startX, startY, "手指移至下方曲线图上,可查看具体内容", colorTopTipText);
         }
+    }
+
+    private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius) {
+        mPaintPressedPoint.setColor(colorBlue);
+        canvas.drawCircle(cx, cy, radius, mPaintPressedPoint);
     }
 
     private void drawTopTipText(Canvas canvas, float startX, float startY, String text, int color) {
@@ -318,7 +336,7 @@ public class GraphChart extends View {
             this.y2 = -y2;
         }
 
-        public Point(int x, int xVal,float y, float y1, float y2, int yVal, int y1Val, int y2Val) {
+        public Point(int x, int xVal, float y, float y1, float y2, int yVal, int y1Val, int y2Val) {
             this.x = x;
             this.xVal = xVal;
             this.y = -y;
