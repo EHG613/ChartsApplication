@@ -22,6 +22,7 @@
         <activity android:name=".GradientRoundedRectangleActivity"/>
         <activity android:name=".GradientLineAcitity"/>
         <activity android:name=".DonutsActivity"/>
+        <activity android:name=".GraphChartActivity"/>
     </application>
 
 </manifest>

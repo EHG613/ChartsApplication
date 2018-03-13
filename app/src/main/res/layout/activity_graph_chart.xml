@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_tip"-->
+        <!--android:text="手指移至下方曲线图上,可查看具体内容"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:textSize="9sp"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:layout_height="wrap_content"/>-->
+    <com.codyy.charts.chartsapplication.GraphChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</android.support.constraint.ConstraintLayout>

@@ -18,26 +18,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void circlePercent(View view) {
-        startActivity(new Intent(this,CirclePercentChartActivity.class));
+        startActivity(new Intent(this, CirclePercentChartActivity.class));
     }
 
     public void dashboard(View view) {
-        startActivity(new Intent(this,DashBoardActivity.class));
+        startActivity(new Intent(this, DashBoardActivity.class));
     }
 
     public void dashboardRate(View view) {
-        startActivity(new Intent(this,DashBoardRateChartActivity.class));
+        startActivity(new Intent(this, DashBoardRateChartActivity.class));
     }
 
     public void gradientRoundedRectangle(View view) {
-        startActivity(new Intent(this,GradientRoundedRectangleActivity.class));
+        startActivity(new Intent(this, GradientRoundedRectangleActivity.class));
     }
 
     public void gradientLine(View view) {
-        startActivity(new Intent(this,GradientLineAcitity.class));
+        startActivity(new Intent(this, GradientLineAcitity.class));
     }
 
     public void donuts(View view) {
-        startActivity(new Intent(this,DonutsActivity.class));
+        startActivity(new Intent(this, DonutsActivity.class));
+    }
+
+    public void graph(View view) {
+        startActivity(new Intent(this, GraphChartActivity.class));
     }
 }
