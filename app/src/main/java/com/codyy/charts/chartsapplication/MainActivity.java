@@ -44,4 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public void graph(View view) {
         startActivity(new Intent(this, GraphChartActivity.class));
     }
+
+    public void bar(View view) {
+        startActivity(new Intent(this, BarChartActivity.class));
+    }
 }
