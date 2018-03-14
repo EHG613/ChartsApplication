@@ -33,6 +33,12 @@ public class CirclePercentChart extends View {
     private int endColor;
     private String mBottomText;
     private String mTopText;
+    private int style;
+    private int mTopTextSize;
+    private int mTopTextColor;
+    private int mBottomTextSize;
+    private int mBottomTextColor;
+
 
     public CirclePercentChart(Context context) {
         this(context, null);
@@ -48,6 +54,11 @@ public class CirclePercentChart extends View {
         startColor = typedArray.getColor(R.styleable.CirclePercentChart_circlePercentStartColor, Color.parseColor("#FD6097"));
         endColor = typedArray.getColor(R.styleable.CirclePercentChart_circlePercentEndColor, Color.parseColor("#FDA571"));
         mBottomText = typedArray.getString(R.styleable.CirclePercentChart_circlePercentBottomText);
+        style = typedArray.getInt(R.styleable.CirclePercentChart_circlePercentStyle, 0);
+        mTopTextColor = typedArray.getColor(R.styleable.CirclePercentChart_circlePercentTopTextColor, Color.BLACK);
+        mBottomTextColor = typedArray.getColor(R.styleable.CirclePercentChart_circlePercentBottomTextColor, Color.BLACK);
+        mTopTextSize = typedArray.getDimensionPixelSize(R.styleable.CirclePercentChart_circlePercentTopTextSize, 15);
+        mBottomTextSize = typedArray.getDimensionPixelSize(R.styleable.CirclePercentChart_circlePercentBottomTextSize, 10);
         typedArray.recycle();
         init();
     }
@@ -67,16 +78,14 @@ public class CirclePercentChart extends View {
         mPaint.setStrokeWidth(dip2px(5f));
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(Color.parseColor("#E6E7E9"));
-        mPaintC=new Paint();
+        mPaintC = new Paint();
         mPaintC.setStrokeWidth(dip2px(5f));
         mPaintC.setAntiAlias(true);
         mPaintC.setStyle(Paint.Style.STROKE);
         mPaintC.setStrokeCap(Paint.Cap.ROUND);
         mTextPaintBottom = new TextPaint();
         mTextPaintBottom.setAntiAlias(true);
-        mTextPaintBottom.setColor(Color.parseColor("#666666"));
         mTextPaintBottom.setTextAlign(Paint.Align.CENTER);
-        mTextPaintBottom.setTextSize(dip2px(10f));
         mPaintPercentText = new TextPaint();
         mPaintPercentText.setAntiAlias(true);
         mPaintPercentText.setStyle(Paint.Style.FILL);
@@ -93,22 +102,41 @@ public class CirclePercentChart extends View {
         mRectF.right = mCenterX + mRadius;
         mRectF.bottom = mCenterY + mRadius;
         canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
-        canvas.drawText(TextUtils.isEmpty(mBottomText)?"":mBottomText, mCenterX, mCenterY+dip2px(12f), mTextPaintBottom);
+        mTextPaintBottom.setTextSize(mBottomTextSize);
+        mTextPaintBottom.setColor(mBottomTextColor);
+        canvas.drawText(TextUtils.isEmpty(mBottomText) ? "" : mBottomText, mCenterX, mCenterY + dip2px(12f), mTextPaintBottom);
         mPaintC.setShader(mShader);
         canvas.drawArc(mRectF, -90, sweepAngle, false, mPaintC);
-        if(!TextUtils.isEmpty(mTopText)){
-            canvas.translate(mCenterX-mPaintPercentText.measureText(mTopText)/2.5f,mCenterY-sp2px(14f));
-            mStaticLayoutPercent.draw(canvas);
-            canvas.translate(-(mCenterX-mPaintPercentText.measureText(mTopText)/2.5f),-(mCenterY-sp2px(14f)));
+        if (!TextUtils.isEmpty(mTopText)) {
+            canvas.save();
+            if (style == 0) {
+                canvas.translate(mCenterX - mPaintPercentText.measureText(mTopText) / 2.5f, mCenterY - sp2px(14f));
+                mStaticLayoutPercent.draw(canvas);
+                canvas.translate(-(mCenterX - mPaintPercentText.measureText(mTopText) / 2.5f), -(mCenterY - sp2px(14f)));
+            } else {
+                mTextPaintBottom.setTextSize(mTopTextSize);
+                mTextPaintBottom.setColor(mTopTextColor);
+                canvas.drawText(mTopText, mCenterX, mCenterY-mTopTextSize/2, mTextPaintBottom);
+            }
+            canvas.restore();
         }
     }
+
     private float sweepAngle;
     private BigDecimal mBigDecimal;
-    public void setPercent(@FloatRange(from = 0f,to = 100f) float percent){
+
+    public void setPercent(@FloatRange(from = 0f, to = 100f) float percent) {
         mBigDecimal = new BigDecimal(percent);
-        sweepAngle=percent/100*360;
-        setTopText(mBigDecimal.setScale(1,BigDecimal.ROUND_DOWN).floatValue()+"%");
+        sweepAngle = percent / 100 * 360;
+        setTopText(mBigDecimal.setScale(1, BigDecimal.ROUND_DOWN).floatValue() + "%");
     }
+
+    public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText) {
+        mBigDecimal = new BigDecimal(percent);
+        sweepAngle = percent / 100 * 360;
+        setTopText(topText);
+    }
+
     private void setTopText(String topText) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
         initSpannableString(mTopText);
@@ -116,17 +144,20 @@ public class CirclePercentChart extends View {
     }
 
     private void initSpannableString(String topText) {
-        mSpannableStringBuilder=new SpannableStringBuilder();
+        mSpannableStringBuilder = new SpannableStringBuilder();
         mSpannableStringBuilder.append(topText);
-        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(10f)), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (style == 0) {
+            mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(10f)), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new RelativeSizeSpan(0.5f), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new SubscriptSpan(), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(20f)), 0, mSpannableStringBuilder.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), mSpannableStringBuilder.length()-1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(startColor), 0, mSpannableStringBuilder.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mStaticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintPercentText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mSpannableStringBuilder.setSpan(new ForegroundColorSpan(mTopTextColor), 0, mSpannableStringBuilder.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mStaticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintPercentText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        }
     }
+
     private int mRadius;
     Shader mShader;
 

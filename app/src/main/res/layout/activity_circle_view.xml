@@ -4,7 +4,7 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             android:background="#41AFFB"
+                                             android:background="#fff"
                                              tools:context="com.codyy.charts.chartsapplication.DashBoardActivity">
 
     <com.codyy.charts.chartsapplication.CirclePercentChart
@@ -12,19 +12,29 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:circlePercentBottomText="故障率"
-        app:circlePercentStyle="percent"
+        app:circlePercentBottomTextColor="#939fbe"
+        app:circlePercentBottomTextSize="10sp"
         app:circlePercentEndColor="#F7BE8C"
         app:circlePercentStartColor="#F26A81"
+        app:circlePercentStyle="percent"
+        app:circlePercentTopTextColor="#f26d80"
+        app:circlePercentTopTextSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
     <com.codyy.charts.chartsapplication.CirclePercentChart
         android:id="@+id/chart4"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:circlePercentBottomText="故障率"
-        app:circlePercentEndColor="#F7BE8C"
-        app:circlePercentStartColor="#F26A81"
+        app:circlePercentBottomText="晚上"
+        app:circlePercentBottomTextColor="#8a40fa"
+        app:circlePercentBottomTextSize="15sp"
+        app:circlePercentEndColor="#a882f4"
+        app:circlePercentStartColor="#710dff"
+        app:circlePercentStyle="text"
+        app:circlePercentTopTextColor="#939fbe"
+        app:circlePercentTopTextSize="10sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chart"/>
@@ -41,19 +51,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart4"/>
+
     <com.codyy.charts.chartsapplication.DoubleCirclePercentChart
         android:id="@+id/chart3"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        app:doubleCircleBackgroundColor="#329DF4"
+        app:doubleCircleBottomTextColor="#B9DDFE"
+        app:doubleCircleIsGradient="false"
         app:doubleCirclePercentBottomText="装备数"
         app:doubleCirclePercentEndColor="#32AADD"
         app:doubleCirclePercentEndColor2="#F7BE8C"
-        app:doubleCircleBackgroundColor="#329DF4"
-        app:doubleCircleIsGradient="false"
         app:doubleCirclePercentStartColor="#FFFFFF"
-        app:doubleCircleTopTextColor="#FFFFFF"
-        app:doubleCircleBottomTextColor="#B9DDFE"
         app:doubleCirclePercentStartColor2="#72FFEF"
+        app:doubleCircleTopTextColor="#FFFFFF"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart2"/>
