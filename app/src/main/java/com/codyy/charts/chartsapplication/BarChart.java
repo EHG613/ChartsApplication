@@ -219,22 +219,22 @@ public class BarChart extends View {
         if (currentPressed != -1) {
 
             if (color1 != 0) {
-                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY1(), Color.parseColor("#8038adff"), dimensionPixel8dp);
+                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY1(), color1, dimensionPixel8dp, true);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY1(), color1, dimensionPixel8dp / 2);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY1(), Color.WHITE, dimensionPixel8dp / 4);
             }
             if (color2 != 0) {
-                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY2(), Color.parseColor("#803ed5aa"), dimensionPixel8dp);
+                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY2(), color2, dimensionPixel8dp, true);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY2(), color2, dimensionPixel8dp / 2);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY2(), Color.WHITE, dimensionPixel8dp / 4);
             }
             if (color3 != 0) {
-                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY3(), Color.parseColor("#8024c8f3"), dimensionPixel8dp);
+                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY3(), color3, dimensionPixel8dp, true);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY3(), color3, dimensionPixel8dp / 2);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY3(), Color.WHITE, dimensionPixel8dp / 4);
             }
             if (color4 != 0) {
-                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY4(), Color.parseColor("#808940fa"), dimensionPixel8dp);
+                drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY4(), color4, dimensionPixel8dp, true);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY4(), color4, dimensionPixel8dp / 2);
                 drawPointCircle(canvas, mPoints.get(currentPressed).getX(), mPoints.get(currentPressed).getY4(), Color.WHITE, dimensionPixel8dp / 4);
             }
@@ -248,6 +248,17 @@ public class BarChart extends View {
         mPath2.reset();
         mPath3.reset();
         mPath4.reset();
+    }
+
+    private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius, boolean isNeedAlpha) {
+        mPaintPressedPoint.setColor(colorBlue);
+        if (isNeedAlpha) {
+            mPaintPressedPoint.setAlpha(128);//半透明
+        }
+        canvas.drawCircle(cx, cy, radius, mPaintPressedPoint);
+        if (isNeedAlpha) {
+            mPaintPressedPoint.setAlpha(255);//值越小,越透明:0-255
+        }
     }
 
     private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius) {
@@ -281,7 +292,22 @@ public class BarChart extends View {
 
     private void restorePointer() {
         currentPressed = -1;
+        cancel();
         invalidate();
+    }
+
+    private OnClickListener mOnClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        /*点击*/
+        void onClick(Point point);
+
+        /*取消点击*/
+        void cancel();
     }
 
     private void checkPointer(MotionEvent event) {
@@ -302,9 +328,20 @@ public class BarChart extends View {
 //            }
         }
         if (currentPressed != -1) {
+            if (mOnClickListener != null) {
+                mOnClickListener.onClick(mPoints.get(currentPressed));
+            }
             invalidate();
+        } else {
+            cancel();
         }
 
+    }
+
+    private void cancel() {
+        if (mOnClickListener != null) {
+            mOnClickListener.cancel();
+        }
     }
 
     @Override

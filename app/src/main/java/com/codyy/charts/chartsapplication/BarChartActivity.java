@@ -8,6 +8,7 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class BarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
         BarChart barChart = findViewById(R.id.bar);
+        final TextView textView = findViewById(R.id.tv_tip);
+        textView.setText("手指按压图表条目,可查看具体内容");
         int radius = dp2px(2f);
         List<BarChart.Point> points = new ArrayList<>();
         int barWidth = dp2px(12f);
@@ -73,6 +76,17 @@ public class BarChartActivity extends AppCompatActivity {
             points.add(point);
         }
         barChart.setPoints(points);
+        barChart.setOnClickListener(new BarChart.OnClickListener() {
+            @Override
+            public void onClick(BarChart.Point point) {
+                textView.setText("设备数:" + point.getyVal() + ",故障率:" + point.getY1Val() + "%,维修率:" + point.getY2Val() + "%,不良率:" + point.getY3Val() + "%,淘汰率:" + point.getY4Val());
+            }
+
+            @Override
+            public void cancel() {
+                textView.setText("手指按压图表条目,可查看具体内容");
+            }
+        });
     }
 
     private int dp2px(float dip) {
