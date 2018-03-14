@@ -264,6 +264,9 @@ public class GraphChart extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (event.getPointerCount() > 1) {
+            return super.onTouchEvent(event);
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 checkPointer(event);

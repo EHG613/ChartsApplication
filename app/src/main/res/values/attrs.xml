@@ -47,6 +47,12 @@
         <attr name="circlePercentStartColor" format="color"/>
         <attr name="circlePercentEndColor" format="color"/>
         <attr name="circlePercentBottomText" format="string"/>
+        <attr name="circlePercentBottomTextSize" format="dimension"/>
+        <attr name="circlePercentTopTextSize" format="dimension"/>
+        <attr name="circlePercentStyle">
+            <enum name="percent" value="0"/><!--百分比-->
+            <enum name="text" value="1"/><!--纯文本-->
+        </attr>
     </declare-styleable>
     <declare-styleable name="DashBoardRateChart">
         <attr name="dashboardRateStartColor" format="color"/>

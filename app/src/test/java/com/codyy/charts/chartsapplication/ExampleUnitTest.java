@@ -32,4 +32,26 @@ public class ExampleUnitTest {
         float y1 = (float) (0 + mRadius/2 * Math.sin((angles[1]) * Math.PI / 180));
         System.out.println(x1+";"+y1);
     }
+    @Test
+    public void testCoordinate() throws Exception{
+//        圆心:540,315,半径:300.0点:752.38495,166.69455
+//        圆心:540,315,半径:300.0点:691.38074,523.682
+//        圆心:540,315,半径:300.0点:553.55646,577.90796
+//        圆心:540,315,半径:300.0点:289.20502,211.88284
+        int r=300;
+        int cx=540;int cy=315; int sx=540;int sy=cy-r;
+
+        float[] angles=CalcUtil.calcAngle(cx,cy,sx,sy,752,166);
+        float[] angles1=CalcUtil.calcAngle(cx,cy,sx,sy,691,523);
+        float[] angles2=CalcUtil.calcAngle(cx,cy,sx,sy,553,577);
+        float[] angles3=CalcUtil.calcAngle(cx,cy,sx,sy,289,211);
+        float[] angles4=CalcUtil.calcAngle(cx,cy,sx,sy,cx,cy+r);
+        float[] angles5=CalcUtil.calcAngle(cx,cy,sx,sy,526,582);
+        System.out.println(Arrays.toString(angles));
+        System.out.println(Arrays.toString(angles1));
+        System.out.println(Arrays.toString(angles2));
+        System.out.println(Arrays.toString(angles3));
+        System.out.println(Arrays.toString(angles4));
+        System.out.println(Arrays.toString(angles5));
+    }
 }

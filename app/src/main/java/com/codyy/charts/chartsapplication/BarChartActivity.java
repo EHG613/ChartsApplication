@@ -30,12 +30,12 @@ public class BarChartActivity extends AppCompatActivity {
         List<BarChart.Point> points = new ArrayList<>();
         int barWidth = dp2px(12f);
         int xSpace = dp2px(40f);
-        int currentX = dp2px(10f);
+        int currentX = dp2px(15f);
         int height = -dp2px(150f);
         int ySpace = -dp2px(150f) / 100;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 365; i++) {
             BarChart.Point point = new BarChart.Point();
-            point.setxAbbrText("坐标" + i);
+            point.setxAbbrText("坐标坐标坐标" + i);
             int yVal = new Random().nextInt(1500);
             int y = -dp2px(yVal / 10);
             int y1Val = new Random().nextInt(100);

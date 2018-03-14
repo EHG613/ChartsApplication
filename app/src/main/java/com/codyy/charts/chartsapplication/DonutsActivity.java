@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,21 @@ public class DonutsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donuts);
         DonutsChart chart=findViewById(R.id.chart);
+        chart.setOnClickListener(new DonutsChart.OnClickListener() {
+            @Override
+            public void onClick(Donuts donuts) {
+                Toast.makeText(DonutsActivity.this,donuts.getPercent(0)+"%",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         DonutsChart chart2=findViewById(R.id.chart2);
         DonutsChart chart3=findViewById(R.id.chart3);
+        chart3.setOnTextClickListener(new DonutsChart.OnTextClickListener() {
+            @Override
+            public void onClick(Donuts donuts) {
+                Toast.makeText(DonutsActivity.this,donuts.getPercent(0)+"%",Toast.LENGTH_SHORT).show();
+            }
+        });
         List<Donuts> list=new ArrayList<>();
         Donuts donuts=new Donuts();
         donuts.setColor(Color.RED);

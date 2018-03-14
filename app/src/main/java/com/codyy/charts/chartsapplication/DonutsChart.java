@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -75,7 +77,7 @@ public class DonutsChart extends View {
 
     private void init() {
         mPaint = new Paint();
-        mPaintLine=new Paint();
+        mPaintLine = new Paint();
         mPaintLine.setStrokeWidth(dip2px(1f));
         mPaintLine.setAntiAlias(true);
         mRectF = new RectF();
@@ -199,6 +201,60 @@ public class DonutsChart extends View {
         }
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getPointerCount() > 1) {
+            return super.onTouchEvent(event);
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                return true;
+            case MotionEvent.ACTION_MOVE:
+                return true;
+            case MotionEvent.ACTION_UP:
+                Log.d("坐标:", "圆心:" + mCenterX + "," + mCenterY + ",半径:" + mRadius + "点:" + event.getX() + "," + event.getY());
+                float angle = CalcUtil.calcAngleOnArc(mCenterX, mCenterY, mRadius, mRadius - mRadiusStrokeWidth, event.getX(), event.getY());
+                if (!(angle < 0)) {
+                    for (Donuts donut : mDonuts) {
+                        if (donut.getStartAngle() <= angle && angle < donut.getEndAngle() && mOnClickListener != null) {
+                            mOnClickListener.onClick(donut);
+                        }
+                    }
+                }
+                for (Donuts donut : mDonuts) {
+                    if (event.getX() >= donut.getTextStartX() && event.getX() <= donut.getTextStopX() && event.getY() >= donut.getTextStartY() && event.getY() <= donut.getTextStopY() && mOnTextClickListener != null) {
+                        mOnTextClickListener.onClick(donut);
+                    }
+                }
+                return true;
+            case MotionEvent.ACTION_CANCEL:
+                return true;
+            default:
+                return super.onTouchEvent(event);
+        }
+    }
+
+    private OnClickListener mOnClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(Donuts donuts);
+    }
+
+    private OnTextClickListener mOnTextClickListener;
+
+    public void setOnTextClickListener(OnTextClickListener onTextClickListener) {
+        mOnTextClickListener = onTextClickListener;
+    }
+
+    public interface OnTextClickListener {
+        void onClick(Donuts donuts);
+    }
+
     private void drawOuterText(Canvas canvas, float startAngle) {
         if (mRadiusOuterCircleShowText) {
             for (Donuts donut : mDonuts) {
@@ -237,23 +293,36 @@ public class DonutsChart extends View {
 
     private float drawDonutsArc(Canvas canvas) {
         float startAngle = -90f;
-        for (Donuts donut : mDonuts) {
+        for (int i = 0; i < mDonuts.size(); i++) {
+            Donuts donut = mDonuts.get(i);
             mPaint.setColor(donut.getColor());
             float sweepAngle = donut.getPercent() * 360;
+            mDonuts.get(i).setStartAngle(startAngle + 90f);
+            mDonuts.get(i).setEndAngle(startAngle + 90f + sweepAngle);
             canvas.drawArc(mRectF, startAngle, sweepAngle, true, mPaint);
             if (mRadiusShowOuterLineText) {
                 float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius + dip2px(20f), startAngle + donut.getPercent() * 180);
                 float[] coordinates1 = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius, startAngle + donut.getPercent() * 180);
                 mPaintLine.setColor(donut.getColor());
-                canvas.drawLine(coordinates1[0],coordinates1[1],coordinates[0],coordinates[1],mPaintLine);
+                canvas.drawLine(coordinates1[0], coordinates1[1], coordinates[0], coordinates[1], mPaintLine);
                 mTextPaint.setColor(donut.getColor());
                 mTextPaint.setTextSize(dip2px(outerTextSize));
-                if((startAngle+donut.getPercent() * 180)/90>1&&(startAngle+donut.getPercent() * 180)/90<3) {//象限为负
-                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0]-dip2px(10f), coordinates[1], mPaintLine);
-                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0]-mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
-                }else{//象限为正
-                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0]+dip2px(10f), coordinates[1], mPaintLine);
-                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0]+mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                if ((startAngle + donut.getPercent() * 180) / 90 > 1 && (startAngle + donut.getPercent() * 180) / 90 < 3) {//象限为负
+                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0] - dip2px(10f), coordinates[1], mPaintLine);
+                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0] - mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                    mDonuts.get(i).setTextStartX(coordinates[0] - dip2px(16f) - mTextPaint.measureText(donut.getPercent(1) + "%"));
+                    mDonuts.get(i).setTextStopX(coordinates[0] - dip2px(16f));
+                    mDonuts.get(i).setTextStartY(coordinates[1] - mTextPaint.getTextSize());
+                    mDonuts.get(i).setTextStopY(coordinates[1]+dip2px(5f));
+//                    canvas.drawRect(mDonuts.get(i).getTextStartX(), mDonuts.get(i).getTextStartY(), mDonuts.get(i).getTextStopX(), mDonuts.get(i).getTextStopY(), mPaint);
+                } else {//象限为正
+                    canvas.drawLine(coordinates[0], coordinates[1], coordinates[0] + dip2px(10f), coordinates[1], mPaintLine);
+                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0] + mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                    mDonuts.get(i).setTextStartX(coordinates[0] + dip2px(16f));
+                    mDonuts.get(i).setTextStopX(coordinates[0] + dip2px(16f) + mTextPaint.measureText(donut.getPercent(1) + "%"));
+                    mDonuts.get(i).setTextStartY(coordinates[1] - mTextPaint.getTextSize());
+                    mDonuts.get(i).setTextStopY(coordinates[1]+dip2px(5f));
+//                    canvas.drawRect(mDonuts.get(i).getTextStartX(), mDonuts.get(i).getTextStartY(), mDonuts.get(i).getTextStopX(), mDonuts.get(i).getTextStopY(), mPaint);
                 }
             }
             startAngle += sweepAngle;

@@ -79,6 +79,16 @@ public class CalcUtil {
         return new float[]{A, B, C};
     }
 
+    public static float calcAngleOnArc(int cx, int cy, float outerR, float innerR, float px, float py) {
+        float len = convertCoordinates(1, lineSpace(cx, cy, px, py));//计算点到圆心的距离
+        if (len >= innerR && len <= outerR) {//点在圆弧上
+            float angle = calcAngle(cx, cy, px, py, px, cy)[1];
+            return px >= cx ? angle : 360 - angle;
+        } else {//点不在圆弧上
+            return -1f;
+        }
+    }
+
     public static class Point {
         public float x, y;
 

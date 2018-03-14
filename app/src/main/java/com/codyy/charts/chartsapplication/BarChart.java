@@ -44,10 +44,6 @@ public class BarChart extends View {
 
     private Paint mPaint;
     private Paint mPaintPressedPoint;
-    private Path mPath1;
-    private Path mPath2;
-    private Path mPath3;
-    private Path mPath4;
 
     private void init() {
         mPaint = new Paint();
@@ -55,10 +51,6 @@ public class BarChart extends View {
         mTextPaintCoordinate.setAntiAlias(true);
         mPaintPressedPoint = new Paint();
         mPaintPressedPoint.setAntiAlias(true);
-        mPath1 = new Path();
-        mPath2 = new Path();
-        mPath3 = new Path();
-        mPath4 = new Path();
     }
 
     private int width;
@@ -101,7 +93,6 @@ public class BarChart extends View {
         mPaint.setColor(colorDivider);
         mPaint.setShader(null);
         canvas.translate(0, height - dimensionPixel30dp);
-        resetPath();
         int color1 = 0;
         int color2 = 0;
         int color3 = 0;
@@ -110,83 +101,58 @@ public class BarChart extends View {
             Point point = mPoints.get(i);
             if (i == 0) {
                 if (point.getY1() != -1) {
-                    mPath1.moveTo(point.getX(), point.getY1());
                     color1 = point.getY1Color();
                 }
                 if (point.getY2() != -1) {
-                    mPath2.moveTo(point.getX(), point.getY2());
                     color2 = point.getY2Color();
                 }
                 if (point.getY3() != -1) {
-                    mPath3.moveTo(point.getX(), point.getY3());
                     color3 = point.getY3Color();
                 }
                 if (point.getY4() != -1) {
-                    mPath4.moveTo(point.getX(), point.getY4());
                     color4 = point.getY4Color();
-                }
-            } else {
-                if (point.getY1() != -1) {
-                    mPath1.lineTo(point.getX(), point.getY1());
-                }
-                if (point.getY2() != -1) {
-                    mPath2.lineTo(point.getX(), point.getY2());
-                }
-                if (point.getY3() != -1) {
-                    mPath3.lineTo(point.getX(), point.getY3());
-                }
-                if (point.getY4() != -1) {
-                    mPath4.lineTo(point.getX(), point.getY4());
                 }
             }
             mTextPaintCoordinate.setTextAlign(Paint.Align.CENTER);
             mPaint.setShader(point.getLinearGradient());
-            canvas.drawText(point.getxAbbrText(), point.getX(), dimensionPixel10dp + dip2px(9f) / 2, mTextPaintCoordinate);
+            canvas.drawText(point.getxAbbrText().length() > 4 ? point.getxAbbrText().substring(0, 4) + getContext().getResources().getString(R.string.text_ellipsize) : point.getxAbbrText(), point.getX(), dimensionPixel10dp + dip2px(9f) / 2, mTextPaintCoordinate);
             canvas.drawPath(point.getPath(), mPaint);
-            if (point.getY1() != -1) {
-                drawPointCircle(canvas, point.getX(), point.getY1(), point.getY1Color(), dimensionPixel8dp / 2);
-                drawPointCircle(canvas, point.getX(), point.getY1(), Color.WHITE, dimensionPixel8dp / 4);
-            }
-            if (point.getY2() != -1) {
-                drawPointCircle(canvas, point.getX(), point.getY2(), point.getY2Color(), dimensionPixel8dp / 2);
-                drawPointCircle(canvas, point.getX(), point.getY2(), Color.WHITE, dimensionPixel8dp / 4);
-            }
-            if (point.getY3() != -1) {
-                drawPointCircle(canvas, point.getX(), point.getY3(), point.getY3Color(), dimensionPixel8dp / 2);
-                drawPointCircle(canvas, point.getX(), point.getY3(), Color.WHITE, dimensionPixel8dp / 4);
-            }
-            if (point.getY4() != -1) {
-                drawPointCircle(canvas, point.getX(), point.getY4(), point.getY4Color(), dimensionPixel8dp / 2);
-                drawPointCircle(canvas, point.getX(), point.getY4(), Color.WHITE, dimensionPixel8dp / 4);
-            }
         }
-        if (color1 != 0) {
+        if (color1 != 0 && mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
             mPaint.setColor(color1);
-            canvas.drawPath(mPath1, mPaint);
+            for (int i = 0; i < mPoints.size() - 1; i++) {
+                canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY1(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY1(), mPaint);
+            }
         }
-        if (color2 != 0) {
+        if (color2 != 0&& mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
             mPaint.setColor(color2);
-            canvas.drawPath(mPath2, mPaint);
+            for (int i = 0; i < mPoints.size() - 1; i++) {
+                canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY2(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY2(), mPaint);
+            }
         }
-        if (color3 != 0) {
+        if (color3 != 0&& mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
             mPaint.setColor(color3);
-            canvas.drawPath(mPath3, mPaint);
+            for (int i = 0; i < mPoints.size() - 1; i++) {
+                canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY3(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY3(), mPaint);
+            }
         }
-        if (color4 != 0) {
+        if (color4 != 0&& mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
             mPaint.setColor(color4);
-            canvas.drawPath(mPath4, mPaint);
+            for (int i = 0; i < mPoints.size() - 1; i++) {
+                canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY4(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY4(), mPaint);
+            }
         }
         mPaint.setStyle(Paint.Style.FILL);
         if (currentPressed != -1) {
@@ -241,13 +207,6 @@ public class BarChart extends View {
 
 
         }
-    }
-
-    private void resetPath() {
-        mPath1.reset();
-        mPath2.reset();
-        mPath3.reset();
-        mPath4.reset();
     }
 
     private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius, boolean isNeedAlpha) {
@@ -381,11 +340,11 @@ public class BarChart extends View {
         /**
          * X轴文本
          */
-        private String xText;
+        private String xText = "";
         /**
          * X轴缩略文本(X轴默认显示此文本)
          */
-        private String xAbbrText;
+        private String xAbbrText = "";
         /**
          * x轴坐标
          */
