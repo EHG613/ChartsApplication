@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.codyy.mobile.support.chart.GradientLineChart;
+
 /**
  * Created by lijian on 2018/3/2.
  */

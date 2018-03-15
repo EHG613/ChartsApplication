@@ -1,4 +1,4 @@
-package com.codyy.charts.chartsapplication;
+package com.codyy.mobile.support.chart;
 
 import android.annotation.TargetApi;
 import android.content.Context;

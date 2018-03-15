@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.codyy.mobile.support.chart.BarChart;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

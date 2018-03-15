@@ -13,7 +13,7 @@
         <!--android:textSize="9sp"-->
         <!--android:textColor="@android:color/black"-->
         <!--android:layout_height="wrap_content"/>-->
-    <com.codyy.charts.chartsapplication.GraphChart
+    <com.codyy.mobile.support.chart.GraphChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"

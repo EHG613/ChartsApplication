@@ -7,7 +7,7 @@
                                              android:background="#fff"
                                              tools:context="com.codyy.charts.chartsapplication.DashBoardActivity">
 
-    <com.codyy.charts.chartsapplication.CirclePercentChart
+    <com.codyy.mobile.support.chart.CirclePercentChart
         android:id="@+id/chart"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.codyy.charts.chartsapplication.CirclePercentChart
+    <com.codyy.mobile.support.chart.CirclePercentChart
         android:id="@+id/chart4"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -39,7 +39,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chart"/>
 
-    <com.codyy.charts.chartsapplication.DoubleCirclePercentChart
+    <com.codyy.mobile.support.chart.DoubleCirclePercentChart
         android:id="@+id/chart2"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -52,7 +52,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart4"/>
 
-    <com.codyy.charts.chartsapplication.DoubleCirclePercentChart
+    <com.codyy.mobile.support.chart.DoubleCirclePercentChart
         android:id="@+id/chart3"
         android:layout_width="200dp"
         android:layout_height="200dp"

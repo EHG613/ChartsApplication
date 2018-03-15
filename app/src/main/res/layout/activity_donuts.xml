@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.codyy.charts.chartsapplication.DonutsChart
+        <com.codyy.mobile.support.chart.DonutsChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.codyy.charts.chartsapplication.DonutsChart
+        <com.codyy.mobile.support.chart.DonutsChart
             android:id="@+id/chart2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/chart"/>
 
-        <com.codyy.charts.chartsapplication.DonutsChart
+        <com.codyy.mobile.support.chart.DonutsChart
             android:id="@+id/chart3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

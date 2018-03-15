@@ -1,5 +1,7 @@
 package com.codyy.charts.chartsapplication;
 
+import com.codyy.mobile.support.chart.CalcUtil;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -44,7 +46,7 @@ public class ExampleUnitTest {
         float[] angles=CalcUtil.calcAngle(cx,cy,sx,sy,752,166);
         float[] angles1=CalcUtil.calcAngle(cx,cy,sx,sy,691,523);
         float[] angles2=CalcUtil.calcAngle(cx,cy,sx,sy,553,577);
-        float[] angles3=CalcUtil.calcAngle(cx,cy,sx,sy,289,211);
+        float[] angles3= CalcUtil.calcAngle(cx,cy,sx,sy,289,211);
         float[] angles4=CalcUtil.calcAngle(cx,cy,sx,sy,cx,cy+r);
         float[] angles5=CalcUtil.calcAngle(cx,cy,sx,sy,526,582);
         System.out.println(Arrays.toString(angles));

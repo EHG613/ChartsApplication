@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.codyy.mobile.support.chart.HalfDashBoardChart;
+
 public class DashBoardActivity extends AppCompatActivity {
     private EditText mEditText;
     private HalfDashBoardChart mHalfDashBoardChart;

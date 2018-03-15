@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.codyy.mobile.support.chart.Donuts;
+import com.codyy.mobile.support.chart.DonutsChart;
+
 import java.util.ArrayList;
 import java.util.List;
 

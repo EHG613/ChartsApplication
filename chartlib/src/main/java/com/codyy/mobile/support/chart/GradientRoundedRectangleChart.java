@@ -1,4 +1,4 @@
-package com.codyy.charts.chartsapplication;
+package com.codyy.mobile.support.chart;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.codyy.charts.chartsapplication.BarChartBackgroundView
+    <com.codyy.mobile.support.chart.BarChartBackgroundView
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="@id/chart"
         app:layout_constraintTop_toTopOf="@id/chart">
 
-        <com.codyy.charts.chartsapplication.BarChart
+        <com.codyy.mobile.support.chart.BarChart
             android:id="@+id/bar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <!--<com.codyy.charts.chartsapplication.BarChart-->
+    <!--<com.codyy.mobile.support.chart.BarCharthar-->
         <!--android:id="@+id/bar"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="200dp"-->

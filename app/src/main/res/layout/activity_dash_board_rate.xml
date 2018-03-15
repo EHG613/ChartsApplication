@@ -6,7 +6,7 @@
                                              android:layout_height="match_parent"
                                              tools:context="com.codyy.charts.chartsapplication.DashBoardRateChartActivity">
 
-    <com.codyy.charts.chartsapplication.DashBoardRateChart
+    <com.codyy.mobile.support.chart.DashBoardRateChart
         android:id="@+id/chart"
         android:layout_width="250dp"
         android:layout_height="250dp"

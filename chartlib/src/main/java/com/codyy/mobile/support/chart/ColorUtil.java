@@ -1,4 +1,4 @@
-package com.codyy.charts.chartsapplication;
+package com.codyy.mobile.support.chart;
 
 /**
  * Created by lijian on 2018/2/27.

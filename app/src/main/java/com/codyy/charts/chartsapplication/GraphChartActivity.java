@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.codyy.mobile.support.chart.GraphChart;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

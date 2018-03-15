@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.codyy.mobile.support.chart.DisplayUtil;
+
 /**
  * Created by sudan on 2018/2/23.
  */

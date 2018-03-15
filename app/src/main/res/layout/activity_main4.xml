@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.codyy.charts.chartsapplication.DashBoardActivity">
 
-    <com.codyy.charts.chartsapplication.SweepGradientView
+    <com.codyy.mobile.support.chart.SweepGradientView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

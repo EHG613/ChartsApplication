@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.codyy.mobile.support.chart.DashBoardRateChart;
+
 /**
  * Created by lijian on 2018/3/1.
  */

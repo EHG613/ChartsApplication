@@ -6,7 +6,7 @@
                                              android:layout_height="match_parent"
                                              tools:context="com.codyy.charts.chartsapplication.DashBoardActivity">
 
-    <com.codyy.charts.chartsapplication.HalfDashBoardChart
+    <com.codyy.mobile.support.chart.HalfDashBoardChart
         android:id="@+id/half_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <com.codyy.charts.chartsapplication.HalfDashBoardChart
+    <com.codyy.mobile.support.chart.HalfDashBoardChart
         android:id="@+id/half_view2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

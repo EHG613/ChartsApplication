@@ -1,4 +1,4 @@
-package com.codyy.charts.chartsapplication;
+package com.codyy.mobile.support.chart;
 
 import java.math.BigDecimal;
 
