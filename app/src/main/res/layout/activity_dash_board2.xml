@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/half_view"
         android:layout_marginTop="10dp"
-        app:halfDashLength="15dp"
+        app:halfDashLength="14dp"
         app:halfPadding="30dp"
         app:halfRadius="100dp"
         app:layout_constraintLeft_toLeftOf="parent"

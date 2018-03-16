@@ -95,7 +95,7 @@ public class HalfDashBoardChart extends View {
         mPaintText.setTextAlign(Paint.Align.LEFT);
         mPaintText.setAntiAlias(true);
         mPaintText.setStyle(Paint.Style.FILL);
-        mPaintText.setColor(Color.parseColor("#989EBD"));
+        mPaintText.setColor(Color.parseColor("#939fbe"));
         mPaintText.setTextSize(sp2px(10f));
         TextPaint paintTextSmall = new TextPaint();
         paintTextSmall.setAntiAlias(true);
@@ -170,11 +170,11 @@ public class HalfDashBoardChart extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mRectF.set(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);
-        mPaint.setColor(Color.parseColor("#E8E8E8"));
-        mPaint.setStrokeWidth(15f);
+        mPaint.setColor(Color.parseColor("#E6E7E8"));
+        mPaint.setStrokeWidth(dip2px(6f));
         mPaint.setStyle(Paint.Style.STROKE);
         canvas.drawArc(mRectF, 179, 182, false, mPaint);
-        mPaint.setStrokeWidth(15f);
+        mPaint.setStrokeWidth(dip2px(6f));
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setShader(mShader);
         canvas.rotate(179, mCenterX, mCenterY);
@@ -186,28 +186,29 @@ public class HalfDashBoardChart extends View {
         float y1 = coordinates[1];
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth(6f);
-        canvas.drawCircle(x1, y1, 15, mPaint);
+        mPaint.setStrokeWidth(dip2px(2f));
+        canvas.drawCircle(x1, y1, dip2px(6f), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(Color.parseColor(ColorUtil.getCurrentColor("#57C0FA", "#1209FC", mFloatSweepAngle / 180 * 100f)));
-        canvas.drawCircle(x1, y1, 15, mPaint);
-        int smallRadius = mRadius - dip2px(10f);
+        canvas.drawCircle(x1, y1, dip2px(6f), mPaint);
+        int smallRadius = mRadius - dip2px(16f);
         mRectF.set(mCenterX - smallRadius, mCenterY - smallRadius, mCenterX + smallRadius, mCenterY + smallRadius);
-        mPaint.setStrokeWidth(10f);
+        mPaint.setStrokeWidth(dip2px(4f));
         mPaint.setColor(Color.parseColor("#E8E8E8"));
         mPaint.setStyle(Paint.Style.STROKE);
         canvas.drawArc(mRectF, 179, 182, false, mPaint);
 //        canvas.drawLine(0,mCenterY,getWidth(),mCenterY,mPaint);
-        int startX = mCenterX - mRadius + dip2px(10f);
+        int startX = mCenterX - mRadius + dip2px(16f);
         int startY = mCenterY;
         mPaint.setColor(Color.parseColor("#E8E8E8"));
-        mPaint.setStrokeWidth(2f);
+        mPaint.setStrokeWidth(dip2px(1f));
         mPaint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < 61; i++) {
             canvas.drawLine(startX, startY, startX + mDashLength, startY, mPaint);
             canvas.rotate(3f, mCenterX, mCenterY);
         }
         canvas.rotate(177, mCenterX, mCenterY);
+        mPaintText.setColor(Color.parseColor("#939fbe"));
         canvas.drawText(mBottomText, mCenterX - mPaintText.measureText(mBottomText) / 2, mCenterY, mPaintText);
         mPaintText.setTextSize(sp2px(22f));
         mPaintText.setColor(Color.parseColor("#666666"));
