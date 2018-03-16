@@ -180,7 +180,7 @@ public class DonutsChart extends View {
             }
             for (Donuts donut : mDonutsInner) {
                 if (mRadiusInnerCircleShowDivider) {
-                    mPaint.setStrokeWidth(dip2px(1f));
+                    mPaint.setStrokeWidth(dip2px(2f));
                     mPaint.setColor(Color.WHITE);
                     float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner, startInnerAngle);
                     canvas.drawLine(mCenterX, mCenterY, coordinates[0], coordinates[1], mPaint);
