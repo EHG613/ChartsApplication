@@ -42,6 +42,8 @@
         <attr name="gradientRoundedRectangleStartColor" format="color"/>
         <attr name="gradientRoundedRectangleEndColor" format="color"/>
         <attr name="gradientRoundedRectangleBottomText" format="string"/>
+        <attr name="gradientRoundedRectangleTextSuffix" format="string"/>
+        <attr name="gradientRoundedRectangleTextSuffixSize" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="CirclePercentChart">
         <attr name="circlePercentStartColor" format="color"/>

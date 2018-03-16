@@ -13,6 +13,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by lijian on 2018/2/28.
@@ -23,6 +24,8 @@ public class GradientRoundedRectangleChart extends View {
     private int endColor;
     private String mBottomText;
     private String mTopText;
+    private String suffix;
+    private int suffixSize;
 
     public GradientRoundedRectangleChart(Context context) {
         this(context, null);
@@ -38,6 +41,8 @@ public class GradientRoundedRectangleChart extends View {
         startColor = typedArray.getColor(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleStartColor, Color.parseColor("#FD6097"));
         endColor = typedArray.getColor(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleEndColor, Color.parseColor("#FDA571"));
         mBottomText = typedArray.getString(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleBottomText);
+        suffix = typedArray.getString(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleTextSuffix);
+        suffixSize=typedArray.getDimensionPixelSize(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleTextSuffixSize,sp2px(10f));
         typedArray.recycle();
         init();
     }
@@ -45,6 +50,7 @@ public class GradientRoundedRectangleChart extends View {
     private Paint mPaint;
     private RectF mRectF;
     private TextPaint mTextPaintTop;
+    private TextPaint mTextPaintTopSuffix;
     private TextPaint mTextPaintBottom;
 
     private void init() {
@@ -60,7 +66,11 @@ public class GradientRoundedRectangleChart extends View {
         mTextPaintTop.setAntiAlias(true);
         mTextPaintTop.setColor(Color.WHITE);
         mTextPaintTop.setTextAlign(Paint.Align.CENTER);
-        mTextPaintTop.setTextSize(dip2px(18f));
+        mTextPaintTop.setTextSize(dip2px(20f));
+        mTextPaintTopSuffix = new TextPaint();
+        mTextPaintTopSuffix.setAntiAlias(true);
+        mTextPaintTopSuffix.setColor(Color.WHITE);
+        mTextPaintTopSuffix.setTextAlign(Paint.Align.LEFT);
     }
 
     @Override
@@ -72,12 +82,18 @@ public class GradientRoundedRectangleChart extends View {
         mRectF.bottom = getHeight();
         mPaint.setShader(mShader);
         canvas.drawRoundRect(mRectF, dip2px(5f), dip2px(5f), mPaint);
-        canvas.drawText(mBottomText, mCenterX, mCenterY + dip2px(18f), mTextPaintBottom);
+        int padding = dip2px(5f);
+        canvas.drawText(mBottomText, mCenterX, mCenterY + padding - (Math.abs(mTextPaintBottom.getFontMetrics().top) - Math.abs(mTextPaintBottom.getFontMetrics().ascent)) + Math.abs(mTextPaintBottom.getFontMetrics().ascent), mTextPaintBottom);
         if (!TextUtils.isEmpty(mTopText)) {
 //            mTextPaintTop.setShadowLayer(2,2,2,Color.WHITE);
 //            setLayerType(LAYER_TYPE_SOFTWARE,mTextPaintTop);
-            canvas.drawText(mTopText, mCenterX, mCenterY - dip2px(2f), mTextPaintTop);
+            canvas.drawText(mTopText, mCenterX, mCenterY - padding + (Math.abs(mTextPaintTop.getFontMetrics().bottom) - Math.abs(mTextPaintTop.getFontMetrics().descent)), mTextPaintTop);
+            if(!TextUtils.isEmpty(suffix)){
+                mTextPaintTopSuffix.setTextSize(suffixSize);
+                canvas.drawText(suffix, mCenterX+mTextPaintTop.measureText(mTopText)/2, mCenterY - padding + (Math.abs(mTextPaintTop.getFontMetrics().bottom) - Math.abs(mTextPaintTop.getFontMetrics().descent)), mTextPaintTopSuffix);
+            }
         }
+
     }
 
     public void setTopText(String topText) {
@@ -98,8 +114,8 @@ public class GradientRoundedRectangleChart extends View {
 //        mShader = new LinearGradient(0, 0, getMeasuredWidth(), getMeasuredHeight(), startColor, endColor, Shader.TileMode.CLAMP);
         CalcUtil.Circle circle = new CalcUtil.Circle(mCenterX, mCenterY, (float) CalcUtil.lineSpace(mCenterX, mCenterY, mCenterX * 2, 0));
         CalcUtil.Point point = circle.computeCoordinates((CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1] + 90) * -1);
-        CalcUtil.Point point2 = circle.computeCoordinates(90-CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1]);
-        mShader = new LinearGradient(point.x, point.y, point2.x,point2.y, startColor, endColor, Shader.TileMode.CLAMP);
+        CalcUtil.Point point2 = circle.computeCoordinates(90 - CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1]);
+        mShader = new LinearGradient(point.x, point.y, point2.x, point2.y, startColor, endColor, Shader.TileMode.CLAMP);
 //        float x1=0,y1=0,x2=mCenterX,y2=mCenterY;
 //        int A1=15,A2=75;
 //        float ctg= (float) (1f/Math.tan(15f));
