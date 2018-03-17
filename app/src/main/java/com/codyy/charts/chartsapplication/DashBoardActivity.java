@@ -23,13 +23,13 @@ public class DashBoardActivity extends AppCompatActivity {
         mHalfDashBoardChart.setBottomText("设备总量");
         mHalfDashBoardChart.setTopText("344555");
         mHalfDashBoardChart2.setBottomText("周使用率");
-        mHalfDashBoardChart2.setTopText("98%");
+        mHalfDashBoardChart2.setTopText("98");
 //        Log.d("DashBoardActivity",DisplayUtil.getScreenWidth(this)+":"+DisplayUtil.getScreenHeight(this));
     }
 
     public void refresh(View view) {
         mHalfDashBoardChart.setPercent(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
         mHalfDashBoardChart2.setPercent(Float.parseFloat(TextUtils.isEmpty(mEditText.getText())?"0":mEditText.getText().toString()));
-        mHalfDashBoardChart2.setTopText(mEditText.getText().toString()+"%");
+        mHalfDashBoardChart2.setTopText(mEditText.getText().toString());
     }
 }
