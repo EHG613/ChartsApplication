@@ -116,6 +116,7 @@
         <attr name="polyTextSize" format="dimension"/>
         <attr name="polyTextPadding" format="dimension"/>
         <attr name="polyTextOutPadding" format="dimension"/>
+        <attr name="polyTextDrawablePadding" format="dimension"/>
         <attr name="polyTextOrientation"><!--view文本绘制方向-->
             <enum name="horizontal" value="0"/><!--默认水平-->
             <enum name="vertical" value="1"/><!--垂直方向-->

@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextPaint;
+import android.util.Log;
 import android.view.View;
+
+import com.codyy.mobile.support.chart.DisplayUtil;
 
 /**
  * Created by lijian on 2018/3/2.
@@ -15,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_m);
+        TextPaint textPaint=new TextPaint();
+        textPaint.setTextSize(DisplayUtil.dip2px(this,16f));
+        Log.d("MainActivity",Math.abs(textPaint.getFontMetrics().ascent)+Math.abs(textPaint.getFontMetrics().descent)+"");
     }
 
     public void circlePercent(View view) {

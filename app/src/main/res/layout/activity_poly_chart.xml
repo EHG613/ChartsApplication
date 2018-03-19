@@ -13,6 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:polyTextColumns="2"
+        app:polyTextDrawablePadding="6dp"
         app:polyTextOrientation="vertical"
         app:polyTextOutPadding="30dp"/>
 

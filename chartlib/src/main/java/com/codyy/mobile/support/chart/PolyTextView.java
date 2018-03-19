@@ -37,8 +37,8 @@ public class PolyTextView extends View {
         textPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextPadding, dip2px(8f));
         textOutPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextOutPadding, dip2px(8f));
         textOrientation = array.getInt(R.styleable.PolyTextView_polyTextOrientation, 0);
+        drawablePadding =array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextDrawablePadding, dip2px(6f));
         array.recycle();
-        dimensionPixelSize6dp = dip2px(6f);
         circleRadius = dip2px(4f);
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
@@ -68,7 +68,7 @@ public class PolyTextView extends View {
     private float textHeight;
     private float textTop;
     private float textBottom;
-    private int dimensionPixelSize6dp;
+    private int drawablePadding;
     private int textOrientation;
     private Paint mCirclePaint;
     private TextPaint mTextPaint;
@@ -108,7 +108,7 @@ public class PolyTextView extends View {
                 count = 0;
                 int viewWidth = width / columns - textOutPadding * 2;
                 for (PolyText text : mPolyTexts) {
-                    float viewRealWidth = circleRadius * 2 + dimensionPixelSize6dp + mTextPaint.measureText(text.getText());
+                    float viewRealWidth = circleRadius * 2 + drawablePadding + mTextPaint.measureText(text.getText());
                     if (!TextUtils.isEmpty(text.getTextSecond())) {
                         viewRealWidth += mTextPaint.measureText(text.getTextSecond());
                         viewRealWidth += textPadding;
@@ -130,19 +130,11 @@ public class PolyTextView extends View {
             for (int i = 0; i < mPolyTexts.size(); i++) {
                 mPolyTexts.get(i).setCircleCx(startCx);
                 mPolyTexts.get(i).setCircleCy(startCy);
-                mPolyTexts.get(i).setTextStartX(startCx + circleRadius + dimensionPixelSize6dp);
+                mPolyTexts.get(i).setTextStartX(startCx + circleRadius + drawablePadding);
                 if (!TextUtils.isEmpty(mPolyTexts.get(i).getTextSecond())) {
-                    mPolyTexts.get(i).setTextSecondStartX(startCx + circleRadius + dimensionPixelSize6dp + mTextPaint.measureText(mPolyTexts.get(i).getText()) + textPadding * 2);
+                    mPolyTexts.get(i).setTextSecondStartX(startCx + circleRadius + drawablePadding + mTextPaint.measureText(mPolyTexts.get(i).getText()) + textPadding * 2);
                 }
                 mPolyTexts.get(i).setTextBaseLineY(startTextY);
-//                if (startTextY + translateY > viewHeight) {//换列显示
-//                    startTextY = textPadding + textTop;
-//                    startCx += viewWidth;
-//                    startCy = textHeight / 2 + textPadding;
-//                } else {//继续
-//                    startTextY += translateY;
-//                    startCy += translateY;
-//                }
                 if (textOrientation == 0) {//水平方向
                     if (startCx + viewWidth > width) {//换行显示
                         startCx = textOutPadding + circleRadius;
