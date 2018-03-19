@@ -24,6 +24,7 @@
         <activity android:name=".DonutsActivity"/>
         <activity android:name=".GraphChartActivity"/>
         <activity android:name=".BarChartActivity"/>
+        <activity android:name=".PolyChartActivity"/>
     </application>
 
 </manifest>

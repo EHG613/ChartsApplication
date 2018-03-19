@@ -48,4 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public void bar(View view) {
         startActivity(new Intent(this, BarChartActivity.class));
     }
+
+    public void poly(View view) {
+        startActivity(new Intent(this,PolyChartActivity.class));
+    }
 }

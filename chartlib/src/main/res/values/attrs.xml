@@ -110,4 +110,15 @@
         <attr name="donutsRadiusOuterCircleShowText" format="boolean"/>
         <attr name="donutsRadiusShowOuterLineText" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="PolyTextView">
+        <attr name="polyTextColumns" format="integer"/>
+        <attr name="polyTextColor" format="color"/>
+        <attr name="polyTextSize" format="dimension"/>
+        <attr name="polyTextPadding" format="dimension"/>
+        <attr name="polyTextOutPadding" format="dimension"/>
+        <attr name="polyTextOrientation"><!--view文本绘制方向-->
+            <enum name="horizontal" value="0"/><!--默认水平-->
+            <enum name="vertical" value="1"/><!--垂直方向-->
+        </attr>
+    </declare-styleable>
 </resources>

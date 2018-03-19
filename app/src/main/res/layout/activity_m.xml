@@ -78,6 +78,8 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:text="自适应文字"
+            android:onClick="poly"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 </LinearLayout>

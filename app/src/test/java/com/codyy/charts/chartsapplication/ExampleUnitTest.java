@@ -56,4 +56,11 @@ public class ExampleUnitTest {
         System.out.println(Arrays.toString(angles4));
         System.out.println(Arrays.toString(angles5));
     }
+    @Test
+    public void testMath(){
+        System.out.println(Math.ceil(0.1));
+        System.out.println(0%2);
+        System.out.println(Math.ceil(4/3f));
+        System.out.println(Math.floor(3/2f));
+    }
 }
