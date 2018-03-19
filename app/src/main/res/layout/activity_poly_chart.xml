@@ -27,4 +27,13 @@
         app:polyTextColumns="3"
         app:polyTextOrientation="horizontal"
         app:polyTextOutPadding="8dp"/>
+
+    <com.codyy.mobile.support.chart.RoundRectangleView
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"
+        app:roundRectangleColor="@color/colorAccent"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toBottomOf="@id/chart2"/>
 </android.support.constraint.ConstraintLayout>

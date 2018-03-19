@@ -122,4 +122,8 @@
             <enum name="vertical" value="1"/><!--垂直方向-->
         </attr>
     </declare-styleable>
+    <declare-styleable name="RoundRectangleView">
+        <attr name="roundRectangleRadius" format="dimension"/>
+        <attr name="roundRectangleColor" format="color"/>
+    </declare-styleable>
 </resources>
