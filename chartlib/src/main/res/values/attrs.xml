@@ -121,6 +121,9 @@
             <enum name="horizontal" value="0"/><!--默认水平-->
             <enum name="vertical" value="1"/><!--垂直方向-->
         </attr>
+        <attr name="polyTextBackgroundRadius" format="dimension"/>
+        <attr name="polyTextShowBackground" format="boolean"/>
+        <attr name="polyTextBackgroundColor" format="color"/>
     </declare-styleable>
     <declare-styleable name="RoundRectangleView">
         <attr name="roundRectangleRadius" format="dimension"/>

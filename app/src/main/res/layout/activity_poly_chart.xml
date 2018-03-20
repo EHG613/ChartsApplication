@@ -20,16 +20,21 @@
     <com.codyy.mobile.support.chart.PolyTextView
         android:id="@+id/chart2"
         android:layout_width="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chart"
         app:polyTextColumns="3"
+        app:polyTextShowBackground="true"
         app:polyTextOrientation="horizontal"
         app:polyTextOutPadding="8dp"/>
 
     <com.codyy.mobile.support.chart.RoundRectangleView
         android:layout_width="0dp"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="8dp"

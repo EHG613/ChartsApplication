@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -37,7 +38,10 @@ public class PolyTextView extends View {
         textPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextPadding, dip2px(8f));
         textOutPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextOutPadding, dip2px(8f));
         textOrientation = array.getInt(R.styleable.PolyTextView_polyTextOrientation, 0);
-        drawablePadding =array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextDrawablePadding, dip2px(6f));
+        drawablePadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextDrawablePadding, dip2px(6f));
+        showBackground = array.getBoolean(R.styleable.PolyTextView_polyTextShowBackground, false);
+        backgroundColor = array.getColor(R.styleable.PolyTextView_polyTextBackgroundColor, Color.parseColor("#f6f6f6"));
+        backgroundRadius = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextBackgroundRadius, dip2px(4f));
         array.recycle();
         circleRadius = dip2px(4f);
         mCirclePaint = new Paint();
@@ -51,11 +55,20 @@ public class PolyTextView extends View {
         textTop = Math.abs(mTextPaint.getFontMetrics().top);
         textBottom = Math.abs(mTextPaint.getFontMetrics().bottom);
         textHeight = textTop + textBottom;
+        mRectF=new RectF();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(showBackground){
+            mRectF.left=0;
+            mRectF.top=0;
+            mRectF.right=width;
+            mRectF.bottom=height;
+            mCirclePaint.setColor(backgroundColor);
+            canvas.drawRoundRect(mRectF,backgroundRadius,backgroundRadius,mCirclePaint);
+        }
         for (PolyText text : mPolyTexts) {
             mCirclePaint.setColor(text.getCircleColor());
             canvas.drawCircle(text.getCircleCx(), text.getCircleCy(), circleRadius, mCirclePaint);
@@ -64,6 +77,9 @@ public class PolyTextView extends View {
         }
     }
 
+    private boolean showBackground;
+    private float backgroundRadius;
+    private int backgroundColor;
     private float circleRadius;
     private float textHeight;
     private float textTop;
@@ -72,6 +88,7 @@ public class PolyTextView extends View {
     private int textOrientation;
     private Paint mCirclePaint;
     private TextPaint mTextPaint;
+    private RectF mRectF;
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -139,8 +156,8 @@ public class PolyTextView extends View {
                     if (startCx + viewWidth > width) {//换行显示
                         startCx = textOutPadding + circleRadius;
                         startTextY += translateY;
-                        startCy+= translateY;
-                    }else{
+                        startCy += translateY;
+                    } else {
                         startCx += viewWidth;
                     }
                 } else {//垂直方向
