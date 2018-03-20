@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 android {
     compileSdkVersion 26
-
+    resourcePrefix "chartlib_"
 
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 11
-        versionName "1.0.10"
+        versionCode 12
+        versionName "1.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
