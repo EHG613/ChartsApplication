@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class DonutsChart extends View {
         for (Donuts f : donuts) {
             total += f.getPercent();
         }
-        if (total != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
+        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
         mDonuts.clear();
         mDonuts.addAll(donuts);
         invalidate();
@@ -110,7 +111,7 @@ public class DonutsChart extends View {
         for (Donuts f : donuts) {
             total += f.getPercent();
         }
-        if (total != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
+        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
         mDonutsInner.clear();
         mDonutsInner.addAll(donuts);
         invalidate();

@@ -363,10 +363,10 @@ public class BarChart extends View {
         private int y2Color = Color.parseColor("#3ed5aa");
         private int y3 = -1;
         private int y3Val;
-        private int y3Color = Color.parseColor("#24c8f3");
+        private int y3Color = Color.parseColor("#8940fa");
         private int y4 = -1;
         private int y4Val;
-        private int y4Color = Color.parseColor("#8940fa");
+        private int y4Color = Color.parseColor("#24c8f3");
         private Path path;
         private LinearGradient linearGradient;
         private int barWidth;
