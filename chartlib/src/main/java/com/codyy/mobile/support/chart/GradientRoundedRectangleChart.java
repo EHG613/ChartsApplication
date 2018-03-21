@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 public class GradientRoundedRectangleChart extends View {
     private int startColor;
+    private float angle;
     private int endColor;
     private String mBottomText;
     private String mTopText;
@@ -42,7 +43,8 @@ public class GradientRoundedRectangleChart extends View {
         endColor = typedArray.getColor(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleEndColor, Color.parseColor("#FDA571"));
         mBottomText = typedArray.getString(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleBottomText);
         suffix = typedArray.getString(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleTextSuffix);
-        suffixSize=typedArray.getDimensionPixelSize(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleTextSuffixSize,sp2px(10f));
+        angle=typedArray.getFloat(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleAngle,135);
+        suffixSize = typedArray.getDimensionPixelSize(R.styleable.GradientRoundedRectangleChart_gradientRoundedRectangleTextSuffixSize, sp2px(10f));
         typedArray.recycle();
         init();
     }
@@ -88,9 +90,9 @@ public class GradientRoundedRectangleChart extends View {
 //            mTextPaintTop.setShadowLayer(2,2,2,Color.WHITE);
 //            setLayerType(LAYER_TYPE_SOFTWARE,mTextPaintTop);
             canvas.drawText(mTopText, mCenterX, mCenterY - padding + (Math.abs(mTextPaintTop.getFontMetrics().bottom) - Math.abs(mTextPaintTop.getFontMetrics().descent)), mTextPaintTop);
-            if(!TextUtils.isEmpty(suffix)){
+            if (!TextUtils.isEmpty(suffix)) {
                 mTextPaintTopSuffix.setTextSize(suffixSize);
-                canvas.drawText(suffix, mCenterX+mTextPaintTop.measureText(mTopText)/2, mCenterY - padding + (Math.abs(mTextPaintTop.getFontMetrics().bottom) - Math.abs(mTextPaintTop.getFontMetrics().descent)), mTextPaintTopSuffix);
+                canvas.drawText(suffix, mCenterX + mTextPaintTop.measureText(mTopText) / 2, mCenterY - padding + (Math.abs(mTextPaintTop.getFontMetrics().bottom) - Math.abs(mTextPaintTop.getFontMetrics().descent)), mTextPaintTopSuffix);
             }
         }
 
@@ -112,10 +114,10 @@ public class GradientRoundedRectangleChart extends View {
 //        1/Math.tan(theta)
 //        mShader = new LinearGradient(0 + getMeasuredWidth() / 4, mCenterY - getMeasuredWidth() / 2, getMeasuredWidth() - getMeasuredWidth() / 4, getMeasuredHeight() + getMeasuredWidth() / 2, startColor, endColor, Shader.TileMode.CLAMP);
 //        mShader = new LinearGradient(0, 0, getMeasuredWidth(), getMeasuredHeight(), startColor, endColor, Shader.TileMode.CLAMP);
-        CalcUtil.Circle circle = new CalcUtil.Circle(mCenterX, mCenterY, (float) CalcUtil.lineSpace(mCenterX, mCenterY, mCenterX * 2, 0));
-        CalcUtil.Point point = circle.computeCoordinates((CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1] + 90) * -1);
-        CalcUtil.Point point2 = circle.computeCoordinates(90 - CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1]);
-        mShader = new LinearGradient(point.x, point.y, point2.x, point2.y, startColor, endColor, Shader.TileMode.CLAMP);
+//        CalcUtil.Circle circle = new CalcUtil.Circle(mCenterX, mCenterY, (float) CalcUtil.lineSpace(mCenterX, mCenterY, mCenterX * 2, 0));
+//        CalcUtil.Point point = circle.computeCoordinates((CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1] + 90) * -1);
+//        CalcUtil.Point point2 = circle.computeCoordinates(90 - CalcUtil.calcAngle(mCenterX, mCenterY, mCenterX * 2, 0, mCenterX * 2, mCenterY)[1]);
+//        mShader = new LinearGradient(point.x, point.y, point2.x, point2.y, startColor, endColor, Shader.TileMode.CLAMP);
 //        float x1=0,y1=0,x2=mCenterX,y2=mCenterY;
 //        int A1=15,A2=75;
 //        float ctg= (float) (1f/Math.tan(15f));
@@ -125,6 +127,16 @@ public class GradientRoundedRectangleChart extends View {
 //        float x4 =(x1*ctg*A2 + x2*ctg*A1 + y2 - y1)/(ctg*A1 + ctg*A2);
 //        float y4 =(y1*ctg*A2 + y2*ctg*A1 + x1 - x2)/(ctg*A1 + ctg*A2);
 //        mShader = new LinearGradient(x3,y3,x4,y4, startColor, endColor, Shader.TileMode.CLAMP);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        double angleInRadians = Math.toRadians(180-angle);
+        double length = CalcUtil.lineSpace(0, 0, w, h);
+        float endX = (float) (Math.cos(angleInRadians) * length);
+        float endY = (float) (Math.sin(angleInRadians) * length);
+        mShader = new LinearGradient(0, 0, endX, endY, startColor, endColor, Shader.TileMode.CLAMP);
     }
 
     private int mCenterX;
