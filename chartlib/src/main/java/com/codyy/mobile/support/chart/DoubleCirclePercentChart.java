@@ -10,6 +10,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
@@ -114,11 +115,14 @@ public class DoubleCirclePercentChart extends View {
         if (!TextUtils.isEmpty(mTopText)) {
             mTextPaintBottom.setTextSize(topTextSize);
             mTextPaintBottom.setColor(topTextColor);
+            mTextPaintBottom.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "bebasneue.ttf"));
             canvas.drawText(TextUtils.isEmpty(mTopText) ? "" : mTopText, mCenterX, mCenterY, mTextPaintBottom);
+        }else{
+            mTextPaintBottom.setTypeface(null);
         }
         mTextPaintBottom.setColor(bottomTextColor);
         mTextPaintBottom.setTextSize(bottomTextSize);
-        canvas.drawText(TextUtils.isEmpty(mBottomText) ? "" : mBottomText, mCenterX, mCenterY +dip2px(22), mTextPaintBottom);
+        canvas.drawText(TextUtils.isEmpty(mBottomText) ? "" : mBottomText, mCenterX, mCenterY + dip2px(22), mTextPaintBottom);
         if (isGradient) {
             mPaintC.setShader(mShader);
         } else {
