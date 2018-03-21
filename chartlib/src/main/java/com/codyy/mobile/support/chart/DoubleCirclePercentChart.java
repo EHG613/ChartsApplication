@@ -51,7 +51,7 @@ public class DoubleCirclePercentChart extends View {
         endColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCirclePercentEndColor, Color.parseColor("#FDA571"));
         startColor2 = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCirclePercentStartColor2, Color.parseColor("#FD6097"));
         endColor2 = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCirclePercentEndColor2, Color.parseColor("#FDA571"));
-        circleBackgroundColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleBackgroundColor, Color.parseColor("#E6E7E9"));
+        circleBackgroundColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleBackgroundColor, Color.parseColor("#278ded"));
         topTextColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleTopTextColor, Color.parseColor("#626262"));
         topTextSize = typedArray.getDimensionPixelSize(R.styleable.DoubleCirclePercentChart_doubleCircleTopTextSize, sp2px(36f));
         bottomTextSize = typedArray.getDimensionPixelSize(R.styleable.DoubleCirclePercentChart_doubleCircleBottomTextSize, sp2px(15f));
@@ -98,19 +98,25 @@ public class DoubleCirclePercentChart extends View {
         mRectF.top = mCenterY - mRadius;
         mRectF.right = mCenterX + mRadius;
         mRectF.bottom = mCenterY + mRadius;
+        mPaint.setStrokeWidth(dip2px(6f));
+        mPaint.setColor(circleBackgroundColor);
         canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
         canvas.drawCircle(mCenterX, mCenterY, mRadius2, mPaint);
-//        canvas.save();
         if (!isGradient) {
 //            mPaint.setShadowLayer(2, 1, 0, circleBackgroundColor);
 //            mPaint.setStrokeWidth(dip2px(2f));
 //            mPaint.setColor(Color.RED);
-            mPaint.setMaskFilter(new BlurMaskFilter(dip2px(1), BlurMaskFilter.Blur.INNER));
+//            mPaint.setMaskFilter(new BlurMaskFilter(dip2px(1), BlurMaskFilter.Blur.INNER));
             //设置浮雕滤镜效果，参数1：光源指定方向；参数2:环境光亮度，取值0-1,值越小越暗；参数3：镜面高光反射系数，值越小反射越强；参数4：模糊延伸半径
 //            mPaint.setMaskFilter(mEmbossMaskFilter);
-            setLayerType(LAYER_TYPE_SOFTWARE, mPaint);
+//            setLayerType(LAYER_TYPE_SOFTWARE, mPaint);
+//            canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
+//            canvas.drawCircle(mCenterX, mCenterY, mRadius2, mPaint);
+            mPaint.setStrokeWidth(dip2px(5f));
+            mPaint.setColor(Color.parseColor("#2a9cf6"));
             canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
             canvas.drawCircle(mCenterX, mCenterY, mRadius2, mPaint);
+            mPaint.setStrokeWidth(dip2px(6f));
         }
         if (!TextUtils.isEmpty(mTopText)) {
             mTextPaintBottom.setTextSize(topTextSize);

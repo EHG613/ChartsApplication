@@ -61,7 +61,7 @@
             android:id="@+id/chart3"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            app:doubleCircleBackgroundColor="#329DF4"
+            app:doubleCircleBackgroundColor="#278ded"
             app:doubleCircleBottomTextColor="#B9DDFE"
             app:doubleCircleIsGradient="false"
             app:doubleCirclePercentBottomText="装备数"
