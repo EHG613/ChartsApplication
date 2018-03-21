@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
@@ -84,6 +85,7 @@ public class GradientRoundedRectangleChart extends View {
         mRectF.bottom = getHeight();
         mPaint.setShader(mShader);
         canvas.drawRoundRect(mRectF, dip2px(5f), dip2px(5f), mPaint);
+//        canvas.drawRect(mRectF,mPaint);
         int padding = dip2px(5f);
         canvas.drawText(mBottomText, mCenterX, mCenterY + padding - (Math.abs(mTextPaintBottom.getFontMetrics().top) - Math.abs(mTextPaintBottom.getFontMetrics().ascent)) + Math.abs(mTextPaintBottom.getFontMetrics().ascent), mTextPaintBottom);
         if (!TextUtils.isEmpty(mTopText)) {
@@ -133,10 +135,10 @@ public class GradientRoundedRectangleChart extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         double angleInRadians = Math.toRadians(180-angle);
-        double length = CalcUtil.lineSpace(0, 0, w, h);
-        float endX = (float) (Math.cos(angleInRadians) * length);
-        float endY = (float) (Math.sin(angleInRadians) * length);
+        float endX = (float) (Math.cos(angleInRadians) * w);
+        float endY = (float) (Math.sin(angleInRadians) * w);
         mShader = new LinearGradient(0, 0, endX, endY, startColor, endColor, Shader.TileMode.CLAMP);
+//        mShader = new RadialGradient(dip2px(5f), dip2px(5f),dip2px(), startColor, endColor, Shader.TileMode.CLAMP);
     }
 
     private int mCenterX;
