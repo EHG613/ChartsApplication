@@ -32,6 +32,8 @@ public class DoubleCirclePercentChart extends View {
     private String mBottomText;
     private String mTopText;
     private boolean isGradient;
+    private int topTextSize;
+    private int bottomTextSize;
 
     public DoubleCirclePercentChart(Context context) {
         this(context, null);
@@ -50,6 +52,8 @@ public class DoubleCirclePercentChart extends View {
         endColor2 = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCirclePercentEndColor2, Color.parseColor("#FDA571"));
         circleBackgroundColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleBackgroundColor, Color.parseColor("#E6E7E9"));
         topTextColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleTopTextColor, Color.parseColor("#626262"));
+        topTextSize = typedArray.getDimensionPixelSize(R.styleable.DoubleCirclePercentChart_doubleCircleTopTextSize, sp2px(36f));
+        bottomTextSize = typedArray.getDimensionPixelSize(R.styleable.DoubleCirclePercentChart_doubleCircleBottomTextSize, sp2px(15f));
         bottomTextColor = typedArray.getColor(R.styleable.DoubleCirclePercentChart_doubleCircleBottomTextColor, Color.parseColor("#666666"));
         mBottomText = typedArray.getString(R.styleable.DoubleCirclePercentChart_doubleCirclePercentBottomText);
         isGradient = typedArray.getBoolean(R.styleable.DoubleCirclePercentChart_doubleCircleIsGradient, true);
@@ -69,15 +73,15 @@ public class DoubleCirclePercentChart extends View {
         mRectF = new RectF();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setStrokeWidth(dip2px(5f));
+        mPaint.setStrokeWidth(dip2px(6f));
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(circleBackgroundColor);
         mSmallCirclePaint = new Paint();
-        mSmallCirclePaint.setStrokeWidth(2f);
+        mSmallCirclePaint.setStrokeWidth(dip2px(4f));
         mSmallCirclePaint.setAntiAlias(true);
         mSmallCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaintC = new Paint();
-        mPaintC.setStrokeWidth(dip2px(5f));
+        mPaintC.setStrokeWidth(dip2px(6f));
         mPaintC.setAntiAlias(true);
         mPaintC.setStyle(Paint.Style.STROKE);
         mPaintC.setStrokeCap(Paint.Cap.ROUND);
@@ -100,16 +104,21 @@ public class DoubleCirclePercentChart extends View {
 //            mPaint.setShadowLayer(2, 1, 0, circleBackgroundColor);
 //            mPaint.setStrokeWidth(dip2px(2f));
 //            mPaint.setColor(Color.RED);
-//            mPaint.setMaskFilter(new BlurMaskFilter(8, BlurMaskFilter.Blur.INNER));
+            mPaint.setMaskFilter(new BlurMaskFilter(dip2px(1), BlurMaskFilter.Blur.INNER));
             //设置浮雕滤镜效果，参数1：光源指定方向；参数2:环境光亮度，取值0-1,值越小越暗；参数3：镜面高光反射系数，值越小反射越强；参数4：模糊延伸半径
-            mPaint.setMaskFilter(mEmbossMaskFilter);
+//            mPaint.setMaskFilter(mEmbossMaskFilter);
             setLayerType(LAYER_TYPE_SOFTWARE, mPaint);
             canvas.drawCircle(mCenterX, mCenterY, mRadius, mPaint);
             canvas.drawCircle(mCenterX, mCenterY, mRadius2, mPaint);
         }
+        if (!TextUtils.isEmpty(mTopText)) {
+            mTextPaintBottom.setTextSize(topTextSize);
+            mTextPaintBottom.setColor(topTextColor);
+            canvas.drawText(TextUtils.isEmpty(mTopText) ? "" : mTopText, mCenterX, mCenterY, mTextPaintBottom);
+        }
         mTextPaintBottom.setColor(bottomTextColor);
-        mTextPaintBottom.setTextSize(dip2px(14f));
-        canvas.drawText(TextUtils.isEmpty(mBottomText) ? "" : mBottomText, mCenterX, mCenterY + dip2px(12f), mTextPaintBottom);
+        mTextPaintBottom.setTextSize(bottomTextSize);
+        canvas.drawText(TextUtils.isEmpty(mBottomText) ? "" : mBottomText, mCenterX, mCenterY +dip2px(22), mTextPaintBottom);
         if (isGradient) {
             mPaintC.setShader(mShader);
         } else {
@@ -118,7 +127,7 @@ public class DoubleCirclePercentChart extends View {
             mSmallCirclePaint.setMaskFilter(mBlurMaskFilter);
             float x1 = (float) (mCenterX + mRadius * Math.cos((sweepAngle - 90) * Math.PI / 180));
             float y1 = (float) (mCenterY + mRadius * Math.sin((sweepAngle - 90) * Math.PI / 180));
-            canvas.drawCircle(x1, y1, dip2px(5f), mSmallCirclePaint);
+            canvas.drawCircle(x1, y1, dip2px(4f), mSmallCirclePaint);
         }
 
         canvas.drawArc(mRectF, -90, sweepAngle, false, mPaintC);
@@ -130,24 +139,19 @@ public class DoubleCirclePercentChart extends View {
             mSmallCirclePaint.setMaskFilter(mBlurMaskFilter);
             float x1 = (float) (mCenterX + mRadius2 * Math.cos((sweepAngle2 - 90) * Math.PI / 180));
             float y1 = (float) (mCenterY + mRadius2 * Math.sin((sweepAngle2 - 90) * Math.PI / 180));
-            canvas.drawCircle(x1, y1, dip2px(5f), mSmallCirclePaint);
+            canvas.drawCircle(x1, y1, dip2px(4f), mSmallCirclePaint);
         }
         mRectF.left = mCenterX - mRadius2;
         mRectF.top = mCenterY - mRadius2;
         mRectF.right = mCenterX + mRadius2;
         mRectF.bottom = mCenterY + mRadius2;
         canvas.drawArc(mRectF, -90, sweepAngle2, false, mPaintC);
-        if (!TextUtils.isEmpty(mTopText)) {
-            mTextPaintBottom.setTextSize(dip2px(20f));
-            mTextPaintBottom.setColor(topTextColor);
-            canvas.drawText(TextUtils.isEmpty(mTopText) ? "" : mTopText, mCenterX, mCenterY - dip2px(10f), mTextPaintBottom);
-        }
     }
 
     private float sweepAngle;
     private float sweepAngle2;
 
-    public void setText(String topText, @FloatRange(from = 0f,to = 100f) float percent1,@FloatRange(from = 0f,to = 100f) float percent2) {
+    public void setText(String topText, @FloatRange(from = 0f, to = 100f) float percent1, @FloatRange(from = 0f, to = 100f) float percent2) {
         mTopText = TextUtils.isEmpty(topText) ? "" : topText;
         sweepAngle = percent1 / 100 * 360;
         sweepAngle2 = percent2 / 100 * 360;
@@ -166,7 +170,7 @@ public class DoubleCirclePercentChart extends View {
         int measureWidth = measureWidth(widthMeasureSpec);
         int measureHeight = measureHeight(heightMeasureSpec);
         mRadius = Math.min(measureWidth, measureHeight) / 2 - dip2px(10f);
-        mRadius2 = Math.min(measureWidth, measureHeight) / 2 - dip2px(20f);
+        mRadius2 = Math.min(measureWidth, measureHeight) / 2 - dip2px(25f);
         setMeasuredDimension(measureWidth, measureHeight);
     }
 

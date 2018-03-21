@@ -23,6 +23,6 @@ public class CirclePercentChartActivity extends AppCompatActivity {
         circlePercentChart.setPercent(88);
         circlePercentChart4.setPercent(88,"18:00-21:00");
         doubleCirclePercentChart.setText("23546",80f,60f);
-        doubleCirclePercentChart3.setText("23546",100f,0f);
+        doubleCirclePercentChart3.setText("23546",80f,60f);
     }
 }

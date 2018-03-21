@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
     <declare-styleable name="DashboardView">
         <attr name="radius" format="dimension"/>     <!--扇形半径-->
         <attr name="padding" format="dimension"/>     <!--上下间距-->
@@ -81,7 +81,9 @@
         <attr name="doubleCirclePercentEndColor2" format="color"/>
         <attr name="doubleCircleBackgroundColor" format="color"/>
         <attr name="doubleCircleTopTextColor" format="color"/>
+        <attr name="doubleCircleTopTextSize" format="dimension"/>
         <attr name="doubleCircleBottomTextColor" format="color"/>
+        <attr name="doubleCircleBottomTextSize" format="dimension"/>
         <attr name="doubleCircleIsGradient" format="boolean"/>
         <attr name="doubleCirclePercentBottomText" format="string"/>
     </declare-styleable>
