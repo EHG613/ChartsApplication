@@ -47,6 +47,7 @@ public class BarChart extends View {
 
     private void init() {
         mPaint = new Paint();
+        mPaint.setAntiAlias(true);
         mTextPaintCoordinate = new TextPaint();
         mTextPaintCoordinate.setAntiAlias(true);
         mPaintPressedPoint = new Paint();
@@ -214,7 +215,7 @@ public class BarChart extends View {
         if (isNeedAlpha) {
             mPaintPressedPoint.setAlpha(128);//半透明
         }
-        canvas.drawCircle(cx, cy, radius, mPaintPressedPoint);
+        canvas.drawCircle(cx, cy, radius/2, mPaintPressedPoint);
         if (isNeedAlpha) {
             mPaintPressedPoint.setAlpha(255);//值越小,越透明:0-255
         }
@@ -222,7 +223,7 @@ public class BarChart extends View {
 
     private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius) {
         mPaintPressedPoint.setColor(colorBlue);
-        canvas.drawCircle(cx, cy, radius, mPaintPressedPoint);
+        canvas.drawCircle(cx, cy, radius/2, mPaintPressedPoint);
     }
 
     @Override
