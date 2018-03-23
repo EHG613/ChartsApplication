@@ -70,6 +70,7 @@ public class CirclePercentChart extends View {
     private SpannableStringBuilder mSpannableStringBuilder;
     private StaticLayout mStaticLayoutPercent;
     private TextPaint mPaintPercentText;
+    private TextPaint mTextPaintOuter;
 
     private void init() {
         mRectF = new RectF();
@@ -77,7 +78,7 @@ public class CirclePercentChart extends View {
         mPaint.setAntiAlias(true);
         mPaint.setStrokeWidth(dip2px(5f));
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor("#E6E7E9"));
+        mPaint.setColor(Color.parseColor("#E6E7E8"));
         mPaintC = new Paint();
         mPaintC.setStrokeWidth(dip2px(5f));
         mPaintC.setAntiAlias(true);
@@ -89,9 +90,13 @@ public class CirclePercentChart extends View {
         mPaintPercentText = new TextPaint();
         mPaintPercentText.setAntiAlias(true);
         mPaintPercentText.setStyle(Paint.Style.FILL);
-        mPaintPercentText.setTextSize(sp2px(14f));
+        mPaintPercentText.setTextSize(sp2px(10f));
         mPaintPercentText.setTextAlign(Paint.Align.LEFT);
-//        mPaintPercentText.setColor(Color.WHITE);
+        mTextPaintOuter = new TextPaint();
+        mTextPaintOuter.setAntiAlias(true);
+        mTextPaintOuter.setTextSize(sp2px(14f));
+        mTextPaintOuter.setTextAlign(Paint.Align.CENTER);
+        mTextPaintOuter.setColor(Color.parseColor("#666666"));
     }
 
     @Override
@@ -116,7 +121,13 @@ public class CirclePercentChart extends View {
             } else {
                 mTextPaintBottom.setTextSize(mTopTextSize);
                 mTextPaintBottom.setColor(mTopTextColor);
-                canvas.drawText(mTopText, mCenterX, mCenterY-mTopTextSize/2, mTextPaintBottom);
+                mPaintPercentText.setColor(mTopTextColor);
+                float height = Math.abs(mTextPaintOuter.getFontMetrics().descent) + Math.abs(mTextPaintOuter.getFontMetrics().ascent);
+                canvas.drawText(mTopText, mCenterX, mCenterY - mTopTextSize / 2, mTextPaintBottom);
+                canvas.drawText(percent + "", mCenterX-mTextPaintOuter.measureText(percent + "")/2f, mCenterY - mRadius - dip2px(8f) - Math.abs(mTextPaintOuter.getFontMetrics().descent), mTextPaintOuter);
+                canvas.drawText(minutes, mCenterX-mTextPaintOuter.measureText(minutes)/2f, mCenterY + mRadius + dip2px(8f) + Math.abs(mTextPaintOuter.getFontMetrics().ascent), mTextPaintOuter);
+                canvas.drawText("%", mCenterX + dip2px(2f), mCenterY - mRadius - dip2px(8f) - Math.abs(mPaintPercentText.getFontMetrics().bottom), mPaintPercentText);
+                canvas.drawText("min", mCenterX + dip2px(2f), mCenterY + mRadius + dip2px(8f) + (height - Math.abs(mPaintPercentText.getFontMetrics().bottom)), mPaintPercentText);
             }
             canvas.restore();
         }
@@ -131,7 +142,20 @@ public class CirclePercentChart extends View {
         setTopText(mBigDecimal.setScale(1, BigDecimal.ROUND_DOWN).floatValue() + "%");
     }
 
+    private int percent;
+
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText) {
+        this.percent = (int) percent;
+        mBigDecimal = new BigDecimal(percent);
+        sweepAngle = percent / 100 * 360;
+        setTopText(topText);
+    }
+
+    private String minutes = "";
+
+    public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText, String minutes) {
+        this.minutes = minutes;
+        this.percent = (int) percent;
         mBigDecimal = new BigDecimal(percent);
         sweepAngle = percent / 100 * 360;
         setTopText(topText);
@@ -166,6 +190,10 @@ public class CirclePercentChart extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int measureWidth = measureWidth(widthMeasureSpec);
         int measureHeight = measureHeight(heightMeasureSpec);
+        if (style == 1) {
+            measureHeight += (Math.abs(mTextPaintOuter.getFontMetrics().bottom) + Math.abs(mTextPaintOuter.getFontMetrics().top)) * 2;
+            mCenterY = measureHeight / 2;
+        }
         mRadius = Math.min(measureWidth, measureHeight) / 2 - dip2px(10f);
         setMeasuredDimension(measureWidth, measureHeight);
         mShader = new LinearGradient(mCenterX, mCenterY - mRadius, mCenterX, mCenterY + mRadius, startColor, endColor, Shader.TileMode.CLAMP);

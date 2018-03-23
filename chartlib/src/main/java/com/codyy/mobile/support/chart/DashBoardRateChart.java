@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.SweepGradient;
+import android.graphics.Typeface;
 import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -37,23 +38,26 @@ public class DashBoardRateChart extends View {
     public DashBoardRateChart(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DashBoardRateChart, defStyleAttr, 0);
-        startColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateStartColor, Color.parseColor("#5BC0F7"));
-        endColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateStartColor, Color.parseColor("#2471FB"));
-        baseColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateBaseColor, Color.parseColor("#BCC5D5"));
+        startColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateStartColor, Color.parseColor("#54c0fa"));
+        endColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateStartColor, Color.parseColor("#4d91fe"));
+        baseColor = array.getColor(R.styleable.DashBoardRateChart_dashboardRateBaseColor, Color.parseColor("#bec5d8"));
+        array.recycle();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
         mPaint.setColor(Color.BLACK);
         mPath = new Path();
         mTextPaint = new TextPaint();
+        dimension10dp = (int) (dip2px(10f)+tableWidth/2);
+//        tableWidth=dip2px(17f/2);
     }
 
+    private int dimension10dp;
     private TextPaint mTextPaint;
     private Paint mPaint;
     private Path mPath;
     private RectF mTableRectF;
     private RectF mTableRectFO;
-    private int tableWidth = 50;
+    private float tableWidth = 34f;
     //把路径分成虚线段的
     private DashPathEffect dashPathEffect;
     //给路径上色
@@ -70,8 +74,8 @@ public class DashBoardRateChart extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //油表的位置方框
-        mTableRectF = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);
-        mTableRectFO = new RectF(mCenterX - mRadius * 1.15f, mCenterY - mRadius * 1.15f, mCenterX + mRadius * 1.15f, mCenterY + mRadius * 1.15f);
+        mTableRectF = new RectF(mCenterX - mRadius+dimension10dp, mCenterY - mRadius+dimension10dp, mCenterX + mRadius-dimension10dp, mCenterY + mRadius-dimension10dp);
+        mTableRectFO = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);
         mPath.reset();
         //在油表路径中增加一个从起始弧度
         mPath.addArc(mTableRectF, 45, 270);
@@ -88,8 +92,8 @@ public class DashBoardRateChart extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(dip2px(1f));
-        mPaint.setColor(startColor);
+        mPaint.setStrokeWidth(1f);
+        mPaint.setColor(Color.parseColor("#38adff"));
         canvas.drawArc(mTableRectFO, 135, 269, false, mPaint);
         //旋转画布
         canvas.rotate(90, mCenterX, mCenterY);
@@ -112,25 +116,27 @@ public class DashBoardRateChart extends View {
         mPaint.setStyle(Paint.Style.FILL);
         canvas.rotate(-90, mCenterX, mCenterY);
         if (!TextUtils.isEmpty(bottomText)) {
-            mTextPaint.setTextSize(sp2px(12f));
+            mTextPaint.setTextSize(sp2px(15f));
             mTextPaint.setAntiAlias(true);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
-            mTextPaint.setColor(baseColor);
-            canvas.drawText(bottomText, mCenterX, mCenterY + dip2px(20f), mTextPaint);
+            mTextPaint.setColor(Color.parseColor("#939fbe"));
+            canvas.drawText(bottomText, mCenterX, mCenterY + dip2px(24f), mTextPaint);
         }
         if (!TextUtils.isEmpty(percentText)) {
-            mTextPaint.setTextSize(sp2px(48f));
+            mTextPaint.setTextSize(sp2px(60f));
             mTextPaint.setAntiAlias(true);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
-            mTextPaint.setColor(startColor);
-            mTextPaint.setShadowLayer(dip2px(6f), 0, dip2px(4f), Color.parseColor("#CBE5FE"));
+            mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+            mTextPaint.setColor(Color.parseColor("#38adff"));
+            mTextPaint.setShadowLayer(dip2px(4f), 0, dip2px(4f), Color.parseColor("#5938adff"));
             setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
             float textWidth = mTextPaint.measureText(percentText) / 2;
             canvas.drawText(percentText, mCenterX, mCenterY, mTextPaint);
             mTextPaint.clearShadowLayer();
-            mTextPaint.setTextSize(sp2px(12f));
+            mTextPaint.setTypeface(null);
+            mTextPaint.setTextSize(sp2px(15f));
             mTextPaint.setTextAlign(Paint.Align.LEFT);
-            mTextPaint.setColor(baseColor);
+            mTextPaint.setColor(Color.parseColor("#939fbe"));
             canvas.drawText("%", mCenterX + textWidth, mCenterY, mTextPaint);
         }
     }
@@ -142,15 +148,15 @@ public class DashBoardRateChart extends View {
 
     private float sweepAngle;
 
-    public void setPercentText(@FloatRange(from = 0f,to = 100f)float percentText) {
+    public void setPercentText(@FloatRange(from = 0f, to = 100f) float percentText) {
         this.percentText = percentText + "";
         sweepAngle = percentText * 270 / 100;
         invalidate();
     }
 
-    public void setPercentText(@FloatRange(from = 0f,to = 100f) float percent, int scale) {
-        this.percentText = getPercentText(percent,scale);
-        float last=sweepAngle;
+    public void setPercentText(@FloatRange(from = 0f, to = 100f) float percent, int scale) {
+        this.percentText = getPercentText(percent, scale);
+        float last = sweepAngle;
         sweepAngle = percent * 270 / 100;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, sweepAngle);
         progressAnimator.setDuration(500L);
@@ -160,14 +166,15 @@ public class DashBoardRateChart extends View {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                percentText=getPercentText((Float) animation.getAnimatedValue()*100/270,0);
-                sweepAngle=(Float)animation.getAnimatedValue();
+                percentText = getPercentText((Float) animation.getAnimatedValue() * 100 / 270, 0);
+                sweepAngle = (Float) animation.getAnimatedValue();
                 invalidate();
             }
         });
         progressAnimator.start();
     }
-    private String getPercentText(float p,int scale){
+
+    private String getPercentText(float p, int scale) {
         BigDecimal bigDecimal = new BigDecimal(p);
         return bigDecimal.setScale(scale, BigDecimal.ROUND_HALF_UP).toString();
     }
@@ -177,7 +184,8 @@ public class DashBoardRateChart extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int measureWidth = measureWidth(widthMeasureSpec);
         int measureHeight = measureHeight(heightMeasureSpec);
-        mRadius = Math.min(measureWidth, measureHeight) / 2 - dip2px(20f);
+//        mRadius = Math.min(measureWidth, measureHeight) / 2 - dip2px(10f);
+        mRadius = Math.min(measureWidth, measureHeight) / 2;
         setMeasuredDimension(measureWidth, measureHeight);
     }
 
