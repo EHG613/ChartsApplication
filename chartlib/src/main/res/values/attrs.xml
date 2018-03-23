@@ -73,7 +73,11 @@
     <declare-styleable name="GradientLineChart">
         <attr name="gradientLineStartColor" format="color"/>
         <attr name="gradientLineEndColor" format="color"/>
+        <attr name="gradientLineTextColor" format="color"/>
+        <attr name="gradientLineTextSize" format="dimension"/>
         <attr name="gradientLineHeight" format="dimension"/>
+        <attr name="gradientLineTextPadding" format="dimension"/>
+        <attr name="gradientLineSuffix" format="string"/>
     </declare-styleable>
     <declare-styleable name="DoubleCirclePercentChart">
         <attr name="doubleCirclePercentStartColor" format="color"/>
