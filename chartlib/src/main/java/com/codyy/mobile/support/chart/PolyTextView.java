@@ -180,7 +180,7 @@ public class PolyTextView extends View {
     public void setPolyTexts(List<PolyText> polyTexts) {
         mPolyTexts.clear();
         mPolyTexts = polyTexts;
-        invalidate();
+        requestLayout();
     }
 
     /*列数*/

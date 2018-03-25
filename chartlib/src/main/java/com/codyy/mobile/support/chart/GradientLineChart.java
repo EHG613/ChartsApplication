@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -98,6 +99,10 @@ public class GradientLineChart extends View {
             mRectF.bottom = entity.getSubject().length() > 5 ? endLineY + textHeight / 2f : endLineY;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
             float stopX = (width - hoursLength - dimension10dp) * (entity.getHours() * 1f / maxHour);
+            if (stopX < mRectF.left) {
+                stopX = mRectF.left;
+            }
+//            Log.d("OnDraw", textLength + dimension10dp + ":" + stopX);
             mPaint.setShader(new LinearGradient(textLength + dimension10dp, entity.getSubject().length() > 5 ? startLineY + textHeight / 2f : startLineY, stopX, entity.getSubject().length() > 5 ? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
             mRectF.right = stopX;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
@@ -124,24 +129,27 @@ public class GradientLineChart extends View {
         textLength = maxLengthText.length() > 5 ? mTextPaint.measureText(maxLengthText.substring(0, 5)) : mTextPaint.measureText(maxLengthText);
         hoursLength = mTextPaint.measureText(GradientLineEntity.getMaxLengthHours(this.list, suffix));
         maxHour = GradientLineEntity.getMaxHours(this.list);
-        invalidate();
+        requestLayout();
+
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int height = 0;
         width = measureWidth(widthMeasureSpec);
         for (GradientLineEntity entity : list) {
             if (entity.getSubject().length() > 5) {
                 height += textHeight * 2;
+            } else {
+                height += textHeight;
             }
-            height += textPadding;
+            height += textPadding * 2;
         }
         setMeasuredDimension(width, height);
     }
 
     private int width;
-    private int height;
 
     private int measureWidth(int measureSpec) {
         int specMode = MeasureSpec.getMode(measureSpec);
@@ -156,22 +164,6 @@ public class GradientLineChart extends View {
             }
         }
         return viewWidth;
-    }
-
-    private int measureHeight(int measureSpec) {
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-        int viewHeight;
-        if (specMode == MeasureSpec.EXACTLY) {
-            viewHeight = specSize;
-        } else {
-            viewHeight = dip2px(25f);
-            if (specMode == MeasureSpec.AT_MOST) {
-                viewHeight = Math.max(viewHeight, specSize);
-            }
-        }
-        height = viewHeight;
-        return viewHeight;
     }
 
     private int px2dip(float px) {
