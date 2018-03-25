@@ -2,7 +2,6 @@ package com.codyy.mobile.support.chart;
 
 import android.support.annotation.NonNull;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

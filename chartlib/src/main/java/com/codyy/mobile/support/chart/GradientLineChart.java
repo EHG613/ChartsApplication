@@ -91,23 +91,23 @@ public class GradientLineChart extends View {
                 canvas.drawText(entity.getSubject(), 0, startY, mTextPaint);
             }
             mTextPaint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawText(entity.getHours() + suffix, width, entity.getSubject().length()>5?startY+textHeight/2f:startY, mTextPaint);
+            canvas.drawText(entity.getHours() + suffix, width, entity.getSubject().length() > 5 ? startY + textHeight / 2f : startY, mTextPaint);
             mRectF.left = textLength + dimension10dp;
-            mRectF.top = entity.getSubject().length()>5?startLineY+textHeight/2f:startLineY;
+            mRectF.top = entity.getSubject().length() > 5 ? startLineY + textHeight / 2f : startLineY;
             mRectF.right = width - hoursLength - dimension10dp;
-            mRectF.bottom = entity.getSubject().length()>5?endLineY+textHeight/2f:endLineY;
+            mRectF.bottom = entity.getSubject().length() > 5 ? endLineY + textHeight / 2f : endLineY;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
             float stopX = (width - hoursLength - dimension10dp) * (entity.getHours() * 1f / maxHour);
-            mPaint.setShader(new LinearGradient(textLength + dimension10dp, entity.getSubject().length()>5?startLineY+textHeight/2f:startLineY, stopX, entity.getSubject().length()>5?startLineY+textHeight/2f:startLineY, startColor, endColor, Shader.TileMode.CLAMP));
+            mPaint.setShader(new LinearGradient(textLength + dimension10dp, entity.getSubject().length() > 5 ? startLineY + textHeight / 2f : startLineY, stopX, entity.getSubject().length() > 5 ? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
             mRectF.right = stopX;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
             mPaint.setShader(null);
             startY += textPadding * 2;
-            startY += entity.getSubject().length()>5?h*2:h;
+            startY += entity.getSubject().length() > 5 ? h * 2 : h;
             startLineY += textPadding * 2;
-            startLineY += entity.getSubject().length()>5?h*2:h;
+            startLineY += entity.getSubject().length() > 5 ? h * 2 : h;
             endLineY += textPadding * 2;
-            endLineY += entity.getSubject().length()>5?h*2:h;
+            endLineY += entity.getSubject().length() > 5 ? h * 2 : h;
 
         }
     }
@@ -120,7 +120,8 @@ public class GradientLineChart extends View {
     public void setList(@NonNull List<GradientLineEntity> list) {
         this.list = list;
         Collections.sort(this.list);
-        textLength = mTextPaint.measureText(GradientLineEntity.getMaxLengthText(this.list));
+        String maxLengthText = GradientLineEntity.getMaxLengthText(this.list);
+        textLength = maxLengthText.length() > 5 ? mTextPaint.measureText(maxLengthText.substring(0, 5)) : mTextPaint.measureText(maxLengthText);
         hoursLength = mTextPaint.measureText(GradientLineEntity.getMaxLengthHours(this.list, suffix));
         maxHour = GradientLineEntity.getMaxHours(this.list);
         invalidate();
@@ -130,7 +131,6 @@ public class GradientLineChart extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = measureWidth(widthMeasureSpec);
-//        lineLength = width - textLength - hoursLength - dimension10dp * 2;
         for (GradientLineEntity entity : list) {
             if (entity.getSubject().length() > 5) {
                 height += textHeight * 2;
