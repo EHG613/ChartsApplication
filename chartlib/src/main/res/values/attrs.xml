@@ -46,7 +46,9 @@
     <declare-styleable name="GradientRoundedRectangleChart">
         <attr name="gradientRoundedRectangleStartColor" format="color"/>
         <attr name="gradientRoundedRectangleAngle" format="float"/>
+        <attr name="gradientRoundedRectangleDrawable" format="reference"/>
         <attr name="gradientRoundedRectangleEndColor" format="color"/>
+        <attr name="gradientRoundedRectangleShadowColor" format="color"/>
         <attr name="gradientRoundedRectangleBottomText" format="string"/>
         <attr name="gradientRoundedRectangleTextSuffix" format="string"/>
         <attr name="gradientRoundedRectangleTextSuffixSize" format="dimension"/>

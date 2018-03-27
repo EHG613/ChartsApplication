@@ -28,5 +28,21 @@
         android:layout_marginTop="30dp"
         app:layout_constraintRight_toRightOf="parent"
          />
+    <com.codyy.mobile.support.chart.GradientRoundedRectangleChart
+        android:id="@+id/chart3"
+        android:layout_width="168dp"
+        android:layout_height="62dp"
+        app:gradientRoundedRectangleBottomText="服务次数"
+        app:gradientRoundedRectangleTextSuffix="%"
+        app:gradientRoundedRectangleEndColor="#ffa869"
+        app:gradientRoundedRectangleStartColor="#ff6496"
+        app:gradientRoundedRectangleShadowColor="#59ff8481"
+        app:gradientRoundedRectangleAngle="148"
+        app:gradientRoundedRectangleDrawable="@mipmap/ic_launcher_round"
+        app:layout_constraintTop_toBottomOf="@+id/chart2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+         />
 
 </android.support.constraint.ConstraintLayout>
