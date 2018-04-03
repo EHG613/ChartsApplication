@@ -1,6 +1,7 @@
 package com.codyy.mobile.support.chart;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -9,7 +10,7 @@ import java.math.RoundingMode;
  * Created by lijian on 2018/3/5.
  */
 
-public class Donuts {
+public class Donuts implements Comparable<Donuts> {
     private float percent;
     private int color;
     private String innerText;
@@ -122,5 +123,15 @@ public class Donuts {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    @Override
+    public int compareTo(@NonNull Donuts o) {
+        if (this.percent < o.getPercent()) {
+            return 1;
+        } else if (this.percent > o.getPercent()) {
+            return -1;
+        }
+        return 0;
     }
 }
