@@ -81,7 +81,7 @@ public class BarChart extends View {
         if (points == null) return;
         mPoints.clear();
         mPoints.addAll(points);
-        invalidate();
+        requestLayout();
     }
 
 
@@ -355,18 +355,18 @@ public class BarChart extends View {
          */
         private int xVal;
         private int y;
-        private int yVal;
+        private String yVal;
         private int y1 = -1;
-        private int y1Val;
+        private String y1Val;
         private int y1Color = Color.parseColor("#38adff");
         private int y2 = -1;
-        private int y2Val;
+        private String y2Val;
         private int y2Color = Color.parseColor("#3ed5aa");
         private int y3 = -1;
-        private int y3Val;
+        private String y3Val;
         private int y3Color = Color.parseColor("#8940fa");
         private int y4 = -1;
-        private int y4Val;
+        private String y4Val;
         private int y4Color = Color.parseColor("#24c8f3");
         private Path path;
         private LinearGradient linearGradient;
@@ -382,18 +382,6 @@ public class BarChart extends View {
 
         public Point() {
         }
-
-        public Point(String xText, String xAbbrText, int x, int xVal, int y, int yVal, Path path, LinearGradient linearGradient) {
-            this.xText = xText;
-            this.xAbbrText = xAbbrText;
-            this.x = x;
-            this.xVal = xVal;
-            this.y = y;
-            this.yVal = yVal;
-            this.path = path;
-            this.linearGradient = linearGradient;
-        }
-
         public int getY1() {
             return y1;
         }
@@ -402,11 +390,11 @@ public class BarChart extends View {
             this.y1 = y1;
         }
 
-        public int getY1Val() {
+        public String getY1Val() {
             return y1Val;
         }
 
-        public void setY1Val(int y1Val) {
+        public void setY1Val(String y1Val) {
             this.y1Val = y1Val;
         }
 
@@ -426,11 +414,11 @@ public class BarChart extends View {
             this.y2 = y2;
         }
 
-        public int getY2Val() {
+        public String getY2Val() {
             return y2Val;
         }
 
-        public void setY2Val(int y2Val) {
+        public void setY2Val(String y2Val) {
             this.y2Val = y2Val;
         }
 
@@ -450,11 +438,11 @@ public class BarChart extends View {
             this.y3 = y3;
         }
 
-        public int getY3Val() {
+        public String getY3Val() {
             return y3Val;
         }
 
-        public void setY3Val(int y3Val) {
+        public void setY3Val(String y3Val) {
             this.y3Val = y3Val;
         }
 
@@ -474,11 +462,11 @@ public class BarChart extends View {
             this.y4 = y4;
         }
 
-        public int getY4Val() {
+        public String getY4Val() {
             return y4Val;
         }
 
-        public void setY4Val(int y4Val) {
+        public void setY4Val(String y4Val) {
             this.y4Val = y4Val;
         }
 
@@ -530,11 +518,11 @@ public class BarChart extends View {
             this.y = y;
         }
 
-        public int getyVal() {
+        public String getyVal() {
             return yVal;
         }
 
-        public void setyVal(int yVal) {
+        public void setyVal(String yVal) {
             this.yVal = yVal;
         }
 
