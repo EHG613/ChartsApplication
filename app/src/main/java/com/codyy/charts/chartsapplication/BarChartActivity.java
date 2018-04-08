@@ -8,9 +8,12 @@ import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.codyy.mobile.support.chart.BarChart;
+import com.codyy.mobile.support.chart.BarChartBackgroundView;
+import com.codyy.mobile.support.chart.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,9 @@ public class BarChartActivity extends AppCompatActivity {
         BarChart barChart = findViewById(R.id.bar);
         final TextView textView = findViewById(R.id.tv_tip);
         textView.setText("手指按压图表条目,可查看具体内容");
+        Log.e("150f=", DisplayUtil.dip2px(this, 150f)+"");
+        BarChartBackgroundView view = findViewById(R.id.chart);
+        view.setySpace(10);
         int radius = dp2px(2f);
         List<BarChart.Point> points = new ArrayList<>();
         int barWidth = dp2px(12f);
@@ -43,24 +49,24 @@ public class BarChartActivity extends AppCompatActivity {
             int y1Val = new Random().nextInt(100);
             int y1 = ySpace * y1Val;
             point.setY1(y1);
-            point.setY1Val(y1Val+"");
+            point.setY1Val(y1Val + "");
             int y2Val = new Random().nextInt(100);
             int y2 = ySpace * y2Val;
             point.setY2(y2);
-            point.setY2Val(y2Val+"");
+            point.setY2Val(y2Val + "");
             int y3Val = new Random().nextInt(100);
             int y3 = ySpace * y3Val;
             point.setY3(y3);
-            point.setY3Val(y3Val+"");
+            point.setY3Val(y3Val + "");
             int y4Val = new Random().nextInt(100);
             int y4 = ySpace * y4Val;
             point.setY4(y4);
-            point.setY4Val(y4Val+"");
+            point.setY4Val(y4Val + "");
 
             point.setX(currentX + barWidth / 2);
             point.setBarWidth(barWidth);
             point.setY(y);
-            point.setyVal(yVal+"");
+            point.setyVal(yVal + "");
             Path path = new Path();
             RectF f = new RectF();
             f.left = currentX;
