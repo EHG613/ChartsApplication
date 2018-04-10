@@ -127,6 +127,12 @@ public class GraphChart extends View {
         mPaintCoordinateBg.setColor(Color.parseColor("#f6f6f6"));
     }
 
+    int ySpace = 300;
+
+    public void setySpace(int ySpace) {
+        this.ySpace = ySpace;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -156,7 +162,6 @@ public class GraphChart extends View {
         mRectFCoordinateBg.bottom = -coordinateSpaceY * 4;
         mRectFCoordinateBg.right = xStopX;
         canvas.drawRect(mRectFCoordinateBg, mPaintCoordinateBg);
-        int ySpace = 300;
         for (int i = 0; i < 6; i++) {
             canvas.drawLine(0, -coordinateSpaceY * i, xStopX, -coordinateSpaceY * i, mPaint);
             canvas.drawText(ySpace * i + "", -dimensionPixel6dp - mTextPaintCoordinate.measureText(ySpace * i + ""), -coordinateSpaceY * i + sp2px(xyTextSize) / 2, mTextPaintCoordinate);
@@ -220,8 +225,8 @@ public class GraphChart extends View {
             startX += mTextPaintCoordinate.measureText("使用数: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getyVal() + "", colorBlue);
             startX += mTextPaintCoordinate.measureText(mPointPressed.getyVal() + "");
-            drawTopTipText(canvas, startX, startY, ", 严重警告: ", colorTopPressedText);
-            startX += mTextPaintCoordinate.measureText(", 严重警告: ");
+            drawTopTipText(canvas, startX, startY, ", 严重告警: ", colorTopPressedText);
+            startX += mTextPaintCoordinate.measureText(", 严重告警: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getY1Val() + "", colorRed);
             startX += mTextPaintCoordinate.measureText(mPointPressed.getY1Val() + "");
             drawTopTipText(canvas, startX, startY, ", 一般告警: ", colorTopPressedText);
@@ -318,6 +323,7 @@ public class GraphChart extends View {
 
     public void setData(List<Point> graphEntities) {
         mGraphEntities = graphEntities;
+        invalidate();
     }
 
 

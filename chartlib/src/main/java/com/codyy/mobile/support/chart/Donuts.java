@@ -19,10 +19,19 @@ public class Donuts implements Comparable<Donuts> {
     private float startAngle;
     private float endAngle;
     private String id;
+    private String parentId;
     private float textStartX;
     private float textStopX;
     private float textStartY;
     private float textStopY;
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
     public float getTextStartX() {
         return textStartX;

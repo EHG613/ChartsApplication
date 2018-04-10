@@ -5,6 +5,8 @@ import com.codyy.mobile.support.chart.CalcUtil;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
@@ -62,5 +64,22 @@ public class ExampleUnitTest {
         System.out.println(0%2);
         System.out.println(Math.ceil(4/3f));
         System.out.println(Math.floor(3/2f));
+    }
+    @Test
+    public void test(){
+        String line = "This order was placed for 18621285685! OK?87291201";
+        String pattern = "((1\\d{10})|^((\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})|(\\d{4}|\\d{3})-(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1})|(\\d{7,8})-(\\d{4}|\\d{3}|\\d{2}|\\d{1}))$)";
+
+        // Create a Pattern object
+        Pattern r = Pattern.compile(pattern);
+
+        // Now create matcher object.
+        Matcher m = r.matcher(line);
+        if (m.find()) {
+            System.out.println("Found value: " + m.group() );
+            System.out.println(line.substring(line.lastIndexOf(m.group()),line.lastIndexOf(m.group())+m.group().length()));
+        } else {
+            System.out.println("NO MATCH");
+        }
     }
 }
