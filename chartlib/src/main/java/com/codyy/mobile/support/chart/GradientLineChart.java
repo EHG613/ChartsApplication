@@ -130,7 +130,11 @@ public class GradientLineChart extends View {
         hoursLength = mTextPaint.measureText(GradientLineEntity.getMaxLengthHours(this.list, suffix));
         maxHour = GradientLineEntity.getMaxHours(this.list);
         requestLayout();
+    }
 
+    public void clear() {
+        this.list = new ArrayList<>();
+        requestLayout();
     }
 
     @Override

@@ -94,11 +94,11 @@ public class DonutsChart extends View {
     private List<Donuts> mDonuts = new ArrayList<>();
 
     public void setData(@NonNull List<Donuts> donuts) {
-        float total = 0;
-        for (Donuts f : donuts) {
-            total += f.getPercent();
-        }
-        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
+//        float total = 0;
+//        for (Donuts f : donuts) {
+//            total += f.getPercent();
+//        }
+//        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
         mDonuts.clear();
         mDonuts.addAll(donuts);
         invalidate();
@@ -107,11 +107,11 @@ public class DonutsChart extends View {
     private List<Donuts> mDonutsInner = new ArrayList<>();
 
     public void setInnerData(@NonNull List<Donuts> donuts) {
-        float total = 0;
-        for (Donuts f : donuts) {
-            total += f.getPercent();
-        }
-        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
+//        float total = 0;
+//        for (Donuts f : donuts) {
+//            total += f.getPercent();
+//        }
+//        if (new BigDecimal(total).setScale(2,BigDecimal.ROUND_FLOOR).floatValue() != 1f) throw new IllegalArgumentException("sum value !=1f,please check the list");
         mDonutsInner.clear();
         mDonutsInner.addAll(donuts);
         invalidate();
