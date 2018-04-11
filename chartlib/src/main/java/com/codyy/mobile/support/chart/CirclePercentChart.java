@@ -22,8 +22,6 @@ import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.math.BigDecimal;
-
 /**
  * Created by lijian on 2018/2/28.
  */
@@ -134,19 +132,16 @@ public class CirclePercentChart extends View {
     }
 
     private float sweepAngle;
-    private BigDecimal mBigDecimal;
 
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent) {
-        mBigDecimal = new BigDecimal(percent);
         sweepAngle = percent / 100 * 360;
-        setTopText(mBigDecimal.setScale(1, BigDecimal.ROUND_DOWN).floatValue() + "%");
+        setTopText(percent + "%");
     }
 
     private int percent;
 
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText) {
         this.percent = (int) percent;
-        mBigDecimal = new BigDecimal(percent);
         sweepAngle = percent / 100 * 360;
         setTopText(topText);
     }
@@ -156,7 +151,6 @@ public class CirclePercentChart extends View {
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText, String minutes) {
         this.minutes = minutes;
         this.percent = (int) percent;
-        mBigDecimal = new BigDecimal(percent);
         sweepAngle = percent / 100 * 360;
         setTopText(topText);
     }
