@@ -155,7 +155,7 @@ public class DashBoardRateChart extends View {
     }
 
     public void setPercentText(@FloatRange(from = 0f, to = 100f) float percent, int scale) {
-        this.percentText = getPercentText(percent, scale);
+        this.percentText = percent+"";
         float last = sweepAngle;
         sweepAngle = percent * 270 / 100;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, sweepAngle);

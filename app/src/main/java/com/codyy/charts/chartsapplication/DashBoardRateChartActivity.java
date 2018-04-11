@@ -23,7 +23,7 @@ public class DashBoardRateChartActivity extends AppCompatActivity {
         chart=findViewById(R.id.chart);
         mEditText=findViewById(R.id.et);
         chart.setBottomText("设备使用率");
-        chart.setPercentText(80,0);
+        chart.setPercentText(100f);
     }
 
     public void refresh(View view) {
