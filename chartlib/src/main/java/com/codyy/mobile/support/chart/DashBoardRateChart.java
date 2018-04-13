@@ -166,7 +166,7 @@ public class DashBoardRateChart extends View {
 
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                percentText = getPercentText((Float) animation.getAnimatedValue() * 100 / 270, 0);
+                percentText = getPercentText((Float) animation.getAnimatedValue() * 100 / 270, 1);
                 sweepAngle = (Float) animation.getAnimatedValue();
                 invalidate();
             }

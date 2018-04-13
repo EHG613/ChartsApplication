@@ -44,7 +44,10 @@ public class GradientLineAcitity extends AppCompatActivity {
             GradientLineEntity entity = new GradientLineEntity("语文" + i, 120 * i);
             list.add(entity);
 
-        }chart2.setList(list);
+        }
+        GradientLineEntity entity = new GradientLineEntity("English", 120 );
+        list.add(entity);
+        chart2.setList(list);
         count++;
         chart2.post(new Runnable() {
             @Override

@@ -1,6 +1,7 @@
 package com.codyy.mobile.support.chart;
 
 import android.support.annotation.NonNull;
+import android.text.TextPaint;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class GradientLineEntity implements Comparable<GradientLineEntity> {
     private String subject;
-    private int hours;
+    private float hours;
 
-    public GradientLineEntity(String subject, int hours) {
+    public GradientLineEntity(String subject, float hours) {
         this.subject = subject;
         this.hours = hours;
     }
@@ -25,29 +26,29 @@ public class GradientLineEntity implements Comparable<GradientLineEntity> {
         this.subject = subject;
     }
 
-    public int getHours() {
+    public float getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(float hours) {
         this.hours = hours;
     }
 
-    public static String getMaxLengthText(@NonNull List<GradientLineEntity> list) {
+    public static float getMaxLengthText(@NonNull List<GradientLineEntity> list, TextPaint textPaint) {
         String text = "";
-        for (GradientLineEntity entity : list) {
-            if (text.length() < entity.getSubject().length()) {
-                text = entity.getSubject();
+        for (int i=0;i< list.size();i++) {
+            if(textPaint.measureText(text)<textPaint.measureText(list.get(i).getSubject())){
+                text = list.get(i).getSubject();
             }
         }
-        return text;
+        return  text.length() > 5 ? textPaint.measureText(text.substring(0, 5)) : textPaint.measureText(text);
     }
 
     public static String getMaxLengthHours(@NonNull List<GradientLineEntity> list, @NonNull String suffix) {
         return list.get(0).getHours() + " " + suffix;
     }
 
-    public static int getMaxHours(@NonNull List<GradientLineEntity> list) {
+    public static float getMaxHours(@NonNull List<GradientLineEntity> list) {
         return list.get(0).getHours();
     }
 
