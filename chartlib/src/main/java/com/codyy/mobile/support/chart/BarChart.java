@@ -116,7 +116,11 @@ public class BarChart extends View {
             }
             mTextPaintCoordinate.setTextAlign(Paint.Align.CENTER);
             mPaint.setShader(point.getLinearGradient());
-            canvas.drawText(point.getxAbbrText().length() > 4 ? point.getxAbbrText().substring(0, 4) + getContext().getResources().getString(R.string.text_ellipsize) : point.getxAbbrText(), point.getX(), dimensionPixel10dp + dip2px(9f) / 2, mTextPaintCoordinate);
+            if (point.isAbbr()) {
+                canvas.drawText(point.getxAbbrText().length() > 4 ? point.getxAbbrText().substring(0, 4) + getContext().getResources().getString(R.string.text_ellipsize) : point.getxAbbrText(), point.getX(), dimensionPixel10dp + dip2px(9f) / 2, mTextPaintCoordinate);
+            } else {
+                canvas.drawText(point.getxAbbrText(), point.getX(), dimensionPixel10dp + dip2px(9f) / 2, mTextPaintCoordinate);
+            }
             canvas.drawPath(point.getPath(), mPaint);
         }
         if (color1 != 0 && mPoints.size() > 1) {
@@ -128,7 +132,7 @@ public class BarChart extends View {
                 canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY1(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY1(), mPaint);
             }
         }
-        if (color2 != 0&& mPoints.size() > 1) {
+        if (color2 != 0 && mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
@@ -137,7 +141,7 @@ public class BarChart extends View {
                 canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY2(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY2(), mPaint);
             }
         }
-        if (color3 != 0&& mPoints.size() > 1) {
+        if (color3 != 0 && mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
@@ -146,7 +150,7 @@ public class BarChart extends View {
                 canvas.drawLine(mPoints.get(i).getX(), mPoints.get(i).getY3(), mPoints.get(i + 1).getX(), mPoints.get(i + 1).getY3(), mPaint);
             }
         }
-        if (color4 != 0&& mPoints.size() > 1) {
+        if (color4 != 0 && mPoints.size() > 1) {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(dip2px(1f));
             mPaint.setShader(null);
@@ -215,7 +219,7 @@ public class BarChart extends View {
         if (isNeedAlpha) {
             mPaintPressedPoint.setAlpha(128);//半透明
         }
-        canvas.drawCircle(cx, cy, radius/2, mPaintPressedPoint);
+        canvas.drawCircle(cx, cy, radius / 2, mPaintPressedPoint);
         if (isNeedAlpha) {
             mPaintPressedPoint.setAlpha(255);//值越小,越透明:0-255
         }
@@ -223,7 +227,7 @@ public class BarChart extends View {
 
     private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius) {
         mPaintPressedPoint.setColor(colorBlue);
-        canvas.drawCircle(cx, cy, radius/2, mPaintPressedPoint);
+        canvas.drawCircle(cx, cy, radius / 2, mPaintPressedPoint);
     }
 
     @Override
@@ -346,6 +350,7 @@ public class BarChart extends View {
          * X轴缩略文本(X轴默认显示此文本)
          */
         private String xAbbrText = "";
+        private boolean isAbbr = true;
         /**
          * x轴坐标
          */
@@ -382,6 +387,15 @@ public class BarChart extends View {
 
         public Point() {
         }
+
+        public boolean isAbbr() {
+            return isAbbr;
+        }
+
+        public void setAbbr(boolean abbr) {
+            isAbbr = abbr;
+        }
+
         public int getY1() {
             return y1;
         }
