@@ -97,12 +97,12 @@ public class GradientLineChart extends View {
             mRectF.right = width - hoursLength - dimension10dp;
             mRectF.bottom = mTextPaint.measureText(entity.getSubject()) > textLength ? endLineY + textHeight / 2f : endLineY;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
-            float stopX = (width - hoursLength - dimension10dp) * (entity.getHours() * 1f / maxHour);
+            float stopX = maxHour == 0f ? 0f : (width - hoursLength - dimension10dp) * (entity.getHours() * 1f / maxHour);
             if (stopX < mRectF.left) {
                 stopX = mRectF.left;
             }
 //            Log.d("OnDraw", textLength + dimension10dp + ":" + stopX);
-            mPaint.setShader(new LinearGradient(textLength + dimension10dp, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, stopX, mTextPaint.measureText(entity.getSubject()) > textLength? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
+            mPaint.setShader(new LinearGradient(textLength + dimension10dp, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, stopX, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
             mRectF.right = stopX;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
             mPaint.setShader(null);
@@ -111,7 +111,7 @@ public class GradientLineChart extends View {
             startLineY += textPadding * 2;
             startLineY += mTextPaint.measureText(entity.getSubject()) > textLength ? h * 2 : h;
             endLineY += textPadding * 2;
-            endLineY += mTextPaint.measureText(entity.getSubject()) > textLength? h * 2 : h;
+            endLineY += mTextPaint.measureText(entity.getSubject()) > textLength ? h * 2 : h;
 
         }
     }
@@ -141,7 +141,7 @@ public class GradientLineChart extends View {
         int height = 0;
         width = measureWidth(widthMeasureSpec);
         for (GradientLineEntity entity : list) {
-            if (mTextPaint.measureText(entity.getSubject()) >textLength) {
+            if (mTextPaint.measureText(entity.getSubject()) > textLength) {
                 height += textHeight * 2;
             } else {
                 height += textHeight;
