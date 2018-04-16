@@ -138,11 +138,11 @@ public class CirclePercentChart extends View {
         setTopText(percent + "%");
     }
 
-    private int percent;
+    private float percent;
 
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText) {
-        this.percent = (int) percent;
-        sweepAngle = percent / 100 * 360;
+        this.percent = percent;
+        sweepAngle = percent / 100f * 360f;
         setTopText(topText);
     }
 
@@ -150,8 +150,8 @@ public class CirclePercentChart extends View {
 
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent, String topText, String minutes) {
         this.minutes = minutes;
-        this.percent = (int) percent;
-        sweepAngle = percent / 100 * 360;
+        this.percent = percent;
+        sweepAngle = percent / 100f * 360f;
         setTopText(topText);
     }
 

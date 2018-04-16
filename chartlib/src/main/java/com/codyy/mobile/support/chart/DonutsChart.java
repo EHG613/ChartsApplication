@@ -315,7 +315,7 @@ public class DonutsChart extends View {
             mDonuts.get(i).setEndAngle(startAngle + 90f + sweepAngle);
             canvas.drawArc(mRectF, startAngle, sweepAngle, true, mPaint);
             if (mRadiusShowOuterLineText) {
-                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius + dip2px(20f), startAngle + donut.getPercent() * 180);
+                float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius + dip2px(24f), startAngle + donut.getPercent() * 180);
                 float[] coordinates1 = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadius, startAngle + donut.getPercent() * 180);
                 mPaintLine.setColor(donut.getColor());
                 canvas.drawLine(coordinates1[0], coordinates1[1], coordinates[0], coordinates[1], mPaintLine);
@@ -323,17 +323,21 @@ public class DonutsChart extends View {
                 mTextPaint.setTextSize(dip2px(outerTextSize));
                 if ((startAngle + donut.getPercent() * 180) / 90 > 1 && (startAngle + donut.getPercent() * 180) / 90 < 3) {//象限为负
                     canvas.drawLine(coordinates[0], coordinates[1], coordinates[0] - dip2px(10f), coordinates[1], mPaintLine);
-                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0] - mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
-                    mDonuts.get(i).setTextStartX(coordinates[0] - dip2px(16f) - mTextPaint.measureText(donut.getPercent(1) + "%"));
+                    canvas.drawText(donut.getPercent() + "%", coordinates[0] - mTextPaint.measureText(donut.getPercent() + "%"), coordinates[1]+(Math.abs(mTextPaint.getFontMetrics().descent)), mTextPaint);
+                    if (!TextUtils.isEmpty(donut.getPercentTopText()))
+                        canvas.drawText(donut.getPercentTopText(), coordinates[0] -mTextPaint.measureText(donut.getPercent() + "%"), coordinates[1]-Math.abs(mTextPaint.getFontMetrics().ascent), mTextPaint);
+                    mDonuts.get(i).setTextStartX(coordinates[0] - dip2px(16f) - mTextPaint.measureText(donut.getPercent() + "%"));
                     mDonuts.get(i).setTextStopX(coordinates[0] - dip2px(16f));
                     mDonuts.get(i).setTextStartY(coordinates[1] - mTextPaint.getTextSize());
                     mDonuts.get(i).setTextStopY(coordinates[1] + dip2px(5f));
 //                    canvas.drawRect(mDonuts.get(i).getTextStartX(), mDonuts.get(i).getTextStartY(), mDonuts.get(i).getTextStopX(), mDonuts.get(i).getTextStopY(), mPaint);
                 } else {//象限为正
                     canvas.drawLine(coordinates[0], coordinates[1], coordinates[0] + dip2px(10f), coordinates[1], mPaintLine);
-                    canvas.drawText(donut.getPercent(1) + "%", coordinates[0] + mTextPaint.measureText(donut.getPercent(1) + "%"), coordinates[1], mTextPaint);
+                    canvas.drawText(donut.getPercent() + "%", coordinates[0] + mTextPaint.measureText(donut.getPercent() + "%"), coordinates[1]+(Math.abs(mTextPaint.getFontMetrics().descent)), mTextPaint);
+                    if (!TextUtils.isEmpty(donut.getPercentTopText()))
+                        canvas.drawText(donut.getPercentTopText(), coordinates[0] + mTextPaint.measureText(donut.getPercent() + "%"), coordinates[1]-Math.abs(mTextPaint.getFontMetrics().ascent), mTextPaint);
                     mDonuts.get(i).setTextStartX(coordinates[0] + dip2px(16f));
-                    mDonuts.get(i).setTextStopX(coordinates[0] + dip2px(16f) + mTextPaint.measureText(donut.getPercent(1) + "%"));
+                    mDonuts.get(i).setTextStopX(coordinates[0] + dip2px(16f) + mTextPaint.measureText(donut.getPercent() + "%"));
                     mDonuts.get(i).setTextStartY(coordinates[1] - mTextPaint.getTextSize());
                     mDonuts.get(i).setTextStopY(coordinates[1] + dip2px(5f));
 //                    canvas.drawRect(mDonuts.get(i).getTextStartX(), mDonuts.get(i).getTextStartY(), mDonuts.get(i).getTextStopX(), mDonuts.get(i).getTextStopY(), mPaint);
@@ -398,7 +402,7 @@ public class DonutsChart extends View {
             }
         }
         mCenterY = viewHeight / 2;
-        return viewHeight+dip2px(4f);
+        return viewHeight + dip2px(4f);
     }
 
     private int px2dip(float px) {

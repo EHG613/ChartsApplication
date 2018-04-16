@@ -21,7 +21,7 @@ public class CirclePercentChartActivity extends AppCompatActivity {
         DoubleCirclePercentChart doubleCirclePercentChart=findViewById(R.id.chart2);
         DoubleCirclePercentChart doubleCirclePercentChart3=findViewById(R.id.chart3);
         circlePercentChart.setPercent(88);
-        circlePercentChart4.setPercent(88,"18:00-21:00","760");
+        circlePercentChart4.setPercent(88f,"18:00-21:00",760f+"");
         doubleCirclePercentChart.setText("23546",80f,60f);
         doubleCirclePercentChart3.setText("23546",80f,60f);
     }

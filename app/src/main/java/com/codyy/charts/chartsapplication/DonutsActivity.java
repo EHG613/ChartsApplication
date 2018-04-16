@@ -41,13 +41,16 @@ public class DonutsActivity extends AppCompatActivity {
         Donuts donuts=new Donuts();
         donuts.setColor(Color.RED);
         donuts.setPercent(0.3f);
+        donuts.setPercentTopText("待处理");
         list.add(donuts);
         donuts=new Donuts();
         donuts.setColor(Color.MAGENTA);
         donuts.setPercent(0.4f);
+        donuts.setPercentTopText("已处理");
         list.add(donuts);
         donuts=new Donuts();
         donuts.setColor(Color.BLUE);
+        donuts.setPercentTopText("处理中");
         donuts.setPercent(0.3f);
         list.add(donuts);
         chart.setData(list);

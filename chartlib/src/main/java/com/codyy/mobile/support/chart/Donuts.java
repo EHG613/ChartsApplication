@@ -24,6 +24,15 @@ public class Donuts implements Comparable<Donuts> {
     private float textStopX;
     private float textStartY;
     private float textStopY;
+    private String percentTopText;
+
+    public String getPercentTopText() {
+        return percentTopText;
+    }
+
+    public void setPercentTopText(String percentTopText) {
+        this.percentTopText = percentTopText;
+    }
 
     public String getParentId() {
         return parentId;
