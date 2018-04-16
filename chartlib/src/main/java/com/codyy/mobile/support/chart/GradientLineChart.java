@@ -97,13 +97,13 @@ public class GradientLineChart extends View {
             mRectF.right = width - hoursLength - dimension10dp;
             mRectF.bottom = mTextPaint.measureText(entity.getSubject()) > textLength ? endLineY + textHeight / 2f : endLineY;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
-            float stopX = maxHour == 0f ? 0f : (width - hoursLength - dimension10dp) * (entity.getHours() * 1f / maxHour);
-            if (stopX < mRectF.left) {
-                stopX = mRectF.left;
-            }
+            float stopX =( maxHour == 0f ? 0f : (width - hoursLength - dimension10dp-textLength) * (entity.getHours() * 1f / maxHour));
+//            if (stopX < mRectF.left) {
+//                stopX = mRectF.left;
+//            }
 //            Log.d("OnDraw", textLength + dimension10dp + ":" + stopX);
-            mPaint.setShader(new LinearGradient(textLength + dimension10dp, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, stopX, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
-            mRectF.right = stopX;
+            mPaint.setShader(new LinearGradient(textLength + dimension10dp, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, textLength + dimension10dp+stopX, mTextPaint.measureText(entity.getSubject()) > textLength ? startLineY + textHeight / 2f : startLineY, startColor, endColor, Shader.TileMode.CLAMP));
+            mRectF.right =mRectF.left+ stopX;
             canvas.drawRoundRect(mRectF, strokeWidth / 2f, strokeWidth / 2f, mPaint);
             mPaint.setShader(null);
             startY += textPadding * 2;

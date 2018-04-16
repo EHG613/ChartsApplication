@@ -23,16 +23,16 @@ public class GradientLineAcitity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gradient_line);
         chart2 = findViewById(R.id.chart2);
-//        List<GradientLineEntity> list=new ArrayList<>();
-//        GradientLineEntity entity=new GradientLineEntity("语文",1200);
-//        list.add(entity);
-//        entity=new GradientLineEntity("数学",1500);
-//        list.add(entity);
-//        entity=new GradientLineEntity("毛泽东思想政治",1200);
+        List<GradientLineEntity> list=new ArrayList<>();
+        GradientLineEntity entity=new GradientLineEntity("语文",1.2f);
+        list.add(entity);
+        entity=new GradientLineEntity("数学",0.1f);
+        list.add(entity);
+        entity=new GradientLineEntity("毛泽东思想政治",0.1f);
 //        list.add(entity);
 //        entity=new GradientLineEntity("化学",600);
-//        list.add(entity);
-//        chart2.setList(list);
+        list.add(entity);
+        chart2.setList(list);
     }
 
     int count = 3;
