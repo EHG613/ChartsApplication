@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -53,13 +52,16 @@ public class GraphChart extends View {
         dimensionPixel6dp = dip2px(6f);
         dimensionPixel10dp = dip2px(10f);
         dimensionPixel30dp = dip2px(30f);
-        dimensionPixel48dp = dip2px(48f);
         dimensionPixel150dp = dip2px(150f);
-        dimensionPixel312dp = dip2px(312f);
+        xWidth = getScreenWidth(getContext()) - dimensionPixel30dp - dimensionPixel30dp;
         dimensionPixel8dp = dip2px(8f);
         dimensionPixel2dp = dip2px(2f);
         xyCoordinateTextCenter = dip2px(xyTextSize) / 2;
         init();
+    }
+
+    public static int getScreenWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
     }
 
     private int xyCoordinateTextCenter;
@@ -68,9 +70,8 @@ public class GraphChart extends View {
     private int dimensionPixel6dp;
     private int dimensionPixel10dp;
     private int dimensionPixel30dp;
-    private int dimensionPixel48dp;
     private int dimensionPixel150dp;
-    private int dimensionPixel312dp;
+    private int xWidth;
     private int width;
     private int height;
 
@@ -124,7 +125,7 @@ public class GraphChart extends View {
         mTextPaintCoordinate.setAntiAlias(true);
         mPaintCoordinateBg = new Paint();
         mRectFCoordinateBg = new RectF();
-        mPaintCoordinateBg.setColor(Color.parseColor("#f6f6f6"));
+        mPaintCoordinateBg.setColor(Color.parseColor("#f6fbff"));
     }
 
     int ySpace = 300;
@@ -141,12 +142,30 @@ public class GraphChart extends View {
         mPaint.setStrokeWidth(dip2px(1f));
         mPaint.setColor(colorDivider);
         canvas.translate(dimensionPixel30dp, height - dimensionPixel30dp);
-        int xStopX = dimensionPixel312dp;
-        int xStopY = 0;
-        int yStopX = 0;
+        int xStopX = xWidth;
         int yStopY = -dimensionPixel150dp;
         int coordinateSpaceY = dimensionPixel30dp;
-        int coordinateSpaceX = dimensionPixel48dp;
+        int coordinateSpaceX = 0;
+        if (mGraphEntities.size() <= 7 && mGraphEntities.size() > 0) {
+            coordinateSpaceX = (mGraphEntities.size() == 1 ? xWidth : xWidth / (mGraphEntities.size()));
+            for (int i = 0; i < mGraphEntities.size(); i++) {
+                mGraphEntities.get(i).setX(coordinateSpaceX * i);
+            }
+        }
+        if (mGraphEntities.size() == 0) {
+            coordinateSpaceX = xWidth / 7;
+        }
+        if (mGraphEntities.size() > 7) {
+            coordinateSpaceX = (int) (xWidth*1f / (Math.ceil(mGraphEntities.size() / Math.ceil(mGraphEntities.size() / 7f))));
+            for (int i = 0; i < mGraphEntities.size(); i++) {
+                mGraphEntities.get(i).setX((int) (coordinateSpaceX/Math.ceil(mGraphEntities.size() / 7f) * i));
+            }
+        }
+//        if (mGraphEntities.size() >= 7 || mGraphEntities.size() == 0) 0
+//            coordinateSpaceX = dimensionPixel48dp;
+//        } else {
+//            coordinateSpaceX = (mGraphEntities.size() == 1 ? xWidth : xWidth / (mGraphEntities.size()));
+//        }
         mRectFCoordinateBg.left = 0;
         mRectFCoordinateBg.top = -coordinateSpaceY;
         mRectFCoordinateBg.bottom = 0;
@@ -167,33 +186,48 @@ public class GraphChart extends View {
             canvas.drawText(ySpace * i + "", -dimensionPixel6dp - mTextPaintCoordinate.measureText(ySpace * i + ""), -coordinateSpaceY * i + sp2px(xyTextSize) / 2, mTextPaintCoordinate);
         }
         int xyTextY = dimensionPixel10dp + xyCoordinateTextCenter;
-        for (int i = 0; i < 7; i++) {
-            canvas.drawLine(coordinateSpaceX * i, 0, coordinateSpaceX * i, yStopY, mPaint);
-            switch (i) {
-                case 0:
-                    canvas.drawText("8:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 1:
-                    canvas.drawText("10:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 2:
-                    canvas.drawText("12:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 3:
-                    canvas.drawText("14:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 4:
-                    canvas.drawText("16:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 5:
-                    canvas.drawText("18:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
-                case 6:
-                    canvas.drawText("20:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
-                    break;
+        if (mGraphEntities.size() > 0 && mGraphEntities.size() <= 7) {
+            for (int i = 0; i < mGraphEntities.size(); i++) {
+                canvas.drawLine(coordinateSpaceX * i, 0, coordinateSpaceX * i, yStopY, mPaint);
+                canvas.drawText(mGraphEntities.get(i).getxText(), coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
             }
-
+        } else if (mGraphEntities.size() == 0) {
+            for (int i = 0; i < 7; i++) {
+                canvas.drawLine(coordinateSpaceX * i, 0, coordinateSpaceX * i, yStopY, mPaint);
+                switch (i) {
+                    case 0:
+                        canvas.drawText("8:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 1:
+                        canvas.drawText("10:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 2:
+                        canvas.drawText("12:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 3:
+                        canvas.drawText("14:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 4:
+                        canvas.drawText("16:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 5:
+                        canvas.drawText("18:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                    case 6:
+                        canvas.drawText("20:00", coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+                        break;
+                }
+            }
+        } else {
+            int blank = (int) Math.ceil(mGraphEntities.size() / 7f);
+            int space = (int) Math.ceil(mGraphEntities.size()*1f / blank);
+//           space= (int) Math.ceil(mGraphEntities.size()*1f/space);
+            for (int i = 0; i < space; i++) {
+                canvas.drawLine(coordinateSpaceX * i, 0, coordinateSpaceX * i, yStopY, mPaint);
+                canvas.drawText(mGraphEntities.get(i*blank).getxText(), coordinateSpaceX * i, xyTextY, mTextPaintCoordinate);
+            }
         }
+
         canvas.drawLine(xStopX, 0, xStopX, yStopY, mPaint);
         //y轴1=0.1dp,x轴2dp=5分钟;
         mPath.reset();
@@ -233,17 +267,17 @@ public class GraphChart extends View {
             startX += mTextPaintCoordinate.measureText(", 一般告警: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getY2Val() + "", colorYellow);
             startX = coordinateSpaceX * 6;
-            int startTime = 8;
-            int total = mPointPressed.getxVal() * 5;
-            int h = total / 60;
-            startTime += h;
-            String timeText = "";
-            if (total % 60 == 0) {
-                timeText += startTime + ":00";
-            } else {
-                timeText += startTime + ":" + ((total - h * 60) < 10 ? "0" + (total - h * 60) : (total - h * 60));
-            }
-            drawTopTipText(canvas, startX, startY, timeText, colorTopTipText);
+//            int startTime = 8;
+//            int total = mPointPressed.getxVal() * 5;
+//            int h = total / 60;
+//            startTime += h;
+//            String timeText = "";
+//            if (total % 60 == 0) {
+//                timeText += startTime + ":00";
+//            } else {
+//                timeText += startTime + ":" + ((total - h * 60) < 10 ? "0" + (total - h * 60) : (total - h * 60));
+//            }
+            drawTopTipText(canvas, startX, startY, mPointPressed.getxText(), colorTopTipText);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), colorBlue, dimensionPixel8dp / 2);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), Color.WHITE, dimensionPixel8dp / 4);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY1(), colorRed, dimensionPixel8dp / 2);
@@ -253,7 +287,11 @@ public class GraphChart extends View {
         } else {
             float startX = 0f;
             float startY = -dimensionPixel150dp - xyCoordinateTextCenter;
-            drawTopTipText(canvas, startX, startY, "手指移至下方曲线图上,可查看具体内容", colorTopTipText);
+            if(mGraphEntities.size()==0){
+                drawTopTipText(canvas, startX, startY, "暂无数据", colorTopTipText);
+            }else {
+                drawTopTipText(canvas, startX, startY, "手指移至下方曲线图上,可查看具体内容", colorTopTipText);
+            }
         }
     }
 
@@ -337,6 +375,7 @@ public class GraphChart extends View {
         private int y1Val;
         private int y2Val;
         private boolean isPressed;
+        private String xText;
 
         public Point(int x, float y, float y1, float y2) {
             this.x = x;
@@ -354,6 +393,26 @@ public class GraphChart extends View {
             this.yVal = yVal;
             this.y1Val = y1Val;
             this.y2Val = y2Val;
+        }
+
+        public Point(int x, int xVal, float y, float y1, float y2, int yVal, int y1Val, int y2Val, String xText) {
+            this.x = x;
+            this.xVal = xVal;
+            this.y = -y;
+            this.y1 = -y1;
+            this.y2 = -y2;
+            this.yVal = yVal;
+            this.y1Val = y1Val;
+            this.y2Val = y2Val;
+            this.xText = xText;
+        }
+
+        public String getxText() {
+            return xText;
+        }
+
+        public void setxText(String xText) {
+            this.xText = xText;
         }
 
         public int getxVal() {
