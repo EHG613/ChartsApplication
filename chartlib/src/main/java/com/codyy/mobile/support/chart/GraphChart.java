@@ -133,7 +133,7 @@ public class GraphChart extends View {
     public void setySpace(int ySpace) {
         this.ySpace = ySpace;
     }
-
+    int coordinateSpaceX=0;
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -145,11 +145,12 @@ public class GraphChart extends View {
         int xStopX = xWidth;
         int yStopY = -dimensionPixel150dp;
         int coordinateSpaceY = dimensionPixel30dp;
-        int coordinateSpaceX = 0;
+        coordinateSpaceX = 0;
         if (mGraphEntities.size() <= 7 && mGraphEntities.size() > 0) {
             coordinateSpaceX = (mGraphEntities.size() == 1 ? xWidth : xWidth / (mGraphEntities.size()));
             for (int i = 0; i < mGraphEntities.size(); i++) {
                 mGraphEntities.get(i).setX(coordinateSpaceX * i);
+                mGraphEntities.get(i).setxStop(mGraphEntities.get(i).getX()+coordinateSpaceX);
             }
         }
         if (mGraphEntities.size() == 0) {
@@ -158,7 +159,8 @@ public class GraphChart extends View {
         if (mGraphEntities.size() > 7) {
             coordinateSpaceX = (int) (xWidth*1f / (Math.ceil(mGraphEntities.size() / Math.ceil(mGraphEntities.size() / 7f))));
             for (int i = 0; i < mGraphEntities.size(); i++) {
-                mGraphEntities.get(i).setX((int) (coordinateSpaceX/Math.ceil(mGraphEntities.size() / 7f) * i));
+                mGraphEntities.get(i).setX((float) (coordinateSpaceX/Math.ceil(mGraphEntities.size() / 7f) * i));
+                mGraphEntities.get(i).setxStop(mGraphEntities.get(i).getX()+coordinateSpaceX);
             }
         }
 //        if (mGraphEntities.size() >= 7 || mGraphEntities.size() == 0) 0
@@ -266,7 +268,7 @@ public class GraphChart extends View {
             drawTopTipText(canvas, startX, startY, ", 一般告警: ", colorTopPressedText);
             startX += mTextPaintCoordinate.measureText(", 一般告警: ");
             drawTopTipText(canvas, startX, startY, mPointPressed.getY2Val() + "", colorYellow);
-            startX = coordinateSpaceX * 6;
+//            startX = coordinateSpaceX * 6;
 //            int startTime = 8;
 //            int total = mPointPressed.getxVal() * 5;
 //            int h = total / 60;
@@ -277,7 +279,7 @@ public class GraphChart extends View {
 //            } else {
 //                timeText += startTime + ":" + ((total - h * 60) < 10 ? "0" + (total - h * 60) : (total - h * 60));
 //            }
-            drawTopTipText(canvas, startX, startY, mPointPressed.getxText(), colorTopTipText);
+            drawTopTipText(canvas, xWidth-mTextPaintCoordinate.measureText(mPointPressed.getxText()), startY, mPointPressed.getxText(), colorTopTipText);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), colorBlue, dimensionPixel8dp / 2);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY(), Color.WHITE, dimensionPixel8dp / 4);
             drawPointCircle(canvas, mPointPressed.getX(), mPointPressed.getY1(), colorRed, dimensionPixel8dp / 2);
@@ -295,7 +297,7 @@ public class GraphChart extends View {
         }
     }
 
-    private void drawPointCircle(Canvas canvas, int cx, float cy, int colorBlue, int radius) {
+    private void drawPointCircle(Canvas canvas, float cx, float cy, int colorBlue, int radius) {
         mPaintPressedPoint.setColor(colorBlue);
         canvas.drawCircle(cx, cy, radius, mPaintPressedPoint);
     }
@@ -333,9 +335,9 @@ public class GraphChart extends View {
 
     private void checkPointer(MotionEvent event) {
         float coordinate = event.getX() - dimensionPixel30dp;
-        int x = new BigDecimal(coordinate).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+//        int x = new BigDecimal(coordinate).setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
         for (int i = 0; i < mGraphEntities.size(); i++) {
-            if (mGraphEntities.get(i).getX() == x) {
+            if (mGraphEntities.get(i).getX()<= coordinate&&coordinate<mGraphEntities.get(i).getxStop()) {
                 mPointPressed = mGraphEntities.get(i);
             }
         }
@@ -366,7 +368,8 @@ public class GraphChart extends View {
 
 
     public static class Point {
-        private int x;
+        private float x;
+        private float xStop;
         private int xVal;
         private float y;
         private float y1;
@@ -377,25 +380,7 @@ public class GraphChart extends View {
         private boolean isPressed;
         private String xText;
 
-        public Point(int x, float y, float y1, float y2) {
-            this.x = x;
-            this.y = -y;
-            this.y1 = -y1;
-            this.y2 = -y2;
-        }
-
-        public Point(int x, int xVal, float y, float y1, float y2, int yVal, int y1Val, int y2Val) {
-            this.x = x;
-            this.xVal = xVal;
-            this.y = -y;
-            this.y1 = -y1;
-            this.y2 = -y2;
-            this.yVal = yVal;
-            this.y1Val = y1Val;
-            this.y2Val = y2Val;
-        }
-
-        public Point(int x, int xVal, float y, float y1, float y2, int yVal, int y1Val, int y2Val, String xText) {
+        public Point(float x, int xVal, float y, float y1, float y2, int yVal, int y1Val, int y2Val, String xText) {
             this.x = x;
             this.xVal = xVal;
             this.y = -y;
@@ -413,6 +398,14 @@ public class GraphChart extends View {
 
         public void setxText(String xText) {
             this.xText = xText;
+        }
+
+        public float getxStop() {
+            return xStop;
+        }
+
+        public void setxStop(float xStop) {
+            this.xStop = xStop;
         }
 
         public int getxVal() {
@@ -455,11 +448,11 @@ public class GraphChart extends View {
             isPressed = pressed;
         }
 
-        public int getX() {
+        public float getX() {
             return x;
         }
 
-        public void setX(int x) {
+        public void setX(float x) {
             this.x = x;
         }
 
