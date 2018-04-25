@@ -32,7 +32,7 @@ public class PolyTextView extends View {
     public PolyTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PolyTextView, defStyleAttr, 0);
-        columns = array.getInteger(R.styleable.PolyTextView_polyTextColumns, 2);
+        columns = array.getInteger(R.styleable.PolyTextView_polyTextColumns, 1);
         textColor = array.getColor(R.styleable.PolyTextView_polyTextColor, Color.parseColor("#939fbe"));
         textSize = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextSize, sp2px(12f));
         textPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextPadding, dip2px(8f));
@@ -121,7 +121,7 @@ public class PolyTextView extends View {
         int viewHeight = 0;
         if (mPolyTexts.size() > 0) {
             int count = 1;
-            while (columns > 2 && count > 0) {
+            while (columns > 1 && count > 0) {
                 count = 0;
                 int viewWidth = width / columns - textOutPadding * 2;
                 for (PolyText text : mPolyTexts) {

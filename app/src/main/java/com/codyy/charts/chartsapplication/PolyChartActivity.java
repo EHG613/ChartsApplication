@@ -25,7 +25,7 @@ public class PolyChartActivity extends AppCompatActivity {
         PolyTextView textView=findViewById(R.id.chart);
         PolyTextView textView2=findViewById(R.id.chart2);
         List<PolyTextView.PolyText> list=new ArrayList<>();
-        PolyTextView.PolyText text=new PolyTextView.PolyText(Color.RED,"一年级","19小时");
+        PolyTextView.PolyText text=new PolyTextView.PolyText(Color.RED,"一年级一年级一年级一年级一年级一年级","19小时");
         list.add(text);
         text=new PolyTextView.PolyText(Color.BLUE,"二年级","19小时");
         list.add(text);
