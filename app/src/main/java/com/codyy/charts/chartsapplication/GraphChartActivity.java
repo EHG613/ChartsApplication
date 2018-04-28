@@ -29,8 +29,8 @@ public class GraphChartActivity extends AppCompatActivity {
         final EditText editText=findViewById(R.id.et);
 
         final GraphChart chart = findViewById(R.id.chart);
-        chart.setySpace((int) (Math.ceil(49 / 50f)*50f/5f));
-        final float yy = (float) (Math.ceil(49 / 50f) * 50 / 150f);
+        chart.setySpace((int) (Math.ceil(24 / 25f)*25f/5f));
+        final float yy = (float) (Math.ceil(24 / 25f) * 25 / 150f);
         Log.d("Graph", dp2px(150f) + "");
         setData(chart, yy,7);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -54,11 +54,11 @@ public class GraphChartActivity extends AppCompatActivity {
 //        }
         List<GraphChart.Point> mPoints = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            int yVal =  new Random().nextInt(50);
+            int yVal =  new Random().nextInt(25);
             int y = dp2px(yVal / yy);
-            int y1Val =  new Random().nextInt(50);
+            int y1Val =  new Random().nextInt(25);
             int y1 = dp2px(y1Val / yy);
-            int y2Val =  new Random().nextInt(50);
+            int y2Val =  new Random().nextInt(25);
             int y2 = dp2px(y2Val / yy);
             mPoints.add(new GraphChart.Point(x * i,i, y, y1, y2, yVal, y1Val, y2Val,i+""));
         }

@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             app:donutsRadius="100dp"
             app:donutsRadiusInnerCircle="65dp"
-            app:donutsRadiusInnerCircleShowDivider="true"
+            app:donutsRadiusInnerCircleShowDivider="false"
             app:donutsRadiusInnerCircleStyle="fill"
             app:donutsRadiusStrokeWidth="25dp"
             app:layout_constraintEnd_toEndOf="parent"

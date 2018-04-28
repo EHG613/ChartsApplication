@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,7 +179,7 @@ public class DonutsChart extends View {
                 startInnerAngle += sweepAngle;
             }
             for (Donuts donut : mDonutsInner) {
-                if (mRadiusInnerCircleShowDivider) {
+                if (mDonutsInner.size()>1) {
                     mPaint.setStrokeWidth(dip2px(2f));
                     mPaint.setColor(Color.WHITE);
                     float[] coordinates = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner, startInnerAngle);
@@ -189,8 +188,12 @@ public class DonutsChart extends View {
                 if (!TextUtils.isEmpty(donut.getInnerText())) {
                     mTextPaint.setColor(donut.getInnerTextColor());
                     mTextPaint.setTextSize(dip2px(donut.getInnerTextSize()));
-                    float[] coordinatesText = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner / 2, startInnerAngle + donut.getPercent() * 180);
-                    canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1] + dip2px(donut.getInnerTextSize()) / 4, mTextPaint);
+                    if(mDonutsInner.size()==1){
+                        canvas.drawText(donut.getInnerText(), mCenterX, mCenterY + dip2px(donut.getInnerTextSize()) / 4, mTextPaint);
+                    }else {
+                        float[] coordinatesText = CalcUtil.circleTheCoordinatesOfThePoint(mCenterX, mCenterY, mRadiusInner / 2, startInnerAngle + donut.getPercent() * 180);
+                        canvas.drawText(donut.getInnerText(), coordinatesText[0], coordinatesText[1] + dip2px(donut.getInnerTextSize()) / 4, mTextPaint);
+                    }
                 }
                 startInnerAngle += donut.getPercent() * 360;
             }
