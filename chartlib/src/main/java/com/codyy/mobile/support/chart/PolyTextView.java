@@ -72,8 +72,15 @@ public class PolyTextView extends View {
         for (PolyText text : mPolyTexts) {
             mCirclePaint.setColor(text.getCircleColor());
             canvas.drawCircle(text.getCircleCx(), text.getCircleCy(), circleRadius, mCirclePaint);
+            if(!TextUtils.isEmpty(text.getText()))
             canvas.drawText(text.getText(), text.getTextStartX(), text.getTextBaseLineY(), mTextPaint);
+            if(!TextUtils.isEmpty(text.getTextSecond()))
             canvas.drawText(text.getTextSecond(), text.getTextSecondStartX(), text.getTextBaseLineY(), mTextPaint);
+            if(!TextUtils.isEmpty(text.getTextThird())) {
+                mTextPaint.setColor(text.getCircleColor());
+                canvas.drawText(text.getTextThird(), text.getTextThirdStartX(), text.getTextBaseLineY(), mTextPaint);
+                mTextPaint.setColor(textColor);
+            }
         }
     }
 
@@ -130,6 +137,10 @@ public class PolyTextView extends View {
                         viewRealWidth += mTextPaint.measureText(text.getTextSecond());
                         viewRealWidth += textPadding;
                     }
+                    if (!TextUtils.isEmpty(text.getTextThird())) {
+                        viewRealWidth += mTextPaint.measureText(text.getTextThird());
+                        viewRealWidth += textPadding;
+                    }
                     if (viewRealWidth > viewWidth) {
                         count++;
                     }
@@ -150,6 +161,9 @@ public class PolyTextView extends View {
                 mPolyTexts.get(i).setTextStartX(startCx + circleRadius + drawablePadding);
                 if (!TextUtils.isEmpty(mPolyTexts.get(i).getTextSecond())) {
                     mPolyTexts.get(i).setTextSecondStartX(startCx + circleRadius + drawablePadding + mTextPaint.measureText(mPolyTexts.get(i).getText()) + textPadding * 2);
+                }
+                if (!TextUtils.isEmpty(mPolyTexts.get(i).getTextThird())) {
+                    mPolyTexts.get(i).setTextThirdStartX(mPolyTexts.get(i).getTextSecondStartX() + mTextPaint.measureText(mPolyTexts.get(i).getTextSecond()) + textPadding * 2);
                 }
                 mPolyTexts.get(i).setTextBaseLineY(startTextY);
                 if (textOrientation == 0) {//水平方向
@@ -205,6 +219,9 @@ public class PolyTextView extends View {
         private float textBaseLineY;
         private float textSecondStartX;
         private String textSecond;
+        private String textThird;
+        private float textThirdStartX;
+
 
         public PolyText() {
         }
@@ -218,6 +235,29 @@ public class PolyTextView extends View {
             this.circleColor = circleColor;
             this.text = text;
             this.textSecond = textSecond;
+        }
+
+        public PolyText(int circleColor, String text, String textSecond,String textThird) {
+            this.circleColor = circleColor;
+            this.text = text;
+            this.textSecond = textSecond;
+            this.textThird=textThird;
+        }
+
+        public String getTextThird() {
+            return textThird;
+        }
+
+        public void setTextThird(String textThird) {
+            this.textThird = textThird;
+        }
+
+        public float getTextThirdStartX() {
+            return textThirdStartX;
+        }
+
+        public void setTextThirdStartX(float textThirdStartX) {
+            this.textThirdStartX = textThirdStartX;
         }
 
         public float getCircleCx() {
