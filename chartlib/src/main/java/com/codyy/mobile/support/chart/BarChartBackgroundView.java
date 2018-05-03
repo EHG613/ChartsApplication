@@ -35,6 +35,7 @@ public class BarChartBackgroundView extends View {
 
     private Paint mPaint;
     int ySpace = 300;
+    int ySpace2 = 20;
     private void init() {
         mPaint = new Paint();
         mTextPaintCoordinate = new TextPaint();
@@ -66,7 +67,7 @@ public class BarChartBackgroundView extends View {
         mPaint.setStrokeWidth(dip2px(1f));
         mPaint.setColor(colorDivider);
         canvas.translate(dimensionPixel30dp, height - dimensionPixel30dp);
-        int xStopX = dimensionPixel312dp;
+        int xStopX = width-dimensionPixel30dp- dimensionPixel30dp/2;
 //        int xStopY = 0;
 //        int yStopX = 0;
 //        int yStopY = -dimensionPixel150dp;
@@ -74,12 +75,17 @@ public class BarChartBackgroundView extends View {
         for (int i = 0; i < 6; i++) {
             canvas.drawLine(0, -coordinateSpaceY * i, xStopX - dimensionPixel30dp/2, -coordinateSpaceY * i, mPaint);
             canvas.drawText(ySpace * i + "", -dimensionPixel6dp - mTextPaintCoordinate.measureText(ySpace * i + ""), -coordinateSpaceY * i + sp2px(9f) / 2, mTextPaintCoordinate);
-            canvas.drawText(20 * i + "%", xStopX-dimensionPixel30dp/2+dimensionPixel6dp, -coordinateSpaceY * i + sp2px(9f) / 2, mTextPaintCoordinate);
+            canvas.drawText(ySpace2 * i + "%", xStopX-dimensionPixel30dp/2+dimensionPixel6dp, -coordinateSpaceY * i + sp2px(9f) / 2, mTextPaintCoordinate);
         }
     }
 
     public void setySpace(int ySpace) {
         this.ySpace = ySpace;
+        invalidate();
+    }
+    public void setySpaces(int ySpace,int ySpace2) {
+        this.ySpace = ySpace;
+        this.ySpace2=ySpace2;
         invalidate();
     }
 

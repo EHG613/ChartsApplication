@@ -101,16 +101,16 @@ public class BarChart extends View {
         for (int i = 0; i < mPoints.size(); i++) {
             Point point = mPoints.get(i);
             if (i == 0) {
-                if (point.getY1() != -1) {
+                if (point.getY1() != 1) {
                     color1 = point.getY1Color();
                 }
-                if (point.getY2() != -1) {
+                if (point.getY2() != 1) {
                     color2 = point.getY2Color();
                 }
-                if (point.getY3() != -1) {
+                if (point.getY3() != 1) {
                     color3 = point.getY3Color();
                 }
-                if (point.getY4() != -1) {
+                if (point.getY4() != 1) {
                     color4 = point.getY4Color();
                 }
             }
@@ -361,16 +361,16 @@ public class BarChart extends View {
         private int xVal;
         private int y;
         private String yVal;
-        private int y1 = -1;
+        private int y1 = 1;
         private String y1Val;
         private int y1Color = Color.parseColor("#38adff");
-        private int y2 = -1;
+        private int y2 = 1;
         private String y2Val;
         private int y2Color = Color.parseColor("#3ed5aa");
-        private int y3 = -1;
+        private int y3 = 1;
         private String y3Val;
         private int y3Color = Color.parseColor("#8940fa");
-        private int y4 = -1;
+        private int y4 = 1;
         private String y4Val;
         private int y4Color = Color.parseColor("#24c8f3");
         private Path path;

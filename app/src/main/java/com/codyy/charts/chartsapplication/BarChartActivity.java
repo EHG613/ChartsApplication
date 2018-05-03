@@ -33,7 +33,7 @@ public class BarChartActivity extends AppCompatActivity {
         textView.setText("手指按压图表条目,可查看具体内容");
         Log.e("150f=", DisplayUtil.dip2px(this, 150f)+"");
         BarChartBackgroundView view = findViewById(R.id.chart);
-        view.setySpace(10);
+        view.setySpaces(5,5);
         int radius = dp2px(2f);
         List<BarChart.Point> points = new ArrayList<>();
         int barWidth = dp2px(12f);
