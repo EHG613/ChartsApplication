@@ -35,14 +35,14 @@ public class PolyChartActivity extends AppCompatActivity {
         list.add(text);
         textView.setPolyTexts(list);
         list=new ArrayList<>();
-        text=new PolyTextView.PolyText(Color.RED,"一年级2","19小时","10%");
+        text=new PolyTextView.PolyText(Color.RED,"111","1","50.0%");
         list.add(text);
-        text=new PolyTextView.PolyText(Color.BLUE,"二年级2","19小时","10%");
+        text=new PolyTextView.PolyText(Color.BLUE,"222","1","50.0%");
         list.add(text);
-        text=new PolyTextView.PolyText(Color.GREEN,"三年级2","19小时","10%");
-        list.add(text);
-        text=new PolyTextView.PolyText(Color.MAGENTA,"四年级2","11","10%");
-        list.add(text);
+//        text=new PolyTextView.PolyText(Color.GREEN,"三年级2","19小时","10%");
+//        list.add(text);
+//        text=new PolyTextView.PolyText(Color.MAGENTA,"四年级2","11","10%");
+//        list.add(text);
         textView2.setPolyTexts(list);
     }
 

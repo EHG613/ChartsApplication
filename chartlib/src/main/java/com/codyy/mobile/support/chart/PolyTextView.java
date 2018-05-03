@@ -32,7 +32,7 @@ public class PolyTextView extends View {
     public PolyTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PolyTextView, defStyleAttr, 0);
-        columns = array.getInteger(R.styleable.PolyTextView_polyTextColumns, 1);
+        columnsOrg = array.getInteger(R.styleable.PolyTextView_polyTextColumns, 1);
         textColor = array.getColor(R.styleable.PolyTextView_polyTextColor, Color.parseColor("#939fbe"));
         textSize = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextSize, sp2px(12f));
         textPadding = array.getDimensionPixelSize(R.styleable.PolyTextView_polyTextPadding, dip2px(8f));
@@ -126,6 +126,7 @@ public class PolyTextView extends View {
 
     private int measureHeight() {
         int viewHeight = 0;
+        columns=columnsOrg;
         if (mPolyTexts.size() > 0) {
             int count = 1;
             while (columns > 1 && count > 0) {
@@ -199,6 +200,7 @@ public class PolyTextView extends View {
 
     /*列数*/
     private int columns;
+    private int columnsOrg;
     /*文字颜色*/
     private int textColor;
     /*文字大小*/

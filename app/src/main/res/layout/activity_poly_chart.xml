@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chart"
-        app:polyTextColumns="3"
+        app:polyTextColumns="2"
         app:polyTextShowBackground="true"
         app:polyTextOrientation="horizontal"
         app:polyTextOutPadding="8dp"/>
