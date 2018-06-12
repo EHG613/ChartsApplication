@@ -501,7 +501,7 @@ public class BarChart extends View {
         }
 
         public String getxAbbrText() {
-            return xAbbrText;
+            return xAbbrText == null ? "" : xAbbrText;
         }
 
         public void setxAbbrText(String xAbbrText) {
