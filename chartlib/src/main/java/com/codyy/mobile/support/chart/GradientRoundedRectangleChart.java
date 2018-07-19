@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -88,6 +89,7 @@ public class GradientRoundedRectangleChart extends View {
         mTextPaintTopSuffix.setTextAlign(Paint.Align.LEFT);
         mRectFSrc = new Rect();
         mRectFDes = new RectF();
+        setLayerType(LAYER_TYPE_SOFTWARE, mPaint);
     }
 
     @Override
@@ -100,7 +102,6 @@ public class GradientRoundedRectangleChart extends View {
         mRectF.bottom = getHeight() - padding * 2;
         mPaint.setShader(mShader);
         mPaint.setShadowLayer(dip2px(4f), 0, dip2px(2f), shadowColor);
-        setLayerType(LAYER_TYPE_SOFTWARE, mPaint);
         canvas.drawRoundRect(mRectF, dip2px(5f), dip2px(5f), mPaint);
 //        canvas.drawRect(mRectF,mPaint);
         if (mBitmap == null) {
@@ -124,7 +125,7 @@ public class GradientRoundedRectangleChart extends View {
             mRectFDes.top = mCenterY - dip2px(41f);
             mRectFDes.right = mCenterX + dip2px(18f);
             mRectFDes.bottom = mCenterY - dip2px(5f);
-            mPaint.clearShadowLayer();
+//            mPaint.clearShadowLayer();
             canvas.drawBitmap(mBitmap, mRectFSrc, mRectFDes, mPaint);
             padding = dip2px(5f);
             if (!TextUtils.isEmpty(mTopText)) {
@@ -153,6 +154,7 @@ public class GradientRoundedRectangleChart extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.d("rectangle", "onMeasure");
         int width = measureWidth(widthMeasureSpec);
         int height = measureHeight(heightMeasureSpec);
         mCenterX = width / 2;
@@ -161,7 +163,7 @@ public class GradientRoundedRectangleChart extends View {
             height = dip2px(120f);
             mCenterY = height / 2;
         }
-        height+=dip2px(8f);
+        height += dip2px(8f);
         setMeasuredDimension(width, height);
 //        1/Math.tan(theta)
 //        mShader = new LinearGradient(0 + getMeasuredWidth() / 4, mCenterY - getMeasuredWidth() / 2, getMeasuredWidth() - getMeasuredWidth() / 4, getMeasuredHeight() + getMeasuredWidth() / 2, startColor, endColor, Shader.TileMode.CLAMP);

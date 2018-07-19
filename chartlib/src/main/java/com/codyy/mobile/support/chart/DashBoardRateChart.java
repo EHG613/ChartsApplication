@@ -47,12 +47,14 @@ public class DashBoardRateChart extends View {
         mPaint.setColor(Color.BLACK);
         mPath = new Path();
         mTextPaint = new TextPaint();
-        dimension10dp = (int) (dip2px(10f)+tableWidth/2);
-//        tableWidth=dip2px(17f/2);
+        mPercentTextPaint = new TextPaint();
+        dimension10dp = (int) (dip2px(10f) + tableWidth / 2);
+        setLayerType(LAYER_TYPE_SOFTWARE, mPercentTextPaint);
     }
 
     private int dimension10dp;
     private TextPaint mTextPaint;
+    private TextPaint mPercentTextPaint;
     private Paint mPaint;
     private Path mPath;
     private RectF mTableRectF;
@@ -74,7 +76,7 @@ public class DashBoardRateChart extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //油表的位置方框
-        mTableRectF = new RectF(mCenterX - mRadius+dimension10dp, mCenterY - mRadius+dimension10dp, mCenterX + mRadius-dimension10dp, mCenterY + mRadius-dimension10dp);
+        mTableRectF = new RectF(mCenterX - mRadius + dimension10dp, mCenterY - mRadius + dimension10dp, mCenterX + mRadius - dimension10dp, mCenterY + mRadius - dimension10dp);
         mTableRectFO = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);
         mPath.reset();
         //在油表路径中增加一个从起始弧度
@@ -123,16 +125,15 @@ public class DashBoardRateChart extends View {
             canvas.drawText(bottomText, mCenterX, mCenterY + dip2px(24f), mTextPaint);
         }
         if (!TextUtils.isEmpty(percentText)) {
-            mTextPaint.setTextSize(sp2px(60f));
-            mTextPaint.setAntiAlias(true);
-            mTextPaint.setTextAlign(Paint.Align.CENTER);
-            mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
-            mTextPaint.setColor(Color.parseColor("#38adff"));
-            mTextPaint.setShadowLayer(dip2px(4f), 0, dip2px(4f), Color.parseColor("#5938adff"));
-            setLayerType(LAYER_TYPE_SOFTWARE, mTextPaint);
-            float textWidth = mTextPaint.measureText(percentText) / 2;
-            canvas.drawText(percentText, mCenterX, mCenterY, mTextPaint);
-            mTextPaint.clearShadowLayer();
+            mPercentTextPaint.setTextSize(sp2px(60f));
+            mPercentTextPaint.setAntiAlias(true);
+            mPercentTextPaint.setTextAlign(Paint.Align.CENTER);
+            mPercentTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+            mPercentTextPaint.setColor(Color.parseColor("#38adff"));
+            mPercentTextPaint.setShadowLayer(dip2px(4f), 0, dip2px(4f), Color.parseColor("#5938adff"));
+            float textWidth = mPercentTextPaint.measureText(percentText) / 2;
+            canvas.drawText(percentText, mCenterX, mCenterY, mPercentTextPaint);
+//            mTextPaint.clearShadowLayer();
             mTextPaint.setTypeface(null);
             mTextPaint.setTextSize(sp2px(15f));
             mTextPaint.setTextAlign(Paint.Align.LEFT);
@@ -155,7 +156,7 @@ public class DashBoardRateChart extends View {
     }
 
     public void setPercentText(@FloatRange(from = 0f, to = 100f) float percent, int scale) {
-        this.percentText = percent+"";
+        this.percentText = percent + "";
         float last = sweepAngle;
         sweepAngle = percent * 270 / 100;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, sweepAngle);
