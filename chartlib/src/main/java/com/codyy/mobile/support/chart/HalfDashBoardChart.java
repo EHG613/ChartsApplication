@@ -46,6 +46,8 @@ public class HalfDashBoardChart extends View {
     private int mBottomTextSize;
     private int mTopTextColor;
     private int mBottomTextColor;
+    private String mBoardStartColor;
+    private String mBoardEndColor;
     private String mTopTextSuffix;
 
     public HalfDashBoardChart(Context context) {
@@ -68,11 +70,19 @@ public class HalfDashBoardChart extends View {
             this.mMinVal = a.getFloat(R.styleable.HalfDashBoardChart_halfMinValue, 0f);
             this.mScale = a.getInteger(R.styleable.HalfDashBoardChart_halfScale, 1);
             this.mShowText = a.getBoolean(R.styleable.HalfDashBoardChart_halfShowText, false);
-            this.mTopTextColor=a.getColor(R.styleable.HalfDashBoardChart_halfTopTextColor,Color.parseColor("#666666"));
-            this.mTopTextSize=a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfTopTextSize,sp2px(36f));
-            this.mBottomTextColor=a.getColor(R.styleable.HalfDashBoardChart_halfBottomTextColor,Color.parseColor("#939fbe"));
-            this.mBottomTextSize=a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfBottomTextSize,sp2px(14f));
-            this.mTopTextSuffix=a.getString(R.styleable.HalfDashBoardChart_halfTopTextSuffix);
+            this.mTopTextColor = a.getColor(R.styleable.HalfDashBoardChart_halfTopTextColor, Color.parseColor("#666666"));
+            this.mTopTextSize = a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfTopTextSize, sp2px(36f));
+            this.mBottomTextColor = a.getColor(R.styleable.HalfDashBoardChart_halfBottomTextColor, Color.parseColor("#939fbe"));
+            this.mBoardStartColor = a.getString(R.styleable.HalfDashBoardChart_halfBoardStartColor);
+            if (TextUtils.isEmpty(this.mBoardStartColor)) {
+                this.mBoardStartColor = "#54c0fa";
+            }
+            this.mBoardEndColor = a.getString(R.styleable.HalfDashBoardChart_halfBoardEndColor);
+            if (TextUtils.isEmpty(this.mBoardEndColor)) {
+                this.mBoardEndColor = "#4d91fe";
+            }
+            this.mBottomTextSize = a.getDimensionPixelSize(R.styleable.HalfDashBoardChart_halfBottomTextSize, sp2px(14f));
+            this.mTopTextSuffix = a.getString(R.styleable.HalfDashBoardChart_halfTopTextSuffix);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -85,12 +95,9 @@ public class HalfDashBoardChart extends View {
 
     private Paint mPaint;
     private Paint mPaintSuffix;
-//    private Paint mPaintTip;
     private TextPaint mPaintText;
     private TextPaint mPaintPercentText;
     private RectF mRectF;
-    private StaticLayout mStaticLayoutPercent;
-//    private Path mPathTip;
     private float mFloatSweepAngle;
     private SpannableStringBuilder mSpannableStringBuilder;
 
@@ -98,7 +105,7 @@ public class HalfDashBoardChart extends View {
         mSpannableStringBuilder = new SpannableStringBuilder("");
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaintSuffix=new Paint();
+        mPaintSuffix = new Paint();
         mPaintSuffix.setAntiAlias(true);
         mPaintSuffix.setTextSize(sp2px(15f));
         mPaintSuffix.setColor(mBottomTextColor);
@@ -109,26 +116,13 @@ public class HalfDashBoardChart extends View {
         mPaintText.setStyle(Paint.Style.FILL);
         mPaintText.setColor(Color.parseColor("#939fbe"));
         mPaintText.setTextSize(sp2px(10f));
-//        TextPaint paintTextSmall = new TextPaint();
-//        paintTextSmall.setAntiAlias(true);
-//        paintTextSmall.setStyle(Paint.Style.FILL);
-//        paintTextSmall.setTextSize(sp2px(10f));
-//        paintTextSmall.setTextAlign(Paint.Align.RIGHT);
-//        paintTextSmall.setColor(Color.parseColor("#57C0FA"));
-//        mStaticLayout = new StaticLayout("设备\n在线率", paintTextSmall, 500, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         mPaintPercentText = new TextPaint();
         mPaintPercentText.setAntiAlias(true);
         mPaintPercentText.setStyle(Paint.Style.FILL);
         mPaintPercentText.setTextSize(sp2px(8f));
         mPaintPercentText.setTextAlign(Paint.Align.CENTER);
         mPaintPercentText.setColor(Color.WHITE);
-//        mPathTip = new Path();
-//        mPaintTip = new Paint();
-//        mPaintTip.setStyle(Paint.Style.FILL);
-//        mPaintTip.setAntiAlias(true);
-//        mPaintTip.setColor(Color.parseColor("#929FBE"));
         mFloatSweepAngle = 0;
-//        mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
     }
 
     public void setPercent(@FloatRange(from = 0f, to = 100f) float percent) {
@@ -136,7 +130,6 @@ public class HalfDashBoardChart extends View {
         mFloatSweepAngle = percent / 100 * 180f;
         ValueAnimator progressAnimator = ValueAnimator.ofFloat(last, percent / 100 * 180f);
         progressAnimator.setDuration((long) (Math.abs(last - (percent / 100 * 180f)) / 180 * 1000));
-//        progressAnimator.setTarget(currentAngle);
         progressAnimator.setInterpolator(new FastOutSlowInInterpolator());
         progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -144,9 +137,6 @@ public class HalfDashBoardChart extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 BigDecimal bg = new BigDecimal((Float) animation.getAnimatedValue());
                 mFloatSweepAngle = bg.setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
-//                mBigDecimal = new BigDecimal(mFloatSweepAngle / 180 * 100);
-//                Log.d("value", mFloatSweepAngle + "");
-//                mPathTip.reset();
                 invalidate();
             }
         });
@@ -168,7 +158,7 @@ public class HalfDashBoardChart extends View {
         mSpannableStringBuilder.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        mSpannableStringBuilder.setSpan(new AbsoluteSizeSpan(dip2px(20f)), 0, mSpannableStringBuilder.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mSpannableStringBuilder.setSpan(new ForegroundColorSpan(mBottomTextColor), mSpannableStringBuilder.length() - 1, mSpannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mStaticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        StaticLayout staticLayoutPercent = new StaticLayout(mSpannableStringBuilder, mPaintText, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
     }
 
     public void setBottomText(String bottomText) {
@@ -201,7 +191,7 @@ public class HalfDashBoardChart extends View {
         mPaint.setStrokeWidth(dip2px(2f));
         canvas.drawCircle(x1, y1, dip2px(6f), mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.parseColor(ColorUtil.getCurrentColor("#54c0fa", "#4d91fe", mFloatSweepAngle / 180 * 100f)));
+        mPaint.setColor(Color.parseColor(ColorUtil.getCurrentColor(mBoardStartColor, mBoardEndColor, mFloatSweepAngle / 180 * 100f)));
         canvas.drawCircle(x1, y1, dip2px(6f), mPaint);
         int smallRadius = mRadius - dip2px(16f);
         mRectF.set(mCenterX - smallRadius, mCenterY - smallRadius, mCenterX + smallRadius, mCenterY + smallRadius);
@@ -222,65 +212,32 @@ public class HalfDashBoardChart extends View {
         canvas.rotate(177, mCenterX, mCenterY);
         mPaintText.setColor(mBottomTextColor);
         mPaintText.setTextSize(mBottomTextSize);
-        float bottomTextHeight=Math.abs(mPaintText.getFontMetrics().top);
+        float bottomTextHeight = Math.abs(mPaintText.getFontMetrics().top);
         canvas.drawText(mBottomText, mCenterX - mPaintText.measureText(mBottomText) / 2, mCenterY, mPaintText);
         mPaintText.setTextSize(mTopTextSize);
         mPaintText.setColor(mTopTextColor);
-        if(!TextUtils.isEmpty(mTopTextSuffix)){
-            float textTopLen=mPaintText.measureText(mTopText);
-            float textTopSuffix=mPaintSuffix.measureText(mTopTextSuffix);
-            float textLen=textTopLen+textTopSuffix;
-            float textTopY=mCenterY-bottomTextHeight-dip2px(10f)-(Math.abs(mPaintText.getFontMetrics().bottom-Math.abs(mPaintText.getFontMetrics().descent)));
-            float textTopSuffixY=mCenterY-bottomTextHeight-dip2px(10f)-(Math.abs(mPaintSuffix.getFontMetrics().bottom-Math.abs(mPaintSuffix.getFontMetrics().descent)));
-            canvas.drawText(mTopText,mCenterX-textLen/2,textTopY,mPaintText);
-            canvas.drawText(mTopTextSuffix,mCenterX+(textLen/2-textTopSuffix),textTopSuffixY,mPaintSuffix);
-        }else{
-            float textTopLen=mPaintText.measureText(mTopText);
-            float textTopY=mCenterY-bottomTextHeight-dip2px(10f)-(Math.abs(mPaintText.getFontMetrics().bottom-Math.abs(mPaintText.getFontMetrics().descent)));
-            canvas.drawText(mTopText,mCenterX-textTopLen/2,textTopY,mPaintText);
+        if (!TextUtils.isEmpty(mTopTextSuffix)) {
+            float textTopLen = mPaintText.measureText(mTopText);
+            float textTopSuffix = mPaintSuffix.measureText(mTopTextSuffix);
+            float textLen = textTopLen + textTopSuffix;
+            float textTopY = mCenterY - bottomTextHeight - dip2px(10f) - (Math.abs(mPaintText.getFontMetrics().bottom - Math.abs(mPaintText.getFontMetrics().descent)));
+            float textTopSuffixY = mCenterY - bottomTextHeight - dip2px(10f) - (Math.abs(mPaintSuffix.getFontMetrics().bottom - Math.abs(mPaintSuffix.getFontMetrics().descent)));
+            canvas.drawText(mTopText, mCenterX - textLen / 2, textTopY, mPaintText);
+            canvas.drawText(mTopTextSuffix, mCenterX + (textLen / 2 - textTopSuffix), textTopSuffixY, mPaintSuffix);
+        } else {
+            float textTopLen = mPaintText.measureText(mTopText);
+            float textTopY = mCenterY - bottomTextHeight - dip2px(10f) - (Math.abs(mPaintText.getFontMetrics().bottom - Math.abs(mPaintText.getFontMetrics().descent)));
+            canvas.drawText(mTopText, mCenterX - textTopLen / 2, textTopY, mPaintText);
         }
-//        if (mShowText) {
-//            canvas.drawText(mTopText, mCenterX - mPaintText.measureText(mTopText) / 2, mCenterY - sp2px(18f), mPaintText);
-//        } else {
-//            canvas.translate(mCenterX - mPaintText.measureText(mTopText) / (mTopText.length() == 4 ? 2.5f : 3f), mCenterY - sp2px(25f));
-//            mStaticLayoutPercent.draw(canvas);
-//            canvas.translate(-(mCenterX - mPaintText.measureText(mTopText) / (mTopText.length() == 4 ? 2.5f : 3f)), -(mCenterY - sp2px(25f)));
-//        }
-//        mPaintText.setTextSize(sp2px(10f));
-//        mPaintText.setColor(Color.parseColor("#666666"));
-//        canvas.save();
-//        if (mShowText) {
-//            canvas.translate(mCenterX - mRadius - sp2px(5f), mCenterY - sp2px(20f));
-//            mStaticLayout.draw(canvas);
-//            canvas.translate(-(mCenterX - mRadius - sp2px(5f)), -(mCenterY - sp2px(20f)));
-//            canvas.restore();
-//            float x2 = (float) (mCenterX + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.cos((mFloatSweepAngle - 180) * Math.PI / 180));
-//            float y2 = (float) (mCenterY + (mRadius + dip2px((mFloatSweepAngle <= 60 || mFloatSweepAngle >= 120) ? 25f : 18f)) * Math.sin((mFloatSweepAngle - 180) * Math.PI / 180));
-//            int len = dip2px(15f);
-//            mPathTip.moveTo(x2 - len, y2 - len / 2);
-//            mPathTip.lineTo(x2 + len, y2 - len / 2);
-//            mPathTip.lineTo(x2 + len, y2 + len / 2);
-//            mPathTip.lineTo(x2 + len / 3, y2 + len / 2);
-//            mPathTip.lineTo(x2, (float) (y2 + len / 2 * 1.5));
-//            mPathTip.lineTo(x2 - len / 3, y2 + len / 2);
-//            mPathTip.lineTo(x2 - len, y2 + len / 2);
-//            mPathTip.lineTo(x2 - len, y2 - len / 2);
-//            y2 += len / 4;
-//            canvas.drawPath(mPathTip, mPaintTip);
-//            canvas.drawText(mBigDecimal.setScale(mScale, BigDecimal.ROUND_DOWN).toString() + "%", x2, y2, mPaintPercentText);
-//        }
 
     }
 
-//    private BigDecimal mBigDecimal;
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        Log.d("mRadius", mRadius + "");
         setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-//        mShader = new SweepGradient(mCenterX, mCenterY, new int[]{Color.parseColor("#57C0FA"), Color.parseColor("#1209FC")}, null);
-        mShader = new LinearGradient(mCenterX - mRadius, mCenterY, mCenterX + mRadius, mCenterY, Color.parseColor("#4d91fe"), Color.parseColor("#54c0fa"), Shader.TileMode.CLAMP);
+        mShader = new LinearGradient(mCenterX - mRadius, mCenterY, mCenterX + mRadius, mCenterY, Color.parseColor(mBoardEndColor), Color.parseColor(mBoardStartColor), Shader.TileMode.CLAMP);
     }
 
     private int measureWidth(int measureSpec) {

@@ -41,6 +41,8 @@
         <attr name="halfBottomTextSize" format="dimension"/>
         <attr name="halfTopTextColor" format="color"/>
         <attr name="halfBottomTextColor" format="color"/>
+        <attr name="halfBoardStartColor" format="string"/>
+        <attr name="halfBoardEndColor" format="string"/>
         <attr name="halfTopTextSuffix" format="string"/>
     </declare-styleable>
     <declare-styleable name="GradientRoundedRectangleChart">

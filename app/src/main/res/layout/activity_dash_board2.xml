@@ -26,6 +26,8 @@
         app:halfDashLength="14dp"
         app:halfPadding="30dp"
         app:halfRadius="100dp"
+        app:halfBoardStartColor="#69d792"
+        app:halfBoardEndColor="#09ca51"
         app:halfTopTextSuffix="%"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
