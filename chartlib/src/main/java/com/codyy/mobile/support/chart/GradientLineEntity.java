@@ -1,6 +1,6 @@
 package com.codyy.mobile.support.chart;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextPaint;
 
 import java.util.List;

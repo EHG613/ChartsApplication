@@ -1,7 +1,7 @@
 package com.codyy.mobile.support.chart;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

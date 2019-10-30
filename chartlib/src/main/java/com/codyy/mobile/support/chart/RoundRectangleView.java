@@ -6,14 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
-import android.text.TextPaint;
-import android.text.TextUtils;
+import androidx.annotation.Nullable;
+
 import android.util.AttributeSet;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 圆角矩形背景
