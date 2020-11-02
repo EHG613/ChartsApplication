@@ -12,7 +12,7 @@ allprojects {
 2.Add the dependency
 ```
 dependencies {
-	        implementation 'com.gitee.eachann_lee:charts:1.1.7'
+	        implementation 'com.gitee.eachann_lee:charts:1.1.8'
 	}
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 
 #### 柱状图+折线图
 ![](img/WX20201026-155608-1.png)
-#### 空心圆渐变图
+#### 空心圆
 ![](img/WX20201026-155703-2.png)
 #### 半圆仪表盘
 ![](img/WX20201026-155749-3.png)
@@ -32,7 +32,6 @@ dependencies {
 ![](img/WX20201026-155936-6.png)
 #### 甜甜圈
 ![](img/WX20201026-160039-7.png)
-![](img/WX20201026-160102-7-1.png)
 #### 曲线图
 ![](img/WX20201026-160132-8.png)
 #### 自动计算文字宽度,自适应换行
